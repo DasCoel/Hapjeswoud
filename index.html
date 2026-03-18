@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HapjesWoud</title>
     
-    <link rel="apple-touch-icon" href="vosje.png">
-    <link rel="icon" type="image/png" href="vosje.png">
+    <link rel="apple-touch-icon" href="Logo%20HapjesWoud.png">
+    <link rel="icon" type="image/png" href="Logo%20HapjesWoud.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,23 +15,22 @@
     <style>
         /* Sprookjesbos Kleurenpalet */
         :root {
-            --bast-dark: #3E2723; /* Zeer donkerbruin voor bastlijnen */
-            --bast-mid: #4E342E; /* Medium bruin */
-            --bast-light: #5D4037; /* Lighter bark color */
-            --tekst: #211512; /* Donkerste houtbruin voor tekst */
-            --groen: #2E7D32; /* Bosgroen */
-            --oranje: #BF360C; /* Warme vos oranje */
+            --bast-dark: #3E2723;
+            --bast-mid: #4E342E;
+            --bast-light: #5D4037;
+            --tekst: #211512;
+            --groen: #2E7D32;
+            --oranje: #BF360C;
             --wit: #ffffff;
-            --perkament: #FDF4E3; /* Warme, oude papierkleur */
-            --hout-rand: #8D6E63; /* Randkleur voor perkament */
+            --perkament: #FDF4E3;
+            --hout-rand: #8D6E63;
         }
 
-        /* 1. DE BOOMBAST ACHTERGROND (gemaakt met code) */
+        /* Boombast Achtergrond */
         body { 
             font-family: 'Nunito', sans-serif; 
             margin: 0; padding: 0; color: var(--tekst); 
             overflow-x: hidden; position: relative;
-            
             background-color: var(--bast-light);
             background-image: 
                 radial-gradient(circle at 50% 10%, var(--bast-mid) 0%, transparent 10%),
@@ -42,98 +41,78 @@
             background-size: 100vw 200px, 100vw 200px, 100vw 200px, 100% 100%, 100% 20px;
         }
 
-        /* Gesimuleerd Mobiel Scherm */
-        .phone-mockup {
-            max-width: 375px; height: 667px; /* Gesimuleerd iPhone SE scherm */
-            background-color: var(--perkament);
-            border: 15px solid var(--bast-dark); /* Houten frame */
-            border-radius: 40px; box-shadow: 0 15px 25px rgba(0,0,0,0.5);
-            margin: 20px auto; overflow: hidden; position: relative;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23fdf4e3"/><circle cx="50" cy="50" r="10" fill="%23f6ebcb" opacity="0.3"/><circle cx="20" cy="80" r="5" fill="%23f6ebcb" opacity="0.3"/><circle cx="80" cy="20" r="8" fill="%23f6ebcb" opacity="0.3"/></svg>'); /* Perkament textuur */
-        }
-
-        /* Vuurvliegjes */
+        /* Vuurvliegjes in de achtergrond */
         .firefly { position: fixed; width: 5px; height: 5px; background-color: #ffeb3b; border-radius: 50%; box-shadow: 0 0 10px 3px rgba(255, 235, 59, 0.5); animation: zweef 10s infinite alternate ease-in-out; z-index: -1; opacity: 0.3; }
         @keyframes zweef { 0% { transform: translateY(0) translateX(0); opacity: 0.1; } 50% { opacity: 0.6; } 100% { transform: translateY(-80px) translateX(40px); opacity: 0.1; } }
 
-        /* 3. BLAADJES IN DE HOEKEN VAN HET SCHERM */
-        body::before { content: "🌿🍂🍃"; position: fixed; top: 0; left: 0; font-size: 5em; opacity: 0.2; pointer-events: none; z-index: -1; }
-        body::after { content: "🍁🌿🍂"; position: fixed; bottom: 0; right: 0; font-size: 5em; opacity: 0.2; pointer-events: none; z-index: -1; }
-
-        .container { padding: 20px; z-index: 10; position: relative; height: 100%; overflow-y: auto; padding-top: 10px;}
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; }
         
-        /* Houten Uithangbord (Titel) met Mascottes */
-        .houten-bord-container { text-align: center; margin-bottom: 25px; position: relative; }
-        .touwtje { width: 3px; height: 25px; background-color: var(--bast-dark); display: inline-block; margin: 0 30px; }
-        .houten-bord {
+        /* HET VASTE LOGO BOVENAAN */
+        .logo-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
             background: linear-gradient(to bottom, var(--hout-rand), var(--bast-dark));
             border: 3px solid var(--bast-dark);
-            border-radius: 12px;
+            border-radius: 15px;
             box-shadow: inset 0 0 8px rgba(0,0,0,0.4), 0 6px 10px rgba(0,0,0,0.3);
-            padding: 8px 18px; display: inline-block; position: relative; margin-top: -3px;
         }
-        .houten-bord h1 { 
-            font-family: 'Chewy', cursive; 
-            color: #FFFDE7; margin: 0; font-size: 2.3em; 
-            text-shadow: 2px 2px 0px var(--bast-dark); letter-spacing: 1px;
+        .logo-header img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
         }
-        .decoratie { font-size: 1.1em; vertical-align: middle; }
-        .mascotte { position: absolute; width: 40px; }
-        .vos { left: -30px; top: 10px; }
-        .eekhoorn { right: -30px; top: -10px; }
 
-        /* Headers met SVG Pijl */
+        /* Headers met SVG Pijl op subschermen */
         .header-bar { display: flex; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0 12px 0 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.7); box-shadow: 0 3px 5px rgba(0,0,0,0.2); }
+        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; }
         .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 0 var(--bast-dark);}
 
-        /* Startscherm Categorie Grid */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .cat-card { background: var(--perkament); border-radius: 18px; padding: 15px; text-align: center; box-shadow: 0 4px 0px var(--bast-dark), 0 6px 8px rgba(0,0,0,0.2); cursor: pointer; border: 2px solid var(--bast-dark); transition: 0.1s; position: relative; top: 0; }
-        .cat-card:active { top: 3px; box-shadow: 0 1px 0px var(--bast-dark), 0 3px 4px rgba(0,0,0,0.2); }
-        .cat-icon { font-size: 2.4em; margin-bottom: 2px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
-        .cat-title { font-weight: 900; color: var(--tekst); font-size: 0.95em; }
+        /* Startscherm Grid */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .cat-card { background: var(--perkament); border-radius: 18px; padding: 15px; text-align: center; box-shadow: 0 5px 0px var(--bast-dark), 0 8px 10px rgba(0,0,0,0.15); cursor: pointer; border: 2px solid var(--bast-dark); transition: 0.1s; position: relative; top: 0; }
+        .cat-card:active { top: 4px; box-shadow: 0 1px 0px var(--bast-dark), 0 4px 5px rgba(0,0,0,0.15); }
+        .cat-icon { font-size: 2.6em; margin-bottom: 3px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
+        .cat-title { font-weight: 900; color: var(--tekst); font-size: 1.05em; }
 
-        /* Categorie Knoppen (in Lijst) */
-        .cat-button-bar { background: var(--bast-dark); border-radius: 12px; padding: 5px; margin-bottom: 15px; box-shadow: 0 3px 0 #1A237E; display: flex; align-items: center; cursor: pointer;}
-        .cat-button-bar .cat-icon { font-size: 1.6em; margin-right: 10px;}
-        .cat-button-bar h3 { margin: 0; color: var(--perkament); font-weight: 900; }
-
-        /* Invoervelden (Perkament Look met Houten Rand) */
-        input[type="text"], textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 14px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        /* Invoervelden */
+        input[type="text"], textarea { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         input[type="text"]:focus, textarea:focus { border-color: var(--groen); }
 
-        /* Lijsten (Houten Kaders) */
-        .list-box { background: var(--perkament); border-radius: 18px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); }
+        /* Lijsten */
+        .list-box { background: var(--perkament); border-radius: 18px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); }
         .food-item:last-child { border-bottom: none; }
-        
         .rating-icon { font-size: 1.4em; }
 
-        /* Magische Beoordelingsknoppen */
-        .beoordeling-btn { flex: 1; padding: 10px 4px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: 0.1s; color: var(--tekst); font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 3px; box-shadow: 0 3px 0 var(--bast-dark); position: relative; top: 0; }
-        .beoordeling-btn span { font-size: 1.4em; }
+        /* Knoppen */
+        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.95em; cursor: pointer; transition: 0.15s; color: var(--tekst); font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 4px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
+        .beoordeling-btn span { font-size: 1.6em; }
+        .beoordeling-btn:active { top: 3px; box-shadow: 0 1px 0 var(--bast-dark); }
         
-        .beoordeling-btn:active { top: 2px; box-shadow: 0 1px 0 var(--bast-dark); }
-        .beoordeling-btn.active.vies { border-color: #5D4037; background-color: #D7CCC8; box-shadow: 0 1px 0 #5D4037; top: 2px; }
-        .beoordeling-btn.active.twijfel { border-color: #F57F17; background-color: #FFF9C4; box-shadow: 0 1px 0 #F57F17; top: 2px; }
-        .beoordeling-btn.active.lekker { border-color: #1B5E20; background-color: #C8E6C9; box-shadow: 0 1px 0 #1B5E20; top: 2px; }
+        .beoordeling-btn.active.vies { border-color: #5D4037; background-color: #D7CCC8; box-shadow: 0 1px 0 #5D4037; top: 3px; }
+        .beoordeling-btn.active.twijfel { border-color: #F57F17; background-color: #FFF9C4; box-shadow: 0 1px 0 #F57F17; top: 3px; }
+        .beoordeling-btn.active.lekker { border-color: #1B5E20; background-color: #C8E6C9; box-shadow: 0 1px 0 #1B5E20; top: 3px; }
 
-        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 12px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 0 #1A237E; position: relative; top: 0; font-family: inherit; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
-        .btn-save:active { top: 3px; box-shadow: 0 1px 0 #1A237E; }
+        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; }
+        .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
         
         .hidden { display: none !important; }
 
-        /* Geschiedenis (Perkament Snippers) */
-        .history-item { background: var(--wit); padding: 10px; border-radius: 12px; margin-top: 8px; font-size: 0.85em; border: 1px solid var(--hout-rand); border-left-width: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); }
+        /* Geschiedenis */
+        .history-item { background: var(--wit); padding: 12px; border-radius: 12px; margin-top: 8px; font-size: 0.9em; border: 1px solid var(--hout-rand); border-left-width: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); }
         .history-item.lekker { border-left-color: var(--groen); }
         .history-item.twijfel { border-left-color: #F57F17; }
         .history-item.vies { border-left-color: var(--bast-dark); }
-        .history-date { font-weight: 800; color: #8D6E63; font-size: 0.7em; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; }
+        .history-date { font-weight: 800; color: #8D6E63; font-size: 0.75em; margin-bottom: 3px; }
 
-        /* 6. VERBETERDE BLAADJESREGEN (Nu robuuster met SVG) */
-        #blaadjes-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
-        .vallend-blaadje { position: fixed; top: -20px; z-index: 999; }
+        /* Veilige, lichte blaadjesregen CSS */
+        .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
+        @keyframes val-animatie {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -141,25 +120,14 @@
 <div class="firefly" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
 <div class="firefly" style="top: 40%; left: 85%; animation-delay: 3s;"></div>
 <div class="firefly" style="top: 75%; left: 20%; animation-delay: 5s;"></div>
-<div class="firefly" style="top: 90%; left: 70%; animation-delay: 1s;"></div>
 
-<svg id="blaadjes-canvas"></svg>
-
-<div class="phone-mockup">
 <div class="container">
     
+    <div class="logo-header">
+        <img src="Logo%20HapjesWoud.png" alt="Logo HapjesWoud">
+    </div>
+
     <div id="home-screen">
-        <div class="houten-bord-container">
-            <div style="display: flex; justify-content: center;">
-                <div class="touwtje"></div><div class="touwtje"></div>
-            </div>
-<div class="houten-bord" style="padding: 5px; display: flex; justify-content: center;">
-                <img src="Logo%20HapjesWoud.png" alt="Logo HapjesWoud" style="max-width: 100%; height: auto; border-radius: 8px;">
-            </div>
-            </div>
-        </div>
-        <p style="text-align: center; color: var(--oranje); font-weight: bold; margin-top: -10px;">Baby's First Foods</p>
-        
         <div class="grid">
             <div class="cat-card" onclick="openCategorie('Groenten')"><div class="cat-icon">🥦</div><div class="cat-title">Groenten</div></div>
             <div class="cat-card" onclick="openCategorie('Fruit')"><div class="cat-icon">🍎</div><div class="cat-title">Fruit</div></div>
@@ -174,7 +142,7 @@
     <div id="list-screen" class="hidden">
         <div class="header-bar">
             <button class="back-btn" onclick="toonHomeScherm()">
-                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
@@ -183,15 +151,13 @@
         </div>
         
         <input type="text" id="searchInput" placeholder="Zoeken in het bos..." onkeyup="filterLijst()">
-        
-        <div class="list-box" id="voedselLijst">
-            </div>
+        <div class="list-box" id="voedselLijst"></div>
     </div>
 
     <div id="detail-screen" class="hidden">
         <div class="header-bar">
             <button class="back-btn" onclick="terugNaarLijst()">
-                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
@@ -200,37 +166,36 @@
         </div>
         
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.4em; letter-spacing: 1px; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);">Nieuwe smaakervaring</h3>
-            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 15px;">
+            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.4em; letter-spacing: 1px;">Nieuwe smaakervaring</h3>
+            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 18px;">
                 <button onclick="selecteerBeoordeling('vies')" id="btn-vies" class="beoordeling-btn vies"><span>🥀</span> Bah</button>
                 <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" class="beoordeling-btn twijfel"><span>🍄</span> Mwah</button>
                 <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" class="beoordeling-btn lekker"><span>🌟</span> Heerlijk</button>
             </div>
             
-            <textarea id="notitieInput" rows="3" placeholder="Wat vond de kleine boskabouter ervan? (Notitie)"></textarea>
+            <textarea id="notitieInput" rows="3" placeholder="Wat vond de kleine boskabouter ervan?"></textarea>
             <button class="btn-save" onclick="slaTestOp()">Bewaren in het logboek</button>
         </div>
 
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.4em; letter-spacing: 1px; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);">Eerdere avonturen</h3>
-            <div id="geschiedenisLijst">
-                </div>
+            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.4em;">Eerdere avonturen</h3>
+            <div id="geschiedenisLijst"></div>
         </div>
     </div>
-</div>
+
 </div>
 
 <script>
     const catIcons = { 'Groenten': '🥦', 'Fruit': '🍎', 'Proteïne': '🍗', 'Granen': '🌾', 'Zuivel': '🥛', 'Kruiden': '🌿', 'Allergenen': '⚠️' };
     const themaIconen = { 'lekker': '🌟', 'twijfel': '🍄', 'vies': '🥀' };
 
-    // Volledige Database uit image_0.png vertaald naar NL
+    // De Database
     const database = [
         { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Maïs', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Squash', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' }, { id: 'v22', naam: 'Courgette', categorie: 'Groenten' },
         { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' }, { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' }, { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' }, { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' }, { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' }, { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' }, { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' }, { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' }, { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' }, { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' }, { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
         { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' }, { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' }, { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' }, { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' }, { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Melk', categorie: 'Proteïne' }, { id: 'p11', naam: 'Varkensvlees', categorie: 'Proteïne' }, { id: 'p12', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p13', naam: 'Tofu', categorie: 'Proteïne' }, { id: 'p14', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p15', naam: 'Kalkoen', categorie: 'Proteïne' }, { id: 'p16', naam: 'Witte bonen', categorie: 'Proteïne' },
         { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' }, { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' }, { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' }, { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
-        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' }, { id: 'z3', naam: 'Knoflook', categorie: 'Zuivel' }, { id: 'z4', naam: 'Gember', categorie: 'Zuivel' },
+        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' }, { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
         { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' }, { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' }, { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' }, { id: 'k7', naam: 'Paprika', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' }, { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
         { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' }, { id: 'a3', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' }, { id: 'a5', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a6', naam: 'Sesam', categorie: 'Allergenen' }, { id: 'a7', naam: 'Schaaldieren', categorie: 'Allergenen' }, { id: 'a8', naam: 'Tarwe', categorie: 'Allergenen' }
     ];
@@ -239,7 +204,6 @@
     let huidigeSelectieId = null;
     let gekozenBeoordeling = null;
 
-    // --- Navigatie ---
     function toonHomeScherm() {
         document.getElementById('list-screen').classList.add('hidden');
         document.getElementById('detail-screen').classList.add('hidden');
@@ -263,7 +227,6 @@
         document.getElementById('list-screen').classList.remove('hidden');
     }
 
-    // --- Lijst Scherm ---
     function tekenLijstScherm() {
         const zoekTerm = document.getElementById('searchInput').value.toLowerCase();
         const lijstDiv = document.getElementById('voedselLijst');
@@ -272,7 +235,7 @@
         const producten = database.filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm));
 
         if (producten.length === 0) {
-            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold;">Nets gevonden in dit deel van het bos...</p>';
+            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold;">Niks gevonden in dit deel van het bos...</p>';
             return;
         }
 
@@ -280,7 +243,7 @@
         producten.forEach(prod => {
             const geschiedenis = haalOp(prod.id) || [];
             const laatsteTest = geschiedenis[geschiedenis.length - 1];
-            let weergaveIcoon = laatsteTest ? themaIconen[laatsteTest.beoordeling] : '🐾'; // Pootafdrukje als het nog niet getest is
+            let weergaveIcoon = laatsteTest ? themaIconen[laatsteTest.beoordeling] : '🐾'; 
 
             html += `
                 <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
@@ -294,7 +257,6 @@
 
     function filterLijst() { tekenLijstScherm(); }
 
-    // --- Detail Scherm ---
     function openDetail(id, naam) {
         huidigeSelectieId = id;
         document.getElementById('detail-titel').innerText = naam;
@@ -319,7 +281,27 @@
         });
     }
 
-    // --- Opslaan & Ophalen (LocalStorage) ---
+    // De Lichte en Veilige Animatie
+    function startVeiligeBlaadjesRegen() {
+        const bladeren = ['🍃', '🍂', '🍁', '✨', '🌟'];
+        for(let i=0; i<25; i++) {
+            const blaadje = document.createElement('div');
+            blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
+            blaadje.className = 'veilig-blaadje';
+            
+            // Willekeurige startpositie
+            blaadje.style.left = (Math.random() * 90) + 'vw';
+            
+            const duur = (Math.random() * 2 + 2); // Tussen de 2 en 4 seconden
+            blaadje.style.animation = `val-animatie ${duur}s linear forwards`;
+            
+            document.body.appendChild(blaadje);
+            
+            // Ruim op na animatie
+            setTimeout(() => { document.body.removeChild(blaadje); }, duur * 1000);
+        }
+    }
+
     function slaTestOp() {
         if (!gekozenBeoordeling) {
             alert("Kies eerst een smaakervaring!");
@@ -335,9 +317,9 @@
         geschiedenis.push(nieuweTest);
         localStorage.setItem('hapjeswoud_' + huidigeSelectieId, JSON.stringify(geschiedenis));
 
-        // Start onze magische animatie alleen bij Lekker!
+        // Start animatie
         if (gekozenBeoordeling === 'lekker') {
-            startBlaadjesRegen();
+            startVeiligeBlaadjesRegen();
         }
 
         tekenGeschiedenis(huidigeSelectieId);
@@ -374,74 +356,6 @@
             `;
         });
         div.innerHTML = html;
-    }
-
-    // --- Magische Blaadjesregen Animatie ---
-    const blaadjesCanvas = document.getElementById('blaadjes-canvas');
-    const bladerenForms = [
-        '<path d="M10 0C10 0 0 10 0 10V20C0 20 10 10 10 10C10 10 20 20 20 20V10C20 10 10 0 10 0Z" fill="%232E7D32" opacity="0.6"/>',
-        '<path d="M10 0C10 0 0 10 0 10V20C0 20 10 10 10 10C10 10 20 20 20 20V10C20 10 10 0 10 0Z" fill="%23558B2F" opacity="0.6"/>',
-        '<path d="M10 0C10 0 0 10 0 10V20C0 20 10 10 10 10C10 10 20 20 20 20V10C20 10 10 0 10 0Z" fill="%23BF360C" opacity="0.6"/>',
-        '<path d="M10 0C10 0 0 10 0 10V20C0 20 10 10 10 10C10 10 20 20 20 20V10C20 10 10 0 10 0Z" fill="%23BF360C" opacity="0.4"/>',
-        '<path d="M10 0C10 0 0 10 0 10V20C0 20 10 10 10 10C10 10 20 20 20 20V10C20 10 10 0 10 0Z" fill="%23ffeb3b" opacity="0.6"/>'
-    ];
-
-    let particleArray = [];
-
-    function generateBlaadjeSVG() {
-        return bladerenForms[Math.floor(Math.random() * bladerenForms.length)];
-    }
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * (blaadjesCanvas.clientWidth - 20) + 10;
-            this.y = -20;
-            this.size = Math.random() * 20 + 10;
-            this.speedX = Math.random() * 2 - 1;
-            this.speedY = Math.random() * 3 + 1;
-            this.angle = Math.random() * 360;
-            this.angleSpeed = Math.random() * 3 - 1.5;
-            this.form = generateBlaadjeSVG();
-            this.opacity = 1;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            this.angle += this.angleSpeed;
-            if (this.y > blaadjesCanvas.clientHeight) {
-                this.opacity -= 0.05;
-            }
-        }
-        draw() {
-            return `
-                <svg width="${this.size}" height="${this.size}" viewBox="0 0 20 20" x="${this.x}" y="${this.y}" opacity="${this.opacity}">
-                    <g transform="rotate(${this.angle} 10 10)">
-                        ${this.form}
-                    </g>
-                </svg>
-            `;
-        }
-    }
-
-    function startBlaadjesRegen() {
-        for(let i=0; i<30; i++) {
-            particleArray.push(new Particle());
-        }
-        animateParticles();
-    }
-
-    function animateParticles() {
-        if (particleArray.length === 0) return;
-        blaadjesCanvas.innerHTML = '';
-        for (let i = 0; i < particleArray.length; i++) {
-            particleArray[i].update();
-            blaadjesCanvas.innerHTML += particleArray[i].draw();
-            if (particleArray[i].opacity <= 0) {
-                particleArray.splice(i, 1);
-                i--;
-            }
-        }
-        requestAnimationFrame(animateParticles);
     }
 </script>
 
