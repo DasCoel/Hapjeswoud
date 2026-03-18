@@ -81,13 +81,67 @@
 </div>
 
 <script>
-    // 1. Onze Database (hier kun je later de rest toevoegen)
+// 1. Onze Database (Volledig ingevuld)
     const database = [
-        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' },
-        { id: 'v2', naam: 'Wortel', categorie: 'Groenten' },
-        { id: 'v3', naam: 'Broccoli', categorie: 'Groenten' },
-        { id: 'f1', naam: 'Appel', categorie: 'Fruit' },
-        { id: 'f2', naam: 'Banaan', categorie: 'Fruit' }
+        // Groenten
+        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' },
+        { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' },
+        { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' },
+        { id: 'v7', naam: 'Mais', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' },
+        { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' },
+        { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' },
+        { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' },
+        { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' },
+        { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' },
+        { id: 'v19', naam: 'Courgette', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' },
+        { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' },
+
+        // Fruit
+        { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' },
+        { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' },
+        { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' },
+        { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' },
+        { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' },
+        { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' },
+        { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' },
+        { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' },
+        { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' },
+        { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' },
+        { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
+
+        // Proteïne
+        { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' },
+        { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' },
+        { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' },
+        { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' },
+        { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Varkensvlees', categorie: 'Proteïne' },
+        { id: 'p11', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p12', naam: 'Tofu', categorie: 'Proteïne' },
+        { id: 'p13', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p14', naam: 'Kalkoen', categorie: 'Proteïne' },
+        { id: 'p15', naam: 'Witte bonen', categorie: 'Proteïne' },
+
+        // Granen
+        { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' },
+        { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' },
+        { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' },
+        { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
+
+        // Zuivel
+        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' },
+        { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
+
+        // Kruiden
+        { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' },
+        { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' },
+        { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' },
+        { id: 'k7', naam: 'Paprikapoeder', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' },
+        { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
+
+        // Allergenen
+        { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' },
+        { id: 'a3', naam: 'Eieren', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' },
+        { id: 'a5', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a6', naam: 'Tarwe', categorie: 'Allergenen' },
+        { id: 'a7', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a8', naam: 'Sesam', categorie: 'Allergenen' },
+        { id: 'a9', naam: 'Schaaldieren', categorie: 'Allergenen' }
     ];
 
     let huidigeSelectieId = null;
@@ -104,7 +158,7 @@
         lijstDiv.innerHTML = ''; // Maak leeg
 
         // Groepeer op categorie
-        const categorieen = ['Groenten', 'Fruit']; // Voeg later Proteïne, etc toe
+       const categorieen = ['Groenten', 'Fruit', 'Proteïne', 'Granen', 'Zuivel', 'Kruiden', 'Allergenen'];
         
         categorieen.forEach(cat => {
             // Filter producten voor deze categorie én op de zoekterm
