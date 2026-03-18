@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmaakSafari</title>
+    <style>
+        /* Basis styling */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fdfaf6; margin: 0; padding: 0; color: #333; }
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        h1, h2 { color: #5a5a5a; text-align: center; }
+        
+        /* Zoekbalk */
+        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        
+        /* Categorieën en lijst */
+        .category { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .category-title { font-weight: bold; font-size: 1.2em; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-bottom: 10px; color: #79a37d; }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #fafafa; cursor: pointer; }
+        .food-item:active { background-color: #f0f0f0; }
+        
+        /* Bolletjes */
+        .dot { height: 20px; width: 20px; background-color: #ddd; border-radius: 50%; display: inline-block; }
+        .dot.lekker { background-color: #4CAF50; } /* Groen */
+        .dot.twijfel { background-color: #FFC107; } /* Geel */
+        .dot.vies { background-color: #F44336; } /* Rood */
+
+        /* Knoppen en Formulieren (Detailscherm) */
+        button { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin: 5px; }
+        .btn-back { background-color: #ddd; margin-bottom: 20px; width: 100%; }
+        .btn-save { background-color: #4CAF50; color: white; width: 100%; margin-top: 10px; }
+        textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-top: 10px; font-family: inherit; }
+        
+        /* Verbergen van schermen */
+        .hidden { display: none; }
+
+        /* Geschiedenis lijst */
+        .history-item { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.9em; border-left: 4px solid #ddd; }
+        .history-item.lekker { border-left-color: #4CAF50; }
+        .history-item.twijfel { border-left-color: #FFC107; }
+        .history-item.vies { border-left-color: #F44336; }
+        .history-date { font-weight: bold; color: #666; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div id="main-screen">
+        <h1>🦁 SmaakSafari</h1>
+        <input type="text" id="searchInput" placeholder="Zoek een hapje..." onkeyup="filterLijst()">
+        
+        <div id="voedselLijst">
+            </div>
+    </div>
+
+    <div id="detail-screen" class="hidden">
+        <button class="btn-back" onclick="toonHoofdScherm()">⬅ Terug naar overzicht</button>
+        <h2 id="detail-titel">Product Naam</h2>
+        
+        <div class="category">
+            <h3>Nieuwe test toevoegen</h3>
+            <p>Wat vond hij ervan?</p>
+            <div style="display: flex; justify-content: space-around; margin-bottom: 15px;">
+                <button onclick="selecteerBeoordeling('vies')" id="btn-vies" style="background:#fff; border:2px solid #F44336;">🔴 Vies</button>
+                <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" style="background:#fff; border:2px solid #FFC107;">🟡 Twijfel</button>
+                <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" style="background:#fff; border:2px solid #4CAF50;">🟢 Lekker</button>
+            </div>
+            
+            <textarea id="notitieInput" rows="3" placeholder="Optionele notitie (bijv. 'structuur was nog te grof')"></textarea>
+            <button class="btn-save" onclick="slaTestOp()">Opslaan</button>
+        </div>
+
+        <div class="category">
+            <h3>Geschiedenis</h3>
+            <div id="geschiedenisLijst">
+                </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 1. Onze Database (hier kun je later de rest toevoegen)
+    const database = [
+        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' },
+        { id: 'v2', naam: 'Wortel', categorie: 'Groenten' },
+        { id: 'v3', naam: 'Broccoli', categorie: 'Groenten' },
+        { id: 'f1', naam: 'Appel', categorie: 'Fruit' },
+        { id: 'f2', naam: 'Banaan', categorie: 'Fruit' }
+    ];
+
+    let huidigeSelectieId = null;
+    let gekozenBeoordeling = null;
+
+    // 2. Start de app
+    function startApp() {
+        tekenHoofdScherm();
+    }
+
+    // 3. Teken het hoofdscherm
+    function tekenHoofdScherm(zoekTerm = "") {
+        const lijstDiv = document.getElementById('voedselLijst');
+        lijstDiv.innerHTML = ''; // Maak leeg
+
+        // Groepeer op categorie
+        const categorieen = ['Groenten', 'Fruit']; // Voeg later Proteïne, etc toe
+        
+        categorieen.forEach(cat => {
+            // Filter producten voor deze categorie én op de zoekterm
+            const producten = database.filter(p => 
+                p.categorie === cat && p.naam.toLowerCase().includes(zoekTerm.toLowerCase())
+            );
+
+            if (producten.length > 0) {
+                let html = `<div class="category"><div class="category-title">${cat}</div>`;
+                
+                producten.forEach(prod => {
+                    // Haal de meest recente status op
+                    const geschiedenis = haalOp(prod.id) || [];
+                    const laatsteTest = geschiedenis[geschiedenis.length - 1];
+                    const bolletjeClass = laatsteTest ? laatsteTest.beoordeling : '';
+
+                    html += `
+                        <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
+                            <span>${prod.naam}</span>
+                            <span class="dot ${bolletjeClass}"></span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                lijstDiv.innerHTML += html;
+            }
+        });
+    }
+
+    // 4. Zoekfunctie
+    function filterLijst() {
+        const zoekTerm = document.getElementById('searchInput').value;
+        tekenHoofdScherm(zoekTerm);
+    }
+
+    // 5. Wisselen van schermen
+    function openDetail(id, naam) {
+        huidigeSelectieId = id;
+        document.getElementById('detail-titel').innerText = naam;
+        
+        // Reset formulier
+        gekozenBeoordeling = null;
+        document.getElementById('notitieInput').value = '';
+        resetKnoppen();
+
+        tekenGeschiedenis(id);
+
+        document.getElementById('main-screen').classList.add('hidden');
+        document.getElementById('detail-screen').classList.remove('hidden');
+    }
+
+    function toonHoofdScherm() {
+        tekenHoofdScherm(); // Ververs data
+        document.getElementById('detail-screen').classList.add('hidden');
+        document.getElementById('main-screen').classList.remove('hidden');
+    }
+
+    // 6. Beoordeling selecteren
+    function selecteerBeoordeling(status) {
+        gekozenBeoordeling = status;
+        resetKnoppen();
+        document.getElementById('btn-' + status).style.backgroundColor = '#eee'; // Highlight keuze
+    }
+
+    function resetKnoppen() {
+        document.getElementById('btn-vies').style.backgroundColor = '#fff';
+        document.getElementById('btn-twijfel').style.backgroundColor = '#fff';
+        document.getElementById('btn-lekker').style.backgroundColor = '#fff';
+    }
+
+    // 7. Opslaan en Ophalen (LocalStorage)
+    function slaTestOp() {
+        if (!gekozenBeoordeling) {
+            alert("Kies eerst of het lekker, twijfel of vies was!");
+            return;
+        }
+
+        const notitie = document.getElementById('notitieInput').value;
+        const vandaag = new Date().toLocaleDateString('nl-NL'); // Geeft datum zoals 18-3-2026
+
+        const nieuweTest = {
+            datum: vandaag,
+            beoordeling: gekozenBeoordeling,
+            notitie: notitie
+        };
+
+        // Haal bestaande lijst op, voeg nieuwe toe, sla weer op
+        let geschiedenis = haalOp(huidigeSelectieId) || [];
+        geschiedenis.push(nieuweTest);
+        localStorage.setItem('smaaksafari_' + huidigeSelectieId, JSON.stringify(geschiedenis));
+
+        // Ververs de lijst op het scherm
+        tekenGeschiedenis(huidigeSelectieId);
+        
+        // Formulier resetten
+        document.getElementById('notitieInput').value = '';
+        gekozenBeoordeling = null;
+        resetKnoppen();
+        alert("Opgeslagen!");
+    }
+
+    function haalOp(id) {
+        const data = localStorage.getItem('smaaksafari_' + id);
+        return data ? JSON.parse(data) : null;
+    }
+
+    // 8. Teken de geschiedenis lijst
+    function tekenGeschiedenis(id) {
+        const div = document.getElementById('geschiedenisLijst');
+        const geschiedenis = haalOp(id) || [];
+        
+        if (geschiedenis.length === 0) {
+            div.innerHTML = "<p style='color:#999; font-style:italic;'>Nog niet geproefd.</p>";
+            return;
+        }
+
+        // We draaien de lijst om zodat de nieuwste bovenaan staat
+        let html = '';
+        geschiedenis.slice().reverse().forEach(test => {
+            let emoji = test.beoordeling === 'lekker' ? '🟢 Lekker' : (test.beoordeling === 'vies' ? '🔴 Vies' : '🟡 Twijfel');
+            html += `
+                <div class="history-item ${test.beoordeling}">
+                    <div class="history-date">${test.datum}</div>
+                    <strong>${emoji}</strong>
+                    ${test.notitie ? `<p style="margin: 5px 0 0 0; color: #555;">"${test.notitie}"</p>` : ''}
+                </div>
+            `;
+        });
+        div.innerHTML = html;
+    }
+
+    // Start de boel
+    startApp();
+</script>
+
+</body>
+</html>
