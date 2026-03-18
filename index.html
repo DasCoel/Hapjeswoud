@@ -3,66 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmaakSafari</title>
+    <title>HapjesWoud</title>
     
     <link rel="apple-touch-icon" href="vosje.png">
     <link rel="icon" type="image/png" href="vosje.png">
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         /* Bosthema Kleuren */
         :root {
-            --achtergrond: #F4F1EA; /* Zacht zandkleur */
-            --tekst: #3E2723; /* Donker houtbruin */
-            --groen: #558B2F; /* Mosgroen */
-            --oranje: #D84315; /* Vos-oranje */
+            --achtergrond: #F4F1EA; 
+            --tekst: #4E342E; 
+            --groen: #558B2F; 
+            --oranje: #D84315; 
             --wit: #ffffff;
+            --kader: #D7CCC8;
         }
 
-        /* Basis styling */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--achtergrond); margin: 0; padding: 0; color: var(--tekst); }
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        h1 { color: var(--oranje); text-align: center; font-size: 2em; }
-        h2 { color: var(--groen); text-align: center; }
         
-        /* Categorie Knoppen (Startscherm) */
+        /* Headers met pijl */
+        .header-bar { display: flex; align-items: center; margin-bottom: 20px; }
+        .back-btn { background: none; border: none; font-size: 1.8em; cursor: pointer; color: var(--oranje); padding: 0 15px 0 0; }
+        .header-bar h2 { margin: 0; color: var(--groen); flex-grow: 1; text-align: left; }
+        
+        h1 { color: var(--oranje); text-align: center; font-size: 2.2em; margin-bottom: 5px; }
+
+        /* Startscherm Grid */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .cat-card { background: var(--wit); border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(85, 139, 47, 0.1); cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .cat-card { background: var(--wit); border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(85, 139, 47, 0.08); cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
         .cat-card:active { border-color: var(--groen); transform: scale(0.98); }
         .cat-icon { font-size: 2.5em; margin-bottom: 10px; }
         .cat-title { font-weight: bold; color: var(--tekst); font-size: 1.1em; }
 
-        /* Zoekbalk */
-        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; outline: none; }
-        input[type="text"]:focus { border-color: var(--groen); }
+        /* Invoervelden */
+        input[type="text"], textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid var(--kader); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--wit); color: var(--tekst); font-family: inherit; }
+        input[type="text"]:focus, textarea:focus { border-color: var(--groen); }
 
-        /* Lijst items */
-        .list-box { background: var(--wit); border-radius: 12px; padding: 10px 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+        /* Lijsten */
+        .list-box { background: var(--wit); border-radius: 15px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--kader); cursor: pointer; }
         .food-item:last-child { border-bottom: none; }
-        .food-item:active { background-color: #f9f9f9; }
+        .food-item:active { background-color: #faf8f5; }
         
-        /* Bolletjes */
-        .dot { height: 20px; width: 20px; background-color: #ddd; border-radius: 50%; display: inline-block; }
-        .dot.lekker { background-color: #4CAF50; } 
-        .dot.twijfel { background-color: #FFC107; } 
-        .dot.vies { background-color: #F44336; } 
+        /* Thema Icoontjes in plaats van bolletjes */
+        .rating-icon { font-size: 1.4em; }
 
-        /* Knoppen algemeen */
-        button { padding: 12px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .btn-back { background-color: #e0dcd3; color: var(--tekst); width: 100%; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;}
-        .btn-save { background-color: var(--groen); color: var(--wit); width: 100%; margin-top: 10px; }
+        /* Nieuwe Thema Knoppen */
+        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--kader); border-radius: 12px; font-size: 1em; cursor: pointer; transition: 0.2s; color: var(--tekst); font-weight: bold; }
         
-        /* Formulier */
-        textarea { width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #ddd; box-sizing: border-box; margin-top: 10px; font-family: inherit; }
-        textarea:focus { border-color: var(--groen); outline: none; }
+        /* Actieve staten van de knoppen */
+        .beoordeling-btn.active.vies { border-color: #8D6E63; background-color: #EFEBE9; }
+        .beoordeling-btn.active.twijfel { border-color: #F57F17; background-color: #FFFDE7; }
+        .beoordeling-btn.active.lekker { border-color: #558B2F; background-color: #F1F8E9; }
+
+        .btn-save { background-color: var(--groen); color: var(--wit); width: 100%; padding: 12px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-save:active { transform: scale(0.98); }
         
         .hidden { display: none !important; }
 
-        /* Geschiedenis lijst */
-        .history-item { background: #faf8f5; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 0.9em; border-left: 5px solid #ddd; }
-        .history-item.lekker { border-left-color: #4CAF50; }
-        .history-item.twijfel { border-left-color: #FFC107; }
-        .history-item.vies { border-left-color: #F44336; }
+        /* Geschiedenis */
+        .history-item { background: #faf8f5; padding: 12px; border-radius: 12px; margin-top: 10px; font-size: 0.9em; border-left: 5px solid var(--kader); }
+        .history-item.lekker { border-left-color: #558B2F; }
+        .history-item.twijfel { border-left-color: #F57F17; }
+        .history-item.vies { border-left-color: #8D6E63; }
         .history-date { font-weight: bold; color: #888; font-size: 0.8em; margin-bottom: 4px; }
     </style>
 </head>
@@ -71,8 +77,8 @@
 <div class="container">
     
     <div id="home-screen">
-        <h1>🦊 SmaakSafari 🌲</h1>
-        <p style="text-align: center; color: #666;">Wat gaan we vandaag proeven?</p>
+        <h1>🦊 HapjesWoud 🌲</h1>
+        <p style="text-align: center; color: #795548; margin-top: 0;">Wat gaan we vandaag proeven?</p>
         
         <div class="grid">
             <div class="cat-card" onclick="openCategorie('Groenten')"><div class="cat-icon">🥦</div><div class="cat-title">Groenten</div></div>
@@ -86,25 +92,29 @@
     </div>
 
     <div id="list-screen" class="hidden">
-        <button class="btn-back" onclick="toonHomeScherm()">⬅ Terug naar overzicht</button>
-        <h2 id="list-titel">Categorie</h2>
+        <div class="header-bar">
+            <button class="back-btn" onclick="toonHomeScherm()">⬅️</button>
+            <h2 id="list-titel">Categorie</h2>
+        </div>
         
-        <input type="text" id="searchInput" placeholder="Zoeken in deze categorie..." onkeyup="filterLijst()">
+        <input type="text" id="searchInput" placeholder="Zoeken in het bos..." onkeyup="filterLijst()">
         
         <div class="list-box" id="voedselLijst">
             </div>
     </div>
 
     <div id="detail-screen" class="hidden">
-        <button class="btn-back" onclick="terugNaarLijst()">⬅ Terug naar lijst</button>
-        <h2 id="detail-titel">Product Naam</h2>
+        <div class="header-bar">
+            <button class="back-btn" onclick="terugNaarLijst()">⬅️</button>
+            <h2 id="detail-titel">Product Naam</h2>
+        </div>
         
-        <div class="list-box" style="margin-bottom: 20px;">
-            <h3 style="margin-top:0; color: var(--groen);">Nieuwe test toevoegen 🍂</h3>
-            <div style="display: flex; justify-content: space-between; gap: 5px; margin-bottom: 15px;">
-                <button onclick="selecteerBeoordeling('vies')" id="btn-vies" style="flex:1; background:#fff; border:2px solid #F44336; color:#333;">🔴 Vies</button>
-                <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" style="flex:1; background:#fff; border:2px solid #FFC107; color:#333;">🟡 Twijfel</button>
-                <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" style="flex:1; background:#fff; border:2px solid #4CAF50; color:#333;">🟢 Lekker</button>
+        <div class="list-box">
+            <h3 style="margin-top:0; color: var(--groen);">Nieuwe smaakervaring toevoegen</h3>
+            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 15px;">
+                <button onclick="selecteerBeoordeling('vies')" id="btn-vies" class="beoordeling-btn vies">🥀 Vies</button>
+                <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" class="beoordeling-btn twijfel">🍄 Twijfel</button>
+                <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" class="beoordeling-btn lekker">🌿 Lekker</button>
             </div>
             
             <textarea id="notitieInput" rows="3" placeholder="Notitie (bijv. 'structuur was nog te grof')"></textarea>
@@ -112,7 +122,7 @@
         </div>
 
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--oranje);">Eerdere proefmomenten 🍄</h3>
+            <h3 style="margin-top:0; color: var(--oranje);">Eerdere proefmomenten</h3>
             <div id="geschiedenisLijst">
                 </div>
         </div>
@@ -121,6 +131,19 @@
 </div>
 
 <script>
+    // Koppel categorieën aan hun icoontjes voor de titels
+    const catIcons = {
+        'Groenten': '🥦', 'Fruit': '🍎', 'Proteïne': '🍗', 
+        'Granen': '🌾', 'Zuivel': '🥛', 'Kruiden': '🌿', 'Allergenen': '⚠️'
+    };
+
+    // De Sprookjes/Bos thema icoontjes voor beoordelingen
+    const themaIconen = {
+        'lekker': '🌿',
+        'twijfel': '🍄',
+        'vies': '🥀'
+    };
+
     // Volledige Database
     const database = [
         { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Mais', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Courgette', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' },
@@ -145,8 +168,9 @@
 
     function openCategorie(catNaam) {
         huidigeCategorie = catNaam;
-        document.getElementById('list-titel').innerText = catNaam + " 🍄";
-        document.getElementById('searchInput').value = ''; // Reset zoekbalk
+        // Zet nu het juiste icoontje bij de titel
+        document.getElementById('list-titel').innerText = catIcons[catNaam] + " " + catNaam;
+        document.getElementById('searchInput').value = ''; 
         tekenLijstScherm();
         
         document.getElementById('home-screen').classList.add('hidden');
@@ -155,7 +179,7 @@
     }
 
     function terugNaarLijst() {
-        tekenLijstScherm(); // Zorgt dat de bolletjes up to date zijn
+        tekenLijstScherm(); 
         document.getElementById('detail-screen').classList.add('hidden');
         document.getElementById('list-screen').classList.remove('hidden');
     }
@@ -177,12 +201,17 @@
         producten.forEach(prod => {
             const geschiedenis = haalOp(prod.id) || [];
             const laatsteTest = geschiedenis[geschiedenis.length - 1];
-            const bolletjeClass = laatsteTest ? laatsteTest.beoordeling : '';
+            
+            // Bepaal welk icoontje we laten zien
+            let weergaveIcoon = '';
+            if (laatsteTest) {
+                weergaveIcoon = themaIconen[laatsteTest.beoordeling];
+            }
 
             html += `
                 <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
                     <span style="font-weight: 500;">${prod.naam}</span>
-                    <span class="dot ${bolletjeClass}"></span>
+                    <span class="rating-icon">${weergaveIcoon}</span>
                 </div>
             `;
         });
@@ -210,21 +239,20 @@
     function selecteerBeoordeling(status) {
         gekozenBeoordeling = status;
         resetKnoppen();
-        document.getElementById('btn-' + status).style.backgroundColor = '#f0f0f0';
-        document.getElementById('btn-' + status).style.transform = 'scale(0.95)';
+        // Voeg de 'active' klasse toe aan de geklikte knop zodat hij verkleurt
+        document.getElementById('btn-' + status).classList.add('active');
     }
 
     function resetKnoppen() {
         const knoppen = ['vies', 'twijfel', 'lekker'];
         knoppen.forEach(k => {
-            document.getElementById('btn-' + k).style.backgroundColor = '#fff';
-            document.getElementById('btn-' + k).style.transform = 'scale(1)';
+            document.getElementById('btn-' + k).classList.remove('active');
         });
     }
 
     function slaTestOp() {
         if (!gekozenBeoordeling) {
-            alert("Kies eerst of het lekker, twijfel of vies was!");
+            alert("Kies eerst een smaakervaring!");
             return;
         }
 
@@ -236,6 +264,15 @@
         let geschiedenis = haalOp(huidigeSelectieId) || [];
         geschiedenis.push(nieuweTest);
         localStorage.setItem('smaaksafari_' + huidigeSelectieId, JSON.stringify(geschiedenis));
+
+        // 🎉 Confetti tijd!
+        if (gekozenBeoordeling === 'lekker') {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
 
         tekenGeschiedenis(huidigeSelectieId);
         
@@ -260,12 +297,14 @@
 
         let html = '';
         geschiedenis.slice().reverse().forEach(test => {
-            let emoji = test.beoordeling === 'lekker' ? '🟢 Lekker' : (test.beoordeling === 'vies' ? '🔴 Vies' : '🟡 Twijfel');
+            let labelText = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Vies' : 'Twijfel');
+            let emoji = themaIconen[test.beoordeling];
+            
             html += `
                 <div class="history-item ${test.beoordeling}">
                     <div class="history-date">${test.datum}</div>
-                    <strong>${emoji}</strong>
-                    ${test.notitie ? `<p style="margin: 5px 0 0 0; color: #555;">"${test.notitie}"</p>` : ''}
+                    <strong>${emoji} ${labelText}</strong>
+                    ${test.notitie ? `<p style="margin: 5px 0 0 0; color: #5E4036;">"${test.notitie}"</p>` : ''}
                 </div>
             `;
         });
