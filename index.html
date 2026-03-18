@@ -4,75 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmaakSafari</title>
+    
+    <link rel="apple-touch-icon" href="vosje.png">
+    <link rel="icon" type="image/png" href="vosje.png">
+
     <style>
+        /* Bosthema Kleuren */
+        :root {
+            --achtergrond: #F4F1EA; /* Zacht zandkleur */
+            --tekst: #3E2723; /* Donker houtbruin */
+            --groen: #558B2F; /* Mosgroen */
+            --oranje: #D84315; /* Vos-oranje */
+            --wit: #ffffff;
+        }
+
         /* Basis styling */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fdfaf6; margin: 0; padding: 0; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--achtergrond); margin: 0; padding: 0; color: var(--tekst); }
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        h1, h2 { color: #5a5a5a; text-align: center; }
+        h1 { color: var(--oranje); text-align: center; font-size: 2em; }
+        h2 { color: var(--groen); text-align: center; }
         
+        /* Categorie Knoppen (Startscherm) */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .cat-card { background: var(--wit); border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(85, 139, 47, 0.1); cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .cat-card:active { border-color: var(--groen); transform: scale(0.98); }
+        .cat-icon { font-size: 2.5em; margin-bottom: 10px; }
+        .cat-title { font-weight: bold; color: var(--tekst); font-size: 1.1em; }
+
         /* Zoekbalk */
-        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        
-        /* Categorieën en lijst */
-        .category { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .category-title { font-weight: bold; font-size: 1.2em; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-bottom: 10px; color: #79a37d; }
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #fafafa; cursor: pointer; }
-        .food-item:active { background-color: #f0f0f0; }
+        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; outline: none; }
+        input[type="text"]:focus { border-color: var(--groen); }
+
+        /* Lijst items */
+        .list-box { background: var(--wit); border-radius: 12px; padding: 10px 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+        .food-item:last-child { border-bottom: none; }
+        .food-item:active { background-color: #f9f9f9; }
         
         /* Bolletjes */
         .dot { height: 20px; width: 20px; background-color: #ddd; border-radius: 50%; display: inline-block; }
-        .dot.lekker { background-color: #4CAF50; } /* Groen */
-        .dot.twijfel { background-color: #FFC107; } /* Geel */
-        .dot.vies { background-color: #F44336; } /* Rood */
+        .dot.lekker { background-color: #4CAF50; } 
+        .dot.twijfel { background-color: #FFC107; } 
+        .dot.vies { background-color: #F44336; } 
 
-        /* Knoppen en Formulieren (Detailscherm) */
-        button { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin: 5px; }
-        .btn-back { background-color: #ddd; margin-bottom: 20px; width: 100%; }
-        .btn-save { background-color: #4CAF50; color: white; width: 100%; margin-top: 10px; }
-        textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-top: 10px; font-family: inherit; }
+        /* Knoppen algemeen */
+        button { padding: 12px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-back { background-color: #e0dcd3; color: var(--tekst); width: 100%; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .btn-save { background-color: var(--groen); color: var(--wit); width: 100%; margin-top: 10px; }
         
-        /* Verbergen van schermen */
-        .hidden { display: none; }
+        /* Formulier */
+        textarea { width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #ddd; box-sizing: border-box; margin-top: 10px; font-family: inherit; }
+        textarea:focus { border-color: var(--groen); outline: none; }
+        
+        .hidden { display: none !important; }
 
         /* Geschiedenis lijst */
-        .history-item { background: #f9f9f9; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.9em; border-left: 4px solid #ddd; }
+        .history-item { background: #faf8f5; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 0.9em; border-left: 5px solid #ddd; }
         .history-item.lekker { border-left-color: #4CAF50; }
         .history-item.twijfel { border-left-color: #FFC107; }
         .history-item.vies { border-left-color: #F44336; }
-        .history-date { font-weight: bold; color: #666; font-size: 0.8em; }
+        .history-date { font-weight: bold; color: #888; font-size: 0.8em; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     
-    <div id="main-screen">
-        <h1>🦁 SmaakSafari</h1>
-        <input type="text" id="searchInput" placeholder="Zoek een hapje..." onkeyup="filterLijst()">
+    <div id="home-screen">
+        <h1>🦊 SmaakSafari 🌲</h1>
+        <p style="text-align: center; color: #666;">Wat gaan we vandaag proeven?</p>
         
-        <div id="voedselLijst">
+        <div class="grid">
+            <div class="cat-card" onclick="openCategorie('Groenten')"><div class="cat-icon">🥦</div><div class="cat-title">Groenten</div></div>
+            <div class="cat-card" onclick="openCategorie('Fruit')"><div class="cat-icon">🍎</div><div class="cat-title">Fruit</div></div>
+            <div class="cat-card" onclick="openCategorie('Proteïne')"><div class="cat-icon">🍗</div><div class="cat-title">Proteïne</div></div>
+            <div class="cat-card" onclick="openCategorie('Granen')"><div class="cat-icon">🌾</div><div class="cat-title">Granen</div></div>
+            <div class="cat-card" onclick="openCategorie('Zuivel')"><div class="cat-icon">🥛</div><div class="cat-title">Zuivel</div></div>
+            <div class="cat-card" onclick="openCategorie('Kruiden')"><div class="cat-icon">🌿</div><div class="cat-title">Kruiden</div></div>
+            <div class="cat-card" onclick="openCategorie('Allergenen')" style="grid-column: span 2;"><div class="cat-icon">⚠️</div><div class="cat-title">Allergenen</div></div>
+        </div>
+    </div>
+
+    <div id="list-screen" class="hidden">
+        <button class="btn-back" onclick="toonHomeScherm()">⬅ Terug naar overzicht</button>
+        <h2 id="list-titel">Categorie</h2>
+        
+        <input type="text" id="searchInput" placeholder="Zoeken in deze categorie..." onkeyup="filterLijst()">
+        
+        <div class="list-box" id="voedselLijst">
             </div>
     </div>
 
     <div id="detail-screen" class="hidden">
-        <button class="btn-back" onclick="toonHoofdScherm()">⬅ Terug naar overzicht</button>
+        <button class="btn-back" onclick="terugNaarLijst()">⬅ Terug naar lijst</button>
         <h2 id="detail-titel">Product Naam</h2>
         
-        <div class="category">
-            <h3>Nieuwe test toevoegen</h3>
-            <p>Wat vond hij ervan?</p>
-            <div style="display: flex; justify-content: space-around; margin-bottom: 15px;">
-                <button onclick="selecteerBeoordeling('vies')" id="btn-vies" style="background:#fff; border:2px solid #F44336;">🔴 Vies</button>
-                <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" style="background:#fff; border:2px solid #FFC107;">🟡 Twijfel</button>
-                <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" style="background:#fff; border:2px solid #4CAF50;">🟢 Lekker</button>
+        <div class="list-box" style="margin-bottom: 20px;">
+            <h3 style="margin-top:0; color: var(--groen);">Nieuwe test toevoegen 🍂</h3>
+            <div style="display: flex; justify-content: space-between; gap: 5px; margin-bottom: 15px;">
+                <button onclick="selecteerBeoordeling('vies')" id="btn-vies" style="flex:1; background:#fff; border:2px solid #F44336; color:#333;">🔴 Vies</button>
+                <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" style="flex:1; background:#fff; border:2px solid #FFC107; color:#333;">🟡 Twijfel</button>
+                <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" style="flex:1; background:#fff; border:2px solid #4CAF50; color:#333;">🟢 Lekker</button>
             </div>
             
-            <textarea id="notitieInput" rows="3" placeholder="Optionele notitie (bijv. 'structuur was nog te grof')"></textarea>
+            <textarea id="notitieInput" rows="3" placeholder="Notitie (bijv. 'structuur was nog te grof')"></textarea>
             <button class="btn-save" onclick="slaTestOp()">Opslaan</button>
         </div>
 
-        <div class="category">
-            <h3>Geschiedenis</h3>
+        <div class="list-box">
+            <h3 style="margin-top:0; color: var(--oranje);">Eerdere proefmomenten 🍄</h3>
             <div id="geschiedenisLijst">
                 </div>
         </div>
@@ -81,155 +121,107 @@
 </div>
 
 <script>
-// 1. Onze Database (Volledig ingevuld)
+    // Volledige Database
     const database = [
-        // Groenten
-        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' },
-        { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' },
-        { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' },
-        { id: 'v7', naam: 'Mais', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' },
-        { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' },
-        { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' },
-        { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' },
-        { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' },
-        { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' },
-        { id: 'v19', naam: 'Courgette', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' },
-        { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' },
-
-        // Fruit
-        { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' },
-        { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' },
-        { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' },
-        { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' },
-        { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' },
-        { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' },
-        { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' },
-        { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' },
-        { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' },
-        { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' },
-        { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
-
-        // Proteïne
-        { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' },
-        { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' },
-        { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' },
-        { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' },
-        { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Varkensvlees', categorie: 'Proteïne' },
-        { id: 'p11', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p12', naam: 'Tofu', categorie: 'Proteïne' },
-        { id: 'p13', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p14', naam: 'Kalkoen', categorie: 'Proteïne' },
-        { id: 'p15', naam: 'Witte bonen', categorie: 'Proteïne' },
-
-        // Granen
-        { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' },
-        { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' },
-        { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' },
-        { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
-
-        // Zuivel
-        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' },
-        { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
-
-        // Kruiden
-        { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' },
-        { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' },
-        { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' },
-        { id: 'k7', naam: 'Paprikapoeder', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' },
-        { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
-
-        // Allergenen
-        { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' },
-        { id: 'a3', naam: 'Eieren', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' },
-        { id: 'a5', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a6', naam: 'Tarwe', categorie: 'Allergenen' },
-        { id: 'a7', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a8', naam: 'Sesam', categorie: 'Allergenen' },
-        { id: 'a9', naam: 'Schaaldieren', categorie: 'Allergenen' }
+        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Mais', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Courgette', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' },
+        { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' }, { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' }, { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' }, { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' }, { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' }, { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' }, { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' }, { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' }, { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' }, { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' }, { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
+        { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' }, { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' }, { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' }, { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' }, { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Varkensvlees', categorie: 'Proteïne' }, { id: 'p11', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p12', naam: 'Tofu', categorie: 'Proteïne' }, { id: 'p13', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p14', naam: 'Kalkoen', categorie: 'Proteïne' }, { id: 'p15', naam: 'Witte bonen', categorie: 'Proteïne' },
+        { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' }, { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' }, { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' }, { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
+        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' }, { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
+        { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' }, { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' }, { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' }, { id: 'k7', naam: 'Paprikapoeder', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' }, { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
+        { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' }, { id: 'a3', naam: 'Eieren', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' }, { id: 'a5', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a6', naam: 'Tarwe', categorie: 'Allergenen' }, { id: 'a7', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a8', naam: 'Sesam', categorie: 'Allergenen' }, { id: 'a9', naam: 'Schaaldieren', categorie: 'Allergenen' }
     ];
 
+    let huidigeCategorie = '';
     let huidigeSelectieId = null;
     let gekozenBeoordeling = null;
 
-    // 2. Start de app
-    function startApp() {
-        tekenHoofdScherm();
+    // --- Navigatie ---
+    function toonHomeScherm() {
+        document.getElementById('list-screen').classList.add('hidden');
+        document.getElementById('detail-screen').classList.add('hidden');
+        document.getElementById('home-screen').classList.remove('hidden');
     }
 
-    // 3. Teken het hoofdscherm
-    function tekenHoofdScherm(zoekTerm = "") {
-        const lijstDiv = document.getElementById('voedselLijst');
-        lijstDiv.innerHTML = ''; // Maak leeg
-
-        // Groepeer op categorie
-       const categorieen = ['Groenten', 'Fruit', 'Proteïne', 'Granen', 'Zuivel', 'Kruiden', 'Allergenen'];
+    function openCategorie(catNaam) {
+        huidigeCategorie = catNaam;
+        document.getElementById('list-titel').innerText = catNaam + " 🍄";
+        document.getElementById('searchInput').value = ''; // Reset zoekbalk
+        tekenLijstScherm();
         
-        categorieen.forEach(cat => {
-            // Filter producten voor deze categorie én op de zoekterm
-            const producten = database.filter(p => 
-                p.categorie === cat && p.naam.toLowerCase().includes(zoekTerm.toLowerCase())
-            );
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('detail-screen').classList.add('hidden');
+        document.getElementById('list-screen').classList.remove('hidden');
+    }
 
-            if (producten.length > 0) {
-                let html = `<div class="category"><div class="category-title">${cat}</div>`;
-                
-                producten.forEach(prod => {
-                    // Haal de meest recente status op
-                    const geschiedenis = haalOp(prod.id) || [];
-                    const laatsteTest = geschiedenis[geschiedenis.length - 1];
-                    const bolletjeClass = laatsteTest ? laatsteTest.beoordeling : '';
+    function terugNaarLijst() {
+        tekenLijstScherm(); // Zorgt dat de bolletjes up to date zijn
+        document.getElementById('detail-screen').classList.add('hidden');
+        document.getElementById('list-screen').classList.remove('hidden');
+    }
 
-                    html += `
-                        <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
-                            <span>${prod.naam}</span>
-                            <span class="dot ${bolletjeClass}"></span>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-                lijstDiv.innerHTML += html;
-            }
+    // --- Lijst Scherm ---
+    function tekenLijstScherm() {
+        const zoekTerm = document.getElementById('searchInput').value.toLowerCase();
+        const lijstDiv = document.getElementById('voedselLijst');
+        lijstDiv.innerHTML = ''; 
+
+        const producten = database.filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm));
+
+        if (producten.length === 0) {
+            lijstDiv.innerHTML = '<p style="color:#888; text-align:center;">Geen hapjes gevonden...</p>';
+            return;
+        }
+
+        let html = '';
+        producten.forEach(prod => {
+            const geschiedenis = haalOp(prod.id) || [];
+            const laatsteTest = geschiedenis[geschiedenis.length - 1];
+            const bolletjeClass = laatsteTest ? laatsteTest.beoordeling : '';
+
+            html += `
+                <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
+                    <span style="font-weight: 500;">${prod.naam}</span>
+                    <span class="dot ${bolletjeClass}"></span>
+                </div>
+            `;
         });
+        lijstDiv.innerHTML = html;
     }
 
-    // 4. Zoekfunctie
     function filterLijst() {
-        const zoekTerm = document.getElementById('searchInput').value;
-        tekenHoofdScherm(zoekTerm);
+        tekenLijstScherm();
     }
 
-    // 5. Wisselen van schermen
+    // --- Detail Scherm ---
     function openDetail(id, naam) {
         huidigeSelectieId = id;
         document.getElementById('detail-titel').innerText = naam;
         
-        // Reset formulier
         gekozenBeoordeling = null;
         document.getElementById('notitieInput').value = '';
         resetKnoppen();
-
         tekenGeschiedenis(id);
 
-        document.getElementById('main-screen').classList.add('hidden');
+        document.getElementById('list-screen').classList.add('hidden');
         document.getElementById('detail-screen').classList.remove('hidden');
     }
 
-    function toonHoofdScherm() {
-        tekenHoofdScherm(); // Ververs data
-        document.getElementById('detail-screen').classList.add('hidden');
-        document.getElementById('main-screen').classList.remove('hidden');
-    }
-
-    // 6. Beoordeling selecteren
     function selecteerBeoordeling(status) {
         gekozenBeoordeling = status;
         resetKnoppen();
-        document.getElementById('btn-' + status).style.backgroundColor = '#eee'; // Highlight keuze
+        document.getElementById('btn-' + status).style.backgroundColor = '#f0f0f0';
+        document.getElementById('btn-' + status).style.transform = 'scale(0.95)';
     }
 
     function resetKnoppen() {
-        document.getElementById('btn-vies').style.backgroundColor = '#fff';
-        document.getElementById('btn-twijfel').style.backgroundColor = '#fff';
-        document.getElementById('btn-lekker').style.backgroundColor = '#fff';
+        const knoppen = ['vies', 'twijfel', 'lekker'];
+        knoppen.forEach(k => {
+            document.getElementById('btn-' + k).style.backgroundColor = '#fff';
+            document.getElementById('btn-' + k).style.transform = 'scale(1)';
+        });
     }
 
-    // 7. Opslaan en Ophalen (LocalStorage)
     function slaTestOp() {
         if (!gekozenBeoordeling) {
             alert("Kies eerst of het lekker, twijfel of vies was!");
@@ -237,27 +229,19 @@
         }
 
         const notitie = document.getElementById('notitieInput').value;
-        const vandaag = new Date().toLocaleDateString('nl-NL'); // Geeft datum zoals 18-3-2026
+        const vandaag = new Date().toLocaleDateString('nl-NL'); 
 
-        const nieuweTest = {
-            datum: vandaag,
-            beoordeling: gekozenBeoordeling,
-            notitie: notitie
-        };
+        const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie };
 
-        // Haal bestaande lijst op, voeg nieuwe toe, sla weer op
         let geschiedenis = haalOp(huidigeSelectieId) || [];
         geschiedenis.push(nieuweTest);
         localStorage.setItem('smaaksafari_' + huidigeSelectieId, JSON.stringify(geschiedenis));
 
-        // Ververs de lijst op het scherm
         tekenGeschiedenis(huidigeSelectieId);
         
-        // Formulier resetten
         document.getElementById('notitieInput').value = '';
         gekozenBeoordeling = null;
         resetKnoppen();
-        alert("Opgeslagen!");
     }
 
     function haalOp(id) {
@@ -265,17 +249,15 @@
         return data ? JSON.parse(data) : null;
     }
 
-    // 8. Teken de geschiedenis lijst
     function tekenGeschiedenis(id) {
         const div = document.getElementById('geschiedenisLijst');
         const geschiedenis = haalOp(id) || [];
         
         if (geschiedenis.length === 0) {
-            div.innerHTML = "<p style='color:#999; font-style:italic;'>Nog niet geproefd.</p>";
+            div.innerHTML = "<p style='color:#999; font-style:italic;'>Nog niet geproefd. Tijd voor een avontuur! 🦊</p>";
             return;
         }
 
-        // We draaien de lijst om zodat de nieuwste bovenaan staat
         let html = '';
         geschiedenis.slice().reverse().forEach(test => {
             let emoji = test.beoordeling === 'lekker' ? '🟢 Lekker' : (test.beoordeling === 'vies' ? '🔴 Vies' : '🟡 Twijfel');
@@ -289,9 +271,6 @@
         });
         div.innerHTML = html;
     }
-
-    // Start de boel
-    startApp();
 </script>
 
 </body>
