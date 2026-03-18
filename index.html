@@ -10,131 +10,123 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* Sprookjesbos Kleuren & Lettertypes */
+        /* Sprookjesbos Kleurenpalet */
         :root {
-            --achtergrond: #eef3eb; /* Heel licht mosgroen */
-            --tekst: #4E342E; /* Houtbruin */
-            --groen: #558B2F; /* Donker mos */
-            --oranje: #D84315; /* Vos oranje */
-            --hout: #8D6E63; /* Licht hout */
-            --hout-donker: #5D4037;
+            --bast-dark: #3E2723; /* Zeer donkerbruin voor bastlijnen */
+            --bast-mid: #4E342E; /* Medium bruin */
+            --bast-light: #5D4037; /* Lighter bark color */
+            --tekst: #211512; /* Donkerste houtbruin voor tekst */
+            --groen: #2E7D32; /* Bosgroen */
+            --oranje: #BF360C; /* Warme vos oranje */
             --wit: #ffffff;
-            --perkament: #fdfaf3;
+            --perkament: #FDF4E3; /* Warme, oude papierkleur */
+            --hout-rand: #8D6E63; /* Randkleur voor perkament */
         }
 
+        /* 1. DE BOOMBAST ACHTERGROND (gemaakt met code) */
         body { 
-            font-family: 'Nunito', sans-serif; /* Rond en zacht lettertype */
-            background-color: var(--achtergrond); 
-            margin: 0; 
-            padding: 0; 
-            color: var(--tekst); 
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Nunito', sans-serif; 
+            margin: 0; padding: 0; color: var(--tekst); 
+            overflow-x: hidden; position: relative;
+            
+            background-color: var(--bast-light);
+            background-image: 
+                radial-gradient(circle at 50% 10%, var(--bast-mid) 0%, transparent 10%),
+                radial-gradient(circle at 10% 40%, var(--bast-mid) 0%, transparent 8%),
+                radial-gradient(circle at 90% 60%, var(--bast-mid) 0%, transparent 10%),
+                linear-gradient(90deg, var(--bast-dark) 0%, transparent 5%, transparent 95%, var(--bast-dark) 100%),
+                linear-gradient(transparent 90%, var(--bast-dark) 100%);
+            background-size: 100vw 200px, 100vw 200px, 100vw 200px, 100% 100%, 100% 20px;
         }
 
-        /* Vuurvliegjes Animatie op de achtergrond */
-        .firefly {
-            position: fixed;
-            width: 6px; height: 6px;
-            background-color: #ffeb3b;
-            border-radius: 50%;
-            box-shadow: 0 0 10px 4px rgba(255, 235, 59, 0.6);
-            animation: zweef 10s infinite alternate ease-in-out;
-            z-index: -1;
-            opacity: 0.6;
-        }
-        @keyframes zweef {
-            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-100px) translateX(50px) scale(1.2); opacity: 0.2; }
-        }
+        /* Vuurvliegjes in de boomhut */
+        .firefly { position: fixed; width: 5px; height: 5px; background-color: #ffeb3b; border-radius: 50%; box-shadow: 0 0 10px 3px rgba(255, 235, 59, 0.5); animation: zweef 10s infinite alternate ease-in-out; z-index: -1; opacity: 0.3; }
+        @keyframes zweef { 0% { transform: translateY(0) translateX(0); opacity: 0.1; } 50% { opacity: 0.6; } 100% { transform: translateY(-80px) translateX(40px); opacity: 0.1; } }
 
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; }
+        /* 3. BLAADJES IN DE HOEKEN VAN HET SCHERM */
+        body::before { content: "🌿🍂🍃"; position: fixed; top: 0; left: 0; font-size: 5em; opacity: 0.2; pointer-events: none; z-index: -1; }
+        body::after { content: "🍁🌿🍂"; position: fixed; bottom: 0; right: 0; font-size: 5em; opacity: 0.2; pointer-events: none; z-index: -1; }
+
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; padding-top: 5px;}
         
         /* Houten Uithangbord (Titel) */
-        .houten-bord-container { text-align: center; margin-bottom: 30px; margin-top: 10px; position: relative; }
-        .touwtje { width: 4px; height: 30px; background-color: #3E2723; display: inline-block; margin: 0 40px; }
+        .houten-bord-container { text-align: center; margin-bottom: 30px; position: relative; }
+        .touwtje { width: 3px; height: 25px; background-color: var(--bast-dark); display: inline-block; margin: 0 30px; }
         .houten-bord {
-            background: linear-gradient(to bottom, var(--hout), var(--hout-donker));
-            border: 4px solid #3E2723;
-            border-radius: 15px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 8px 10px rgba(0,0,0,0.2);
-            padding: 10px 20px;
-            display: inline-block;
-            position: relative;
-            margin-top: -5px;
+            background: linear-gradient(to bottom, var(--hout-rand), var(--bast-dark));
+            border: 3px solid var(--bast-dark);
+            border-radius: 12px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.4), 0 6px 10px rgba(0,0,0,0.3);
+            padding: 8px 18px; display: inline-block; position: relative; margin-top: -3px;
         }
         .houten-bord h1 { 
-            font-family: 'Chewy', cursive; /* Het speelse lettertype */
-            color: #FFF8E1; 
-            margin: 0; 
-            font-size: 2.5em; 
-            text-shadow: 2px 2px 0px #3E2723;
-            letter-spacing: 2px;
+            font-family: 'Chewy', cursive; 
+            color: #FFFDE7; margin: 0; font-size: 2.3em; 
+            text-shadow: 2px 2px 0px var(--bast-dark); letter-spacing: 1px;
         }
-        .decoratie { font-size: 1.2em; vertical-align: middle; }
+        .decoratie { font-size: 1.1em; vertical-align: middle; }
 
-        /* Headers met aangepaste SVG Pijl */
+        /* Headers met SVG Pijl */
         .header-bar { display: flex; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: none; border: none; cursor: pointer; color: var(--hout-donker); padding: 0 15px 0 0; display: flex; align-items: center; }
-        .header-bar h2 { margin: 0; color: var(--groen); flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 2em; letter-spacing: 1px;}
+        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0 12px 0 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.7); box-shadow: 0 3px 5px rgba(0,0,0,0.2); }
+        .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 0 var(--bast-dark);}
 
         /* Startscherm Grid */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .cat-card { background: var(--perkament); border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 6px 0px var(--hout), 0 10px 10px rgba(0,0,0,0.1); cursor: pointer; border: 2px solid var(--hout-donker); transition: 0.1s; position: relative; top: 0; }
-        .cat-card:active { top: 4px; box-shadow: 0 2px 0px var(--hout), 0 4px 5px rgba(0,0,0,0.1); }
-        .cat-icon { font-size: 2.8em; margin-bottom: 5px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
-        .cat-title { font-weight: 800; color: var(--tekst); font-size: 1.1em; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .cat-card { background: var(--perkament); border-radius: 18px; padding: 18px; text-align: center; box-shadow: 0 5px 0px var(--bast-dark), 0 8px 10px rgba(0,0,0,0.15); cursor: pointer; border: 2px solid var(--bast-dark); transition: 0.1s; position: relative; top: 0; }
+        .cat-card:active { top: 4px; box-shadow: 0 1px 0px var(--bast-dark), 0 4px 5px rgba(0,0,0,0.15); }
+        .cat-icon { font-size: 2.6em; margin-bottom: 3px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
+        .cat-title { font-weight: 900; color: var(--tekst); font-size: 1.05em; }
 
-        /* Invoervelden (Perkament look) */
-        input[type="text"], textarea { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid var(--hout); border-radius: 15px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 600; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        /* 2. INVOERVELDEN (Perkament Look met Houten Rand) */
+        input[type="text"], textarea { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         input[type="text"]:focus, textarea:focus { border-color: var(--groen); }
 
-        /* Lijsten */
-        .list-box { background: var(--perkament); border-radius: 20px; padding: 20px; box-shadow: 0 5px 15px rgba(85, 139, 47, 0.08); margin-bottom: 20px; border: 1px solid rgba(141, 110, 99, 0.3); }
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 2px dashed #D7CCC8; cursor: pointer; font-size: 1.1em; font-weight: 700; }
+        /* Lijsten (Houten Kaders) */
+        .list-box { background: var(--perkament); border-radius: 18px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); }
         .food-item:last-child { border-bottom: none; }
         
-        .rating-icon { font-size: 1.5em; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
+        .rating-icon { font-size: 1.4em; }
 
-        /* Magische Knoppen */
-        .beoordeling-btn { flex: 1; padding: 15px 5px; background: var(--wit); border: 2px solid var(--hout); border-radius: 15px; font-size: 1em; cursor: pointer; transition: 0.2s; color: var(--tekst); font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 4px 0 var(--hout); position: relative; top: 0; }
-        .beoordeling-btn span { font-size: 1.8em; }
+        /* Magische Beoordelingsknoppen */
+        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.95em; cursor: pointer; transition: 0.15s; color: var(--tekst); font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 4px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
+        .beoordeling-btn span { font-size: 1.6em; }
         
-        .beoordeling-btn:active { top: 4px; box-shadow: 0 0px 0 var(--hout); }
-        .beoordeling-btn.active.vies { border-color: #795548; background-color: #EFEBE9; box-shadow: 0 0px 0 #795548; top: 4px; }
-        .beoordeling-btn.active.twijfel { border-color: #F57F17; background-color: #FFFDE7; box-shadow: 0 0px 0 #F57F17; top: 4px; }
-        .beoordeling-btn.active.lekker { border-color: #558B2F; background-color: #F1F8E9; box-shadow: 0 0px 0 #558B2F; top: 4px; }
+        .beoordeling-btn:active { top: 3px; box-shadow: 0 1px 0 var(--bast-dark); }
+        .beoordeling-btn.active.vies { border-color: #5D4037; background-color: #D7CCC8; box-shadow: 0 1px 0 #5D4037; top: 3px; }
+        .beoordeling-btn.active.twijfel { border-color: #F57F17; background-color: #FFF9C4; box-shadow: 0 1px 0 #F57F17; top: 3px; }
+        .beoordeling-btn.active.lekker { border-color: #1B5E20; background-color: #C8E6C9; box-shadow: 0 1px 0 #1B5E20; top: 3px; }
 
-        .btn-save { background-color: var(--groen); color: var(--wit); width: 100%; padding: 15px; border: none; border-radius: 15px; font-size: 1.1em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #33691E; position: relative; top: 0; font-family: inherit;}
-        .btn-save:active { top: 5px; box-shadow: 0 0px 0 #33691E; }
+        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); }
+        .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
         
         .hidden { display: none !important; }
 
-        /* Geschiedenis */
-        .history-item { background: var(--wit); padding: 15px; border-radius: 15px; margin-top: 10px; font-size: 0.95em; border-left: 6px solid var(--hout); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .history-item.lekker { border-left-color: #558B2F; }
+        /* Geschiedenis (Perkament Snippers) */
+        .history-item { background: var(--perkament); padding: 12px; border-radius: 12px; margin-top: 8px; font-size: 0.9em; border: 1px solid var(--hout-rand); border-left-width: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); }
+        .history-item.lekker { border-left-color: var(--groen); }
         .history-item.twijfel { border-left-color: #F57F17; }
-        .history-item.vies { border-left-color: #795548; }
-        .history-date { font-weight: 800; color: #a1887f; font-size: 0.8em; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .history-item.vies { border-left-color: var(--bast-dark); }
+        .history-date { font-weight: 800; color: #8D6E63; font-size: 0.75em; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Blaadjesregen Animatie (Vervanging voor Confetti) */
-        .vallend-blaadje { position: fixed; z-index: 1000; pointer-events: none; animation: val 3s linear forwards; font-size: 24px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
+        /* 4. VERBETERDE BLAADJESREGEN (Nu robuuster) */
+        .vallend-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 24px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
         @keyframes val {
-            0% { transform: translateY(-50px) rotate(0deg) translateX(0px); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg) translateX(100px); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="firefly" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
-<div class="firefly" style="top: 30%; left: 80%; animation-delay: 2s;"></div>
-<div class="firefly" style="top: 70%; left: 15%; animation-delay: 4s;"></div>
-<div class="firefly" style="top: 85%; left: 75%; animation-delay: 1s;"></div>
+<div class="firefly" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
+<div class="firefly" style="top: 40%; left: 85%; animation-delay: 3s;"></div>
+<div class="firefly" style="top: 75%; left: 20%; animation-delay: 5s;"></div>
+<div class="firefly" style="top: 90%; left: 70%; animation-delay: 1s;"></div>
 
 <div class="container">
     
@@ -144,7 +136,7 @@
                 <div class="touwtje"></div><div class="touwtje"></div>
             </div>
             <div class="houten-bord">
-                <h1><span class="decoratie">🌲</span> HapjesWoud <span class="decoratie">🦊</span></h1>
+                <h1><span class="decoratie">🍄</span> HapjesWoud <span class="decoratie">🦊</span></h1>
             </div>
         </div>
         
@@ -162,7 +154,7 @@
     <div id="list-screen" class="hidden">
         <div class="header-bar">
             <button class="back-btn" onclick="toonHomeScherm()">
-                <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
@@ -179,7 +171,7 @@
     <div id="detail-screen" class="hidden">
         <div class="header-bar">
             <button class="back-btn" onclick="terugNaarLijst()">
-                <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
@@ -188,8 +180,8 @@
         </div>
         
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.5em; letter-spacing: 1px;">Nieuwe smaakervaring</h3>
-            <div style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px;">
+            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.4em; letter-spacing: 1px; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);">Nieuwe smaakervaring</h3>
+            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 18px;">
                 <button onclick="selecteerBeoordeling('vies')" id="btn-vies" class="beoordeling-btn vies"><span>🍂</span> Bah</button>
                 <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" class="beoordeling-btn twijfel"><span>🍄</span> Mwah</button>
                 <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" class="beoordeling-btn lekker"><span>🌟</span> Heerlijk</button>
@@ -200,7 +192,7 @@
         </div>
 
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.5em; letter-spacing: 1px;">Eerdere avonturen</h3>
+            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.4em; letter-spacing: 1px; text-shadow: 1px 1px 0 rgba(0,0,0,0.1);">Eerdere avonturen</h3>
             <div id="geschiedenisLijst">
                 </div>
         </div>
@@ -258,7 +250,7 @@
         const producten = database.filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm));
 
         if (producten.length === 0) {
-            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold;">Geen hapjes gevonden in dit deel van het bos...</p>';
+            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold;">Nets gevonden in dit deel van het bos...</p>';
             return;
         }
 
@@ -266,7 +258,7 @@
         producten.forEach(prod => {
             const geschiedenis = haalOp(prod.id) || [];
             const laatsteTest = geschiedenis[geschiedenis.length - 1];
-            let weergaveIcoon = laatsteTest ? themaIconen[laatsteTest.beoordeling] : '🐾'; // Pootafdrukje als het nog niet getest is
+            let weergaveIcoon = laatsteTest ? themaIconen[laatsteTest.beoordeling] : '🐾'; 
 
             html += `
                 <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
@@ -304,22 +296,29 @@
         });
     }
 
-    // Zelfgemaakte Blaadjesregen
+    // VERBETERDE BLAADJESREGEN FUNCTIE
     function startBlaadjesRegen() {
-        const bladeren = ['🍃', '🍂', '🍁', '✨', '🌟'];
-        for(let i=0; i<35; i++) {
-            let blaadje = document.createElement('div');
+        const container = document.body;
+        const bladeren = ['🍃', '🍂', '🍁', '✨'];
+        for(let i=0; i<30; i++) {
+            const blaadje = document.createElement('div');
             blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
             blaadje.className = 'vallend-blaadje';
-            blaadje.style.left = Math.random() * 100 + 'vw';
-            // Willekeurige starttijd en duur
-            blaadje.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            blaadje.style.animationDelay = (Math.random() * 0.5) + 's';
             
-            document.body.appendChild(blaadje);
+            // Willekeurige horizontale startpositie
+            blaadje.style.left = (Math.random() * 100) + 'vw';
             
-            // Ruim het blaadje weer op als het beneden is
-            setTimeout(() => { blaadje.remove(); }, 4000);
+            // Willekeurige snelheid en vertraging voor mobile compatibility
+            const duration = (Math.random() * 2 + 3); // 3-5 seconden
+            const delay = (Math.random() * 1); // 0-1 seconde vertraging
+            
+            // Inline style zetten voor de animatie
+            blaadje.style.animation = `val ${duration}s linear ${delay}s forwards`;
+            
+            container.appendChild(blaadje);
+            
+            // Opruimen na de animatie
+            setTimeout(() => { blaadje.remove(); }, (duration + delay) * 1000 + 500);
         }
     }
 
@@ -338,7 +337,7 @@
         geschiedenis.push(nieuweTest);
         localStorage.setItem('smaaksafari_' + huidigeSelectieId, JSON.stringify(geschiedenis));
 
-        // Start onze eigen magische animatie!
+        // Start onze magische animatie alleen bij Lekker!
         if (gekozenBeoordeling === 'lekker') {
             startBlaadjesRegen();
         }
@@ -359,7 +358,7 @@
         const geschiedenis = haalOp(id) || [];
         
         if (geschiedenis.length === 0) {
-            div.innerHTML = "<p style='color:#a1887f; font-style:italic; font-weight: bold;'>Nog niet geproefd. Tijd voor een nieuw avontuur! 🦊</p>";
+            div.innerHTML = "<p style='color:#a1887f; font-style:italic; font-weight: bold;'>Nog niet geproefd. Tijd voor een nieuw avontuur! 🐾</p>";
             return;
         }
 
@@ -371,8 +370,8 @@
             html += `
                 <div class="history-item ${test.beoordeling}">
                     <div class="history-date">${test.datum}</div>
-                    <strong style="font-size: 1.1em;">${emoji} ${labelText}</strong>
-                    ${test.notitie ? `<p style="margin: 8px 0 0 0; color: #5D4037;">"${test.notitie}"</p>` : ''}
+                    <strong style="font-size: 1.1em; color:var(--bast-dark);">${emoji} ${labelText}</strong>
+                    ${test.notitie ? `<p style="margin: 6px 0 0 0; color:var(--tekst);">"${test.notitie}"</p>` : ''}
                 </div>
             `;
         });
