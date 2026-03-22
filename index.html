@@ -65,6 +65,10 @@
         .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; transition: transform 0.2s; }
         .back-btn:active { transform: scale(0.9); }
         .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);}
+        
+        /* Subtiele verwijder knop in de header */
+        .delete-item-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 0; margin-left: 10px; transition: transform 0.2s; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5)); }
+        .delete-item-btn:active { transform: scale(0.8); }
 
         /* Categorie Slider op Homepage */
         .category-slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
@@ -115,7 +119,6 @@
         .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: top 0.1s, box-shadow 0.1s; }
         .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
         .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--bast-dark); box-shadow: 0 4px 0 var(--bast-dark); margin-bottom: 10px; }
-        .btn-delete { background: var(--rood); box-shadow: 0 4px 0 #b71c1c; margin-top: 25px;}
         
         .hidden { display: none !important; }
 
@@ -145,7 +148,7 @@
 <div id="menu-overlay" onclick="toggleMenu()"></div>
 <div id="side-menu">
     <h2 class="menu-titel">Wegwijzer 🦊</h2>
-    <a class="menu-item" onclick="toonHomeScherm(); toggleMenu();">🌲 Startscherm</a>
+    <a class="menu-item" onclick="toonHomeScherm(); toggleMenu();">🌲 Home</a>
     <a class="menu-item" onclick="toonDashboard(); toggleMenu();">📊 Bos Dashboard</a>
     
     <h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Categorieën</h2>
@@ -166,12 +169,12 @@
         </div>
         
         <div class="list-box" style="margin-bottom: 25px; padding: 15px;">
-            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.6em; text-align: center;">Laatste Avonturen 🕰️</h3>
+            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.6em; text-align: center;">Laatste Avonturen 🐾</h3>
             <div id="home-tijdlijn">
                 </div>
         </div>
 
-        <h3 style="color: #FDF4E3; font-family: 'Chewy', cursive; font-size: 1.4em; text-shadow: 2px 2px 0 var(--bast-dark); margin-bottom: 10px; margin-left: 5px;">Ontdek per Categorie</h3>
+        <h3 style="color: #FDF4E3; font-family: 'Chewy', cursive; font-size: 1.4em; text-shadow: 2px 2px 0 var(--bast-dark); margin-bottom: 10px; margin-left: 5px;">Wat gaan we vandaag ontdekken?</h3>
         
         <div class="category-slider" id="categorie-slider"></div>
     </div>
@@ -206,6 +209,7 @@
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
             <h2 id="detail-titel">Product Naam</h2>
+            <button class="delete-item-btn" onclick="verwijderHuidigHapje()" title="Verwijder dit hapje">🗑️</button>
         </div>
         
         <div class="list-box">
@@ -216,10 +220,8 @@
                 <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" class="beoordeling-btn lekker"><div id="svg-btn-lekker"></div> Lekker</button>
             </div>
             
-            <textarea id="notitieInput" rows="3" placeholder="Wat vond de kleine boskabouter ervan?"></textarea>
-            <button class="btn-save" onclick="slaTestOp()">Bewaren in de cloud ☁️</button>
-            
-            <button class="btn-save btn-delete" onclick="verwijderHuidigHapje()">🗑️ Verwijder dit hapje uit de lijst</button>
+            <textarea id="notitieInput" rows="3" placeholder="Wat vond Lucas ervan?"></textarea>
+            <button class="btn-save" onclick="slaTestOp()">Opslaan</button>
         </div>
 
         <div class="list-box">
@@ -342,7 +344,6 @@
         let alleTests = [];
         let db = getVolledigeDatabase();
         
-        // Verzamel alle geschiedenis
         db.forEach(p => {
             let geschiedenis = haalOp(p.id);
             geschiedenis.forEach(g => {
@@ -350,10 +351,8 @@
             });
         });
 
-        // Sorteer op timestamp (nieuwste bovenaan)
         alleTests.sort((a, b) => (b.ts || 0) - (a.ts || 0));
         
-        // Pak de laatste 5
         let recent = alleTests.slice(0, 5);
         let div = document.getElementById('home-tijdlijn');
         
@@ -393,7 +392,7 @@
         if (!document.getElementById('list-screen').classList.contains('hidden')) tekenLijstScherm();
         else if (!document.getElementById('detail-screen').classList.contains('hidden')) tekenGeschiedenis(huidigeSelectieId);
         else if (!document.getElementById('dashboard-screen').classList.contains('hidden')) berekenDashboard();
-        else tekenHomeTijdlijn(); // Als we op home zijn, ververs de tijdlijn
+        else tekenHomeTijdlijn(); 
     }
 
     // --- UI EN NAVIGATIE ---
@@ -517,22 +516,15 @@
         div.innerHTML = html;
     }
 
-    // --- DASHBOARD & MIJLPALEN ---
-    function telUniekeHapjes() {
-        let count = 0;
-        getVolledigeDatabase().forEach(p => {
-            if (haalOp(p.id).length > 0) count++;
-        });
-        return count;
-    }
-
     function berekenDashboard() {
-        let geproefdCount = telUniekeHapjes();
+        let geproefdCount = 0;
         let alleItems = [];
         let db = getVolledigeDatabase();
 
         db.forEach(p => {
             const geschiedenis = haalOp(p.id);
+            if (geschiedenis.length > 0) { geproefdCount++; }
+            
             const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
             const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
             
@@ -557,16 +549,22 @@
     }
 
     // --- DATA BEHEER ---
+    function telUniekeHapjes() {
+        let count = 0;
+        getVolledigeDatabase().forEach(p => {
+            if (haalOp(p.id).length > 0) count++;
+        });
+        return count;
+    }
+
     function slaTestOp() {
         if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring!"); return; }
         
-        // Check aantal unieke hapjes VÓÓR het opslaan
         let countVoor = telUniekeHapjes();
 
         const notitie = document.getElementById('notitieInput').value;
         const vandaag = new Date().toLocaleDateString('nl-NL'); 
         
-        // ts (timestamp) toegevoegd voor de tijdlijn sortering!
         const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie, ts: Date.now() };
 
         if (!woudData.geschiedenis) woudData.geschiedenis = {};
@@ -574,12 +572,11 @@
         woudData.geschiedenis[huidigeSelectieId].push(nieuweTest);
 
         docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true }).then(() => {
-            // Check aantal NA het opslaan voor Mijlpalen
             let countNa = telUniekeHapjes();
             if (countVoor < 10 && countNa === 10) { alert("🦊 Mijlpaal bereikt! 10 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
             else if (countVoor < 25 && countNa === 25) { alert("🦊 Mijlpaal bereikt! 25 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
             else if (countVoor < 50 && countNa === 50) { alert("🦊 Mijlpaal bereikt! 50 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
-            else if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); } // Normale bladeren
+            else if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); } 
         });
 
         tekenGeschiedenis(huidigeSelectieId);
@@ -606,20 +603,19 @@
     }
 
     function verwijderHuidigHapje() {
-        if(!confirm("Weet je zeker dat je dit hapje voorgoed uit de lijst wilt verwijderen?")) return;
+        const naam = document.getElementById('detail-titel').innerText;
+        if(!confirm(`Weet je zeker dat je ${naam} voorgoed uit de lijst wilt verwijderen?`)) return;
         if(!woudData.verwijderd) woudData.verwijderd = [];
         woudData.verwijderd.push(huidigeSelectieId);
         docRef.set({ verwijderd: woudData.verwijderd }, { merge: true }).then(() => { terugNaarLijst(); });
     }
 
-    // EXPORTEREN NAAR EXCEL/CSV
     function exporteerNaarCSV() {
         let csv = "Naam,Categorie,Datum,Beoordeling,Notitie\n";
         let db = getVolledigeDatabase();
         db.forEach(p => {
             let geschiedenis = haalOp(p.id);
             geschiedenis.forEach(g => {
-                // Notities opschonen zodat ze de CSV niet breken
                 let schoneNotitie = g.notitie ? g.notitie.replace(/"/g, '""').replace(/\n/g, ' ') : '';
                 csv += `"${p.naam}","${p.categorie}","${g.datum}","${g.beoordeling}","${schoneNotitie}"\n`;
             });
