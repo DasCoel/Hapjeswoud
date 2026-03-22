@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
             --bast-dark: #3E2723;
@@ -29,7 +32,6 @@
             font-family: 'Nunito', sans-serif; 
             margin: 0; padding: 0; color: var(--tekst); 
             overflow-x: hidden; position: relative;
-            /* De juiste naam voor je achtergrond! */
             background-image: url('background.png'); 
             background-size: cover; 
             background-position: center; 
@@ -40,7 +42,6 @@
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; padding-top: 50px; }
         
-        /* Hamburger Menu */
         .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--bast-dark); color: var(--perkament); border: 2px solid var(--hout-rand); border-radius: 12px; width: 45px; height: 45px; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
         #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; display: none; }
         #side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: var(--perkament); border-left: 5px solid var(--bast-dark); z-index: 999; transition: right 0.3s ease; overflow-y: auto; padding: 20px; box-sizing: border-box; box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
@@ -48,7 +49,6 @@
         .menu-item { display: block; padding: 12px; margin-bottom: 8px; background: var(--wit); border: 2px solid var(--hout-rand); border-radius: 10px; font-weight: bold; color: var(--tekst); text-decoration: none; cursor: pointer; }
         .menu-titel { font-family: 'Chewy', cursive; font-size: 1.5em; color: var(--groen); margin-top: 0; border-bottom: 2px dashed var(--hout-rand); padding-bottom: 10px; }
 
-        /* Logo speciaal voor Home Scherm */
         .logo-header { text-align: center; margin-top: 0px; margin-bottom: 25px; }
         .logo-header img { max-width: 85%; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
 
@@ -56,7 +56,6 @@
         .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; }
         .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 0 var(--bast-dark);}
 
-        /* Categorie Kaartjes */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .cat-card { background: var(--perkament); border-radius: 18px; padding: 15px; text-align: center; box-shadow: 0 5px 0px var(--bast-dark), 0 8px 10px rgba(0,0,0,0.15); cursor: pointer; border: 2px solid var(--bast-dark); transition: 0.1s; position: relative; top: 0; }
         .cat-card:active { top: 4px; box-shadow: 0 1px 0px var(--bast-dark), 0 4px 5px rgba(0,0,0,0.15); }
@@ -76,13 +75,11 @@
         .paws-container { display: flex; gap: 4px; }
         .paw-icon { width: 22px; height: 22px; }
 
-        /* Voetjes kleuren (Standaard in kleur) */
         .paw-lekker { fill: var(--groen); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-twijfel { fill: var(--oranje); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-vies { fill: var(--rood); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-leeg { fill: var(--leeg); opacity: 0.5; }
 
-        /* Magische Knoppen Detailscherm (Nu standaard gekleurd) */
         .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: 0.1s; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
         .beoordeling-btn svg { width: 32px; height: 32px; }
         .beoordeling-btn:active { top: 3px; box-shadow: 0 1px 0 var(--bast-dark); }
@@ -116,6 +113,9 @@
 
         .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
         @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+        /* Status text for Firebase */
+        #sync-status { text-align: center; color: var(--perkament); font-size: 0.8em; margin-top: -15px; margin-bottom: 15px; font-weight: bold; opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -126,7 +126,6 @@
     <h2 class="menu-titel">Wegwijzer 🦊</h2>
     <a class="menu-item" onclick="toonHomeScherm(); toggleMenu();">🌲 Startscherm</a>
     <a class="menu-item" onclick="toonDashboard(); toggleMenu();">📊 Bos Dashboard</a>
-    <a class="menu-item" onclick="toonSyncScherm(); toggleMenu();" style="border-color: var(--oranje); color: var(--oranje);">📲 Deel / Sync met mama</a>
     <h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Categorieën</h2>
     <a class="menu-item" onclick="openCategorie('Groenten'); toggleMenu();">🥦 Groenten</a>
     <a class="menu-item" onclick="openCategorie('Fruit'); toggleMenu();">🍎 Fruit</a>
@@ -139,6 +138,8 @@
 
 <div class="container">
     
+    <div id="sync-status">☁️ Verbinden met het bos...</div>
+
     <div id="home-screen">
         <div class="logo-header">
             <img src="Logo%20HapjesWoud.png" alt="HapjesWoud Logo">
@@ -195,7 +196,7 @@
             </div>
             
             <textarea id="notitieInput" rows="3" placeholder="Wat vond de kleine boskabouter ervan?"></textarea>
-            <button class="btn-save" onclick="slaTestOp()">Bewaren in het logboek</button>
+            <button class="btn-save" onclick="slaTestOp()">Bewaren in de cloud ☁️</button>
             
             <button class="btn-save btn-delete" onclick="verwijderHuidigHapje()">🗑️ Verwijder dit hapje uit de lijst</button>
         </div>
@@ -219,28 +220,43 @@
         </div>
     </div>
 
-    <div id="sync-screen" class="hidden">
-        <div class="header-bar">
-            <button class="back-btn" onclick="toonHomeScherm()">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            </button>
-            <h2>Deel met Mama 📲</h2>
-        </div>
-        <div class="list-box">
-            <p>Kopieer deze code en stuur hem via WhatsApp:</p>
-            <textarea id="exportVeld" rows="4" readonly style="font-size: 12px; font-family: monospace; background: #eee;"></textarea>
-            <button class="btn-save btn-secondary" onclick="kopieerCode()">📋 Kopieer Code</button>
-        </div>
-        <div class="list-box">
-            <p>Of plak hier de ontvangen code:</p>
-            <textarea id="importVeld" rows="4" placeholder="Plak de code hier..."></textarea>
-            <button class="btn-save" onclick="importeerCode()">📥 Importeer Code</button>
-        </div>
-    </div>
-
 </div>
 
 <script>
+    // --- 1. FIREBASE SETUP ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBguVbf0RjZIBe2lObqyT4lz5k0chRXQo0",
+      authDomain: "hapjeswoud.firebaseapp.com",
+      projectId: "hapjeswoud",
+      storageBucket: "hapjeswoud.firebasestorage.app",
+      messagingSenderId: "319370050475",
+      appId: "1:319370050475:web:4417d21fae5717ffda30ee"
+    };
+
+    // Initialiseer Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    // We gebruiken 1 document voor jullie gezin genaamd 'gezinData'
+    const docRef = db.collection("appData").doc("gezinData");
+
+    // Dit is onze lokale opslag in het geheugen (wordt overschreven door de cloud)
+    let woudData = { geschiedenis: {}, custom_db: [], verwijderd: [] };
+
+    // Luister naar de cloud! (Dit is de Real-Time magie)
+    docRef.onSnapshot((doc) => {
+        if (doc.exists) {
+            woudData = doc.data();
+            document.getElementById('sync-status').innerText = "☁️ Gesynchroniseerd met het bos!";
+            setTimeout(() => { document.getElementById('sync-status').style.display = 'none'; }, 3000);
+            verversHuidigScherm();
+        } else {
+            // Document bestaat nog niet, we maken een lege aan
+            docRef.set(woudData);
+        }
+    });
+
+    // --- 2. HULP FUNCTIES ---
     const catIcons = { 'Groenten': '🥦', 'Fruit': '🍎', 'Proteïne': '🍗', 'Granen': '🌾', 'Zuivel': '🥛', 'Kruiden': '🌿', 'Allergenen': '⚠️' };
     const pawSvgPath = "M226.5 92.9c14.3 73-39.9 130-77.2 130-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0zM266.6 222.9c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM57.8 280.4c-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0 14.3 73-39.9 130-77.2 130zM454.2 280.4c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM256 272c-68.4 0-141.6 34.2-177.3 93.3-33.6 55.7-8.4 121 54.4 141.4 46.2 15 106.3-15.8 122.9-15.8 16.7 0 76.7 30.8 122.9 15.8 62.8-20.4 88-85.7 54.4-141.4C397.6 306.2 324.4 272 256 272z";
     function getPaw(kleurClass) { return `<svg viewBox="0 0 512 512" class="paw-icon paw-${kleurClass}"><path d="${pawSvgPath}"/></svg>`; }
@@ -264,13 +280,25 @@
     let gekozenBeoordeling = null;
 
     function getVolledigeDatabase() {
-        let customDb = JSON.parse(localStorage.getItem('hapjeswoud_custom_db')) || [];
-        let verwijderd = JSON.parse(localStorage.getItem('hapjeswoud_verwijderd')) || [];
+        let customDb = woudData.custom_db || [];
+        let verwijderd = woudData.verwijderd || [];
         let vol = basisDatabase.concat(customDb);
-        // Filter alles eruit wat we ooit verwijderd hebben
         return vol.filter(p => !verwijderd.includes(p.id));
     }
 
+    function haalOp(id) {
+        if (!woudData.geschiedenis) return [];
+        return woudData.geschiedenis[id] || [];
+    }
+
+    // Update het scherm op basis van wat er open staat
+    function verversHuidigScherm() {
+        if (!document.getElementById('list-screen').classList.contains('hidden')) tekenLijstScherm();
+        else if (!document.getElementById('detail-screen').classList.contains('hidden')) tekenGeschiedenis(huidigeSelectieId);
+        else if (!document.getElementById('dashboard-screen').classList.contains('hidden')) berekenDashboard();
+    }
+
+    // --- 3. UI EN NAVIGATIE ---
     function toggleMenu() {
         const menu = document.getElementById('side-menu');
         const overlay = document.getElementById('menu-overlay');
@@ -279,15 +307,14 @@
     }
 
     function verbergAlleSchermen() {
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen', 'sync-screen'].forEach(id => {
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => {
             document.getElementById(id).classList.add('hidden');
         });
     }
 
     function toonHomeScherm() { verbergAlleSchermen(); document.getElementById('home-screen').classList.remove('hidden'); }
     function toonDashboard() { verbergAlleSchermen(); berekenDashboard(); document.getElementById('dashboard-screen').classList.remove('hidden'); }
-    function toonSyncScherm() { verbergAlleSchermen(); genereerSyncCode(); document.getElementById('sync-screen').classList.remove('hidden'); }
-
+    
     function openCategorie(catNaam) {
         huidigeCategorie = catNaam;
         document.getElementById('list-titel').innerText = catIcons[catNaam] + " " + catNaam;
@@ -309,7 +336,7 @@
         let productenMetData = database
             .filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm))
             .map(p => {
-                const geschiedenis = haalOp(p.id) || [];
+                const geschiedenis = haalOp(p.id);
                 const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
                 const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
                 return { ...p, geschiedenis, aantalLekker, aantalVies };
@@ -345,26 +372,6 @@
 
     function filterLijst() { tekenLijstScherm(); }
 
-    function voegHapjeToe() {
-        const naam = prompt("Wat is de naam van het nieuwe hapje?");
-        if (!naam || naam.trim() === "") return;
-        
-        let customDb = JSON.parse(localStorage.getItem('hapjeswoud_custom_db')) || [];
-        const nieuwId = 'c' + Date.now();
-        customDb.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie });
-        localStorage.setItem('hapjeswoud_custom_db', JSON.stringify(customDb));
-        tekenLijstScherm(); 
-    }
-
-    // NIEUW: Verwijder elk soort hapje (standaard of custom)
-    function verwijderHuidigHapje() {
-        if(!confirm("Weet je zeker dat je dit hapje voorgoed uit de lijst wilt verwijderen?")) return;
-        let verwijderd = JSON.parse(localStorage.getItem('hapjeswoud_verwijderd')) || [];
-        verwijderd.push(huidigeSelectieId);
-        localStorage.setItem('hapjeswoud_verwijderd', JSON.stringify(verwijderd));
-        terugNaarLijst();
-    }
-
     function openDetail(id, naam) {
         huidigeSelectieId = id;
         document.getElementById('detail-titel').innerText = naam;
@@ -384,41 +391,9 @@
 
     function resetKnoppen() { ['vies', 'twijfel', 'lekker'].forEach(k => document.getElementById('btn-' + k).classList.remove('active')); }
 
-    function slaTestOp() {
-        if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring!"); return; }
-        const notitie = document.getElementById('notitieInput').value;
-        const vandaag = new Date().toLocaleDateString('nl-NL'); 
-        const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie };
-
-        let geschiedenis = haalOp(huidigeSelectieId) || [];
-        geschiedenis.push(nieuweTest);
-        localStorage.setItem('hapjeswoud_' + huidigeSelectieId, JSON.stringify(geschiedenis));
-
-        if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); }
-
-        tekenGeschiedenis(huidigeSelectieId);
-        document.getElementById('notitieInput').value = '';
-        gekozenBeoordeling = null;
-        resetKnoppen();
-    }
-
-    function haalOp(id) {
-        const data = localStorage.getItem('hapjeswoud_' + id);
-        return data ? JSON.parse(data) : null;
-    }
-
-    // Verwijder één enkele review
-    function verwijderTest(index) {
-        if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
-        let geschiedenis = haalOp(huidigeSelectieId) || [];
-        geschiedenis.splice(index, 1);
-        localStorage.setItem('hapjeswoud_' + huidigeSelectieId, JSON.stringify(geschiedenis));
-        tekenGeschiedenis(huidigeSelectieId);
-    }
-
     function tekenGeschiedenis(id) {
         const div = document.getElementById('geschiedenisLijst');
-        const geschiedenis = haalOp(id) || [];
+        const geschiedenis = haalOp(id);
         
         if (geschiedenis.length === 0) {
             div.innerHTML = "<p style='color:#a1887f; font-style:italic; font-weight: bold;'>Nog niet geproefd. Tijd voor een avontuur! 🐾</p>";
@@ -448,49 +423,67 @@
         let geproefdCount = 0;
         let db = getVolledigeDatabase();
         db.forEach(p => {
-            const geschiedenis = haalOp(p.id) || [];
+            const geschiedenis = haalOp(p.id);
             if (geschiedenis.length > 0) { geproefdCount++; }
         });
         document.getElementById('dash-totaal').innerText = geproefdCount;
     }
 
-    function genereerSyncCode() {
-        let alleData = {};
-        for(let i=0; i<localStorage.length; i++) {
-            let key = localStorage.key(i);
-            if(key.startsWith('hapjeswoud_')) {
-                alleData[key] = localStorage.getItem(key);
-            }
-        }
-        let jsonString = JSON.stringify(alleData);
-        let safeCode = btoa(unescape(encodeURIComponent(jsonString))); 
-        document.getElementById('exportVeld').value = safeCode;
+    // --- 4. OPSLAAN NAAR FIREBASE CLOUD ---
+
+    function slaTestOp() {
+        if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring!"); return; }
+        const notitie = document.getElementById('notitieInput').value;
+        const vandaag = new Date().toLocaleDateString('nl-NL'); 
+        const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie };
+
+        // Bereid de data voor in het geheugen
+        if (!woudData.geschiedenis) woudData.geschiedenis = {};
+        if (!woudData.geschiedenis[huidigeSelectieId]) woudData.geschiedenis[huidigeSelectieId] = [];
+        
+        woudData.geschiedenis[huidigeSelectieId].push(nieuweTest);
+
+        // Stuur naar de cloud! (merge: true zorgt dat we andere dingen niet overschrijven)
+        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
+
+        if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); }
+
+        document.getElementById('notitieInput').value = '';
+        gekozenBeoordeling = null;
+        resetKnoppen();
+        // (tekenGeschiedenis wordt automatisch aangeroepen door onSnapshot)
     }
 
-    function kopieerCode() {
-        let veld = document.getElementById('exportVeld');
-        veld.select();
-        document.execCommand("copy");
-        alert("Code gekopieerd! Je kunt hem nu plakken en versturen.");
+    function verwijderTest(index) {
+        if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
+        woudData.geschiedenis[huidigeSelectieId].splice(index, 1);
+        
+        // Stuur update naar de cloud
+        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
     }
 
-    function importeerCode() {
-        let code = document.getElementById('importVeld').value.trim();
-        if(!code) { alert("Plak eerst een code!"); return; }
-        try {
-            let jsonString = decodeURIComponent(escape(atob(code)));
-            let alleData = JSON.parse(jsonString);
-            for (let key in alleData) {
-                if (alleData.hasOwnProperty(key)) {
-                    localStorage.setItem(key, alleData[key]);
-                }
-            }
-            alert("Succesvol geïmporteerd! Het bos is bijgewerkt.");
-            document.getElementById('importVeld').value = '';
-            toonHomeScherm();
-        } catch(e) {
-            alert("Oeps! Deze code lijkt niet te kloppen. Zorg dat je alles goed gekopieerd hebt.");
-        }
+    function voegHapjeToe() {
+        const naam = prompt("Wat is de naam van het nieuwe hapje?");
+        if (!naam || naam.trim() === "") return;
+        
+        if(!woudData.custom_db) woudData.custom_db = [];
+        const nieuwId = 'c' + Date.now();
+        woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie });
+        
+        // Opslaan in de cloud
+        docRef.set({ custom_db: woudData.custom_db }, { merge: true });
+    }
+
+    function verwijderHuidigHapje() {
+        if(!confirm("Weet je zeker dat je dit hapje voorgoed uit de lijst wilt verwijderen?")) return;
+        
+        if(!woudData.verwijderd) woudData.verwijderd = [];
+        woudData.verwijderd.push(huidigeSelectieId);
+        
+        // Verwijder uit de cloud
+        docRef.set({ verwijderd: woudData.verwijderd }, { merge: true }).then(() => {
+            terugNaarLijst();
+        });
     }
 
     function startVeiligeBlaadjesRegen() {
