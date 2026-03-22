@@ -28,6 +28,12 @@
             --leeg: #D7CCC8;
         }
 
+        /* Custom Scrollbar voor een bos-look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(253, 244, 227, 0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--hout-rand); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--bast-dark); }
+
         body { 
             font-family: 'Nunito', sans-serif; 
             margin: 0; padding: 0; color: var(--tekst); 
@@ -42,61 +48,75 @@
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; padding-top: 50px; }
         
-        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--bast-dark); color: var(--perkament); border: 2px solid var(--hout-rand); border-radius: 12px; width: 45px; height: 45px; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
-        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; display: none; }
-        #side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: var(--perkament); border-left: 5px solid var(--bast-dark); z-index: 999; transition: right 0.3s ease; overflow-y: auto; padding: 20px; box-sizing: border-box; box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
+        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--bast-dark); color: var(--perkament); border: 2px solid var(--hout-rand); border-radius: 12px; width: 45px; height: 45px; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.2s; }
+        .hamburger-btn:active { transform: scale(0.9); }
+
+        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; display: none; backdrop-filter: blur(2px); }
+        #side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: var(--perkament); border-left: 5px solid var(--bast-dark); z-index: 999; transition: right 0.3s ease; overflow-y: auto; padding: 20px; box-sizing: border-box; box-shadow: -5px 0 20px rgba(0,0,0,0.6); }
         #side-menu.open { right: 0; }
-        .menu-item { display: block; padding: 12px; margin-bottom: 8px; background: var(--wit); border: 2px solid var(--hout-rand); border-radius: 10px; font-weight: bold; color: var(--tekst); text-decoration: none; cursor: pointer; }
+        .menu-item { display: block; padding: 12px; margin-bottom: 8px; background: var(--wit); border: 2px solid var(--hout-rand); border-radius: 10px; font-weight: bold; color: var(--tekst); text-decoration: none; cursor: pointer; transition: background 0.2s; }
+        .menu-item:active { background: #EFEBE9; }
         .menu-titel { font-family: 'Chewy', cursive; font-size: 1.5em; color: var(--groen); margin-top: 0; border-bottom: 2px dashed var(--hout-rand); padding-bottom: 10px; }
 
         .logo-header { text-align: center; margin-top: 0px; margin-bottom: 25px; }
-        .logo-header img { max-width: 85%; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .logo-header img { max-width: 85%; height: auto; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4)); transition: transform 0.3s; cursor: pointer;}
+        .logo-header img:active { transform: scale(0.97); }
 
         .header-bar { display: flex; align-items: center; margin-bottom: 15px; }
-        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; }
-        .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 0 var(--bast-dark);}
+        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; transition: transform 0.2s; }
+        .back-btn:active { transform: scale(0.9); }
+        .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);}
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .cat-card { background: var(--perkament); border-radius: 18px; padding: 15px; text-align: center; box-shadow: 0 5px 0px var(--bast-dark), 0 8px 10px rgba(0,0,0,0.15); cursor: pointer; border: 2px solid var(--bast-dark); transition: 0.1s; position: relative; top: 0; }
-        .cat-card:active { top: 4px; box-shadow: 0 1px 0px var(--bast-dark), 0 4px 5px rgba(0,0,0,0.15); }
-        .cat-icon { font-size: 2.6em; margin-bottom: 3px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
+        .cat-card { background: var(--perkament); border-radius: 18px; padding: 15px; text-align: center; box-shadow: 0 4px 0px var(--bast-dark), 0 6px 12px rgba(0,0,0,0.2); cursor: pointer; border: 2px solid var(--bast-dark); transition: transform 0.1s, box-shadow 0.1s, top 0.1s; position: relative; top: 0; }
+        .cat-card:active { top: 4px; box-shadow: 0 0px 0px var(--bast-dark), 0 2px 4px rgba(0,0,0,0.2); }
+        .cat-icon { font-size: 2.6em; margin-bottom: 3px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2)); }
         .cat-title { font-weight: 900; color: var(--tekst); font-size: 1.05em; }
+        
+        .cat-card-add { background: transparent; border: 2px dashed var(--perkament); box-shadow: none; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .cat-card-add .cat-icon { color: var(--perkament); font-size: 2em; filter: none; }
+        .cat-card-add .cat-title { color: var(--perkament); }
 
         .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; }
-        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; }
+        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; transition: border-color 0.3s; }
         input[type="text"] { flex: 2; margin-bottom: 0; }
         select { flex: 1; margin-bottom: 0; cursor: pointer; }
         textarea { margin-bottom: 12px; }
+        input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--groen); box-shadow: 0 0 5px rgba(46, 125, 50, 0.4); }
 
-        .list-box { background: var(--perkament); border-radius: 18px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
+        .list-box { background: var(--perkament); border-radius: 18px; padding: 18px; box-shadow: 0 6px 15px rgba(0,0,0,0.3); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
         
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); transition: background 0.2s; border-radius: 8px; }
+        .food-item:hover { background: rgba(255,255,255,0.4); padding-left: 5px; padding-right: 5px; margin: 0 -5px; }
         .food-item:last-child { border-bottom: none; }
         .paws-container { display: flex; gap: 4px; }
-        .paw-icon { width: 22px; height: 22px; }
+        .paw-icon { width: 22px; height: 22px; transition: transform 0.2s; }
 
         .paw-lekker { fill: var(--groen); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-twijfel { fill: var(--oranje); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-vies { fill: var(--rood); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
         .paw-leeg { fill: var(--leeg); opacity: 0.5; }
 
-        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: 0.1s; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
-        .beoordeling-btn svg { width: 32px; height: 32px; }
+        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: all 0.1s; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
+        .beoordeling-btn svg { width: 32px; height: 32px; transition: transform 0.2s; }
         .beoordeling-btn:active { top: 3px; box-shadow: 0 1px 0 var(--bast-dark); }
         
         .beoordeling-btn.vies { color: var(--rood); border-color: var(--rood); }
         .beoordeling-btn.vies svg { fill: var(--rood); }
         .beoordeling-btn.active.vies { background-color: #FFEBEE; box-shadow: 0 1px 0 var(--rood); top: 3px; }
+        .beoordeling-btn.active.vies svg { transform: scale(1.1); }
 
         .beoordeling-btn.twijfel { color: var(--oranje); border-color: var(--oranje); }
         .beoordeling-btn.twijfel svg { fill: var(--oranje); }
         .beoordeling-btn.active.twijfel { background-color: #FFF3E0; box-shadow: 0 1px 0 var(--oranje); top: 3px; }
+        .beoordeling-btn.active.twijfel svg { transform: scale(1.1); }
 
         .beoordeling-btn.lekker { color: var(--groen); border-color: var(--groen); }
         .beoordeling-btn.lekker svg { fill: var(--groen); }
         .beoordeling-btn.active.lekker { background-color: #E8F5E9; box-shadow: 0 1px 0 var(--groen); top: 3px; }
+        .beoordeling-btn.active.lekker svg { transform: scale(1.1); }
 
-        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; }
+        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: top 0.1s, box-shadow 0.1s; }
         .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
         .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--bast-dark); box-shadow: 0 4px 0 var(--bast-dark); margin-bottom: 10px; }
         .btn-delete { background: var(--rood); box-shadow: 0 4px 0 #b71c1c; margin-top: 25px;}
@@ -108,14 +128,19 @@
         .history-item.twijfel { border-left-color: var(--oranje); }
         .history-item.vies { border-left-color: var(--rood); }
         
-        .btn-trash { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #999; }
-        .btn-trash:active { transform: scale(0.9); }
+        .btn-trash { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #999; transition: transform 0.2s;}
+        .btn-trash:active { transform: scale(0.8); }
+
+        .dash-card { background: var(--wit); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid var(--hout-rand); text-align: center; }
+        .dash-getal { font-family: 'Chewy', cursive; font-size: 2.5em; color: var(--oranje); margin: 5px 0; text-shadow: 1px 1px 0 rgba(0,0,0,0.1); }
+        .top-lijst { text-align: left; padding: 0; margin: 0; list-style: none; }
+        .top-lijst li { padding: 8px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; font-weight: bold; }
+        .top-lijst li:last-child { border-bottom: none; }
 
         .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
-        @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
 
-        /* Status text for Firebase */
-        #sync-status { text-align: center; color: var(--perkament); font-size: 0.8em; margin-top: -15px; margin-bottom: 15px; font-weight: bold; opacity: 0.8; }
+        #sync-status { text-align: center; color: var(--perkament); font-size: 0.8em; margin-top: -15px; margin-bottom: 15px; font-weight: bold; opacity: 0.8; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
@@ -126,14 +151,8 @@
     <h2 class="menu-titel">Wegwijzer 🦊</h2>
     <a class="menu-item" onclick="toonHomeScherm(); toggleMenu();">🌲 Startscherm</a>
     <a class="menu-item" onclick="toonDashboard(); toggleMenu();">📊 Bos Dashboard</a>
-    <h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Categorieën</h2>
-    <a class="menu-item" onclick="openCategorie('Groenten'); toggleMenu();">🥦 Groenten</a>
-    <a class="menu-item" onclick="openCategorie('Fruit'); toggleMenu();">🍎 Fruit</a>
-    <a class="menu-item" onclick="openCategorie('Proteïne'); toggleMenu();">🍗 Proteïne</a>
-    <a class="menu-item" onclick="openCategorie('Granen'); toggleMenu();">🌾 Granen</a>
-    <a class="menu-item" onclick="openCategorie('Zuivel'); toggleMenu();">🥛 Zuivel</a>
-    <a class="menu-item" onclick="openCategorie('Kruiden'); toggleMenu();">🌿 Kruiden</a>
-    <a class="menu-item" onclick="openCategorie('Allergenen'); toggleMenu();">⚠️ Allergenen</a>
+    
+    <div id="menu-categorieen"></div>
 </div>
 
 <div class="container">
@@ -142,17 +161,10 @@
 
     <div id="home-screen">
         <div class="logo-header">
-            <img src="Logo%20HapjesWoud.png" alt="HapjesWoud Logo">
+            <img src="Logo%20HapjesWoud.png" alt="HapjesWoud Logo" onclick="toonHomeScherm()">
         </div>
-        <div class="grid">
-            <div class="cat-card" onclick="openCategorie('Groenten')"><div class="cat-icon">🥦</div><div class="cat-title">Groenten</div></div>
-            <div class="cat-card" onclick="openCategorie('Fruit')"><div class="cat-icon">🍎</div><div class="cat-title">Fruit</div></div>
-            <div class="cat-card" onclick="openCategorie('Proteïne')"><div class="cat-icon">🍗</div><div class="cat-title">Proteïne</div></div>
-            <div class="cat-card" onclick="openCategorie('Granen')"><div class="cat-icon">🌾</div><div class="cat-title">Granen</div></div>
-            <div class="cat-card" onclick="openCategorie('Zuivel')"><div class="cat-icon">🥛</div><div class="cat-title">Zuivel</div></div>
-            <div class="cat-card" onclick="openCategorie('Kruiden')"><div class="cat-icon">🌿</div><div class="cat-title">Kruiden</div></div>
-            <div class="cat-card" onclick="openCategorie('Allergenen')" style="grid-column: span 2;"><div class="cat-icon">⚠️</div><div class="cat-title">Allergenen</div></div>
-        </div>
+        
+        <div class="grid" id="categorie-grid"></div>
     </div>
 
     <div id="list-screen" class="hidden">
@@ -216,7 +228,17 @@
         </div>
         <div class="list-box" style="text-align: center;">
             <h3 style="margin-top:0; color: var(--tekst);">Unieke hapjes geproefd</h3>
-            <div style="font-family: 'Chewy', cursive; font-size: 2.5em; color: var(--oranje); margin: 5px 0;" id="dash-totaal">0</div>
+            <div class="dash-getal" id="dash-totaal">0</div>
+        </div>
+        
+        <div class="dash-card" style="border-color: var(--groen);">
+            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.5em;">Top Favorieten 💚</h3>
+            <ul class="top-lijst" id="dash-top-lekker"></ul>
+        </div>
+
+        <div class="dash-card" style="border-color: var(--rood);">
+            <h3 style="margin-top:0; color: var(--rood); font-family: 'Chewy', cursive; font-size: 1.5em;">Minst Favoriet 💔</h3>
+            <ul class="top-lijst" id="dash-top-vies"></ul>
         </div>
     </div>
 
@@ -233,37 +255,44 @@
       appId: "1:319370050475:web:4417d21fae5717ffda30ee"
     };
 
-    // Initialiseer Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    
-    // We gebruiken 1 document voor jullie gezin genaamd 'gezinData'
     const docRef = db.collection("appData").doc("gezinData");
 
-    // Dit is onze lokale opslag in het geheugen (wordt overschreven door de cloud)
-    let woudData = { geschiedenis: {}, custom_db: [], verwijderd: [] };
+    let woudData = { geschiedenis: {}, custom_db: [], verwijderd: [], custom_categories: [] };
 
-    // Luister naar de cloud! (Dit is de Real-Time magie)
     docRef.onSnapshot((doc) => {
         if (doc.exists) {
             woudData = doc.data();
             document.getElementById('sync-status').innerText = "☁️ Gesynchroniseerd met het bos!";
             setTimeout(() => { document.getElementById('sync-status').style.display = 'none'; }, 3000);
+            
+            // Altijd categorieën opnieuw tekenen als er data binnenkomt
+            tekenCategorieen();
             verversHuidigScherm();
         } else {
-            // Document bestaat nog niet, we maken een lege aan
             docRef.set(woudData);
         }
     });
 
-    // --- 2. HULP FUNCTIES ---
-    const catIcons = { 'Groenten': '🥦', 'Fruit': '🍎', 'Proteïne': '🍗', 'Granen': '🌾', 'Zuivel': '🥛', 'Kruiden': '🌿', 'Allergenen': '⚠️' };
+    // --- 2. DATA & SVG ---
     const pawSvgPath = "M226.5 92.9c14.3 73-39.9 130-77.2 130-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0zM266.6 222.9c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM57.8 280.4c-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0 14.3 73-39.9 130-77.2 130zM454.2 280.4c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM256 272c-68.4 0-141.6 34.2-177.3 93.3-33.6 55.7-8.4 121 54.4 141.4 46.2 15 106.3-15.8 122.9-15.8 16.7 0 76.7 30.8 122.9 15.8 62.8-20.4 88-85.7 54.4-141.4C397.6 306.2 324.4 272 256 272z";
     function getPaw(kleurClass) { return `<svg viewBox="0 0 512 512" class="paw-icon paw-${kleurClass}"><path d="${pawSvgPath}"/></svg>`; }
 
     document.getElementById('svg-btn-vies').innerHTML = getPaw('vies');
     document.getElementById('svg-btn-twijfel').innerHTML = getPaw('twijfel');
     document.getElementById('svg-btn-lekker').innerHTML = getPaw('lekker');
+
+    // De Basis Categorieën
+    const basisCategorieen = [
+        { naam: 'Groenten', icon: '🥦' },
+        { naam: 'Fruit', icon: '🍎' },
+        { naam: 'Proteïne', icon: '🍗' },
+        { naam: 'Granen', icon: '🌾' },
+        { naam: 'Zuivel', icon: '🥛' },
+        { naam: 'Kruiden', icon: '🌿' },
+        { naam: 'Allergenen', icon: '⚠️' }
+    ];
 
     const basisDatabase = [
         { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Maïs', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Squash', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' }, { id: 'v22', naam: 'Courgette', categorie: 'Groenten' },
@@ -291,6 +320,40 @@
         return woudData.geschiedenis[id] || [];
     }
 
+    // --- 3. DYNAMISCHE CATEGORIEËN ---
+    function tekenCategorieen() {
+        let alleCat = basisCategorieen.concat(woudData.custom_categories || []);
+        
+        // Teken Home Grid
+        let gridHtml = '';
+        alleCat.forEach(c => {
+            gridHtml += `<div class="cat-card" onclick="openCategorie('${c.naam}', '${c.icon}')"><div class="cat-icon">${c.icon}</div><div class="cat-title">${c.naam}</div></div>`;
+        });
+        // Plus knopje voor nieuwe categorie
+        gridHtml += `<div class="cat-card cat-card-add" onclick="voegCategorieToe()"><div class="cat-icon">➕</div><div class="cat-title">Nieuw</div></div>`;
+        document.getElementById('categorie-grid').innerHTML = gridHtml;
+
+        // Teken Menu
+        let menuHtml = '<h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Categorieën</h2>';
+        alleCat.forEach(c => {
+            menuHtml += `<a class="menu-item" onclick="openCategorie('${c.naam}', '${c.icon}'); toggleMenu();">${c.icon} ${c.naam}</a>`;
+        });
+        document.getElementById('menu-categorieen').innerHTML = menuHtml;
+    }
+
+    function voegCategorieToe() {
+        const naam = prompt("Hoe heet de nieuwe categorie? (bijv. Snacks)");
+        if (!naam || naam.trim() === "") return;
+        let icon = prompt("Typ één emoji voor deze categorie (bijv. 🥨):", "✨");
+        if (!icon) icon = "✨";
+        
+        if (!woudData.custom_categories) woudData.custom_categories = [];
+        woudData.custom_categories.push({ naam: naam.trim(), icon: icon });
+        
+        docRef.set({ custom_categories: woudData.custom_categories }, { merge: true });
+    }
+
+
     // Update het scherm op basis van wat er open staat
     function verversHuidigScherm() {
         if (!document.getElementById('list-screen').classList.contains('hidden')) tekenLijstScherm();
@@ -298,7 +361,7 @@
         else if (!document.getElementById('dashboard-screen').classList.contains('hidden')) berekenDashboard();
     }
 
-    // --- 3. UI EN NAVIGATIE ---
+    // --- 4. UI EN NAVIGATIE ---
     function toggleMenu() {
         const menu = document.getElementById('side-menu');
         const overlay = document.getElementById('menu-overlay');
@@ -315,9 +378,10 @@
     function toonHomeScherm() { verbergAlleSchermen(); document.getElementById('home-screen').classList.remove('hidden'); }
     function toonDashboard() { verbergAlleSchermen(); berekenDashboard(); document.getElementById('dashboard-screen').classList.remove('hidden'); }
     
-    function openCategorie(catNaam) {
+    function openCategorie(catNaam, catIcon) {
         huidigeCategorie = catNaam;
-        document.getElementById('list-titel').innerText = catIcons[catNaam] + " " + catNaam;
+        // Nu gebruiken we de doorgegeven icon in plaats van de vaste lijst
+        document.getElementById('list-titel').innerText = catIcon + " " + catNaam;
         document.getElementById('searchInput').value = ''; 
         document.getElementById('sorteerSelect').value = 'az';
         tekenLijstScherm();
@@ -348,7 +412,7 @@
         else productenMetData.sort((a, b) => a.naam.localeCompare(b.naam));
 
         if (productenMetData.length === 0) {
-            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold;">Niks gevonden in dit deel van het bos...</p>';
+            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold; margin-top: 20px;">Niks gevonden in dit deel van het bos...</p>';
             return;
         }
 
@@ -421,29 +485,48 @@
 
     function berekenDashboard() {
         let geproefdCount = 0;
+        let alleItems = [];
         let db = getVolledigeDatabase();
+
         db.forEach(p => {
             const geschiedenis = haalOp(p.id);
             if (geschiedenis.length > 0) { geproefdCount++; }
+            
+            const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
+            const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
+            
+            if(aantalLekker > 0 || aantalVies > 0) {
+                alleItems.push({ naam: p.naam, lekker: aantalLekker, vies: aantalVies });
+            }
         });
+
         document.getElementById('dash-totaal').innerText = geproefdCount;
+
+        let topLekker = alleItems.filter(i => i.lekker > 0).sort((a,b) => b.lekker - a.lekker).slice(0, 3);
+        let htmlLekker = '';
+        if(topLekker.length === 0) htmlLekker = '<li>Nog geen favorieten...</li>';
+        topLekker.forEach(i => htmlLekker += `<li><span>${i.naam}</span> <span style="color:var(--groen); display:flex; align-items:center;">${getPaw('lekker')} x${i.lekker}</span></li>`);
+        document.getElementById('dash-top-lekker').innerHTML = htmlLekker;
+
+        let topVies = alleItems.filter(i => i.vies > 0).sort((a,b) => b.vies - a.vies).slice(0, 3);
+        let htmlVies = '';
+        if(topVies.length === 0) htmlVies = '<li>Niks vies gevonden! 🎉</li>';
+        topVies.forEach(i => htmlVies += `<li><span>${i.naam}</span> <span style="color:var(--rood); display:flex; align-items:center;">${getPaw('vies')} x${i.vies}</span></li>`);
+        document.getElementById('dash-top-vies').innerHTML = htmlVies;
     }
 
-    // --- 4. OPSLAAN NAAR FIREBASE CLOUD ---
-
+    // --- 5. OPSLAAN NAAR FIREBASE CLOUD ---
     function slaTestOp() {
         if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring!"); return; }
         const notitie = document.getElementById('notitieInput').value;
         const vandaag = new Date().toLocaleDateString('nl-NL'); 
         const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie };
 
-        // Bereid de data voor in het geheugen
         if (!woudData.geschiedenis) woudData.geschiedenis = {};
         if (!woudData.geschiedenis[huidigeSelectieId]) woudData.geschiedenis[huidigeSelectieId] = [];
         
         woudData.geschiedenis[huidigeSelectieId].push(nieuweTest);
 
-        // Stuur naar de cloud! (merge: true zorgt dat we andere dingen niet overschrijven)
         docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
 
         if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); }
@@ -451,14 +534,11 @@
         document.getElementById('notitieInput').value = '';
         gekozenBeoordeling = null;
         resetKnoppen();
-        // (tekenGeschiedenis wordt automatisch aangeroepen door onSnapshot)
     }
 
     function verwijderTest(index) {
         if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
         woudData.geschiedenis[huidigeSelectieId].splice(index, 1);
-        
-        // Stuur update naar de cloud
         docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
     }
 
@@ -470,7 +550,6 @@
         const nieuwId = 'c' + Date.now();
         woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie });
         
-        // Opslaan in de cloud
         docRef.set({ custom_db: woudData.custom_db }, { merge: true });
     }
 
@@ -480,7 +559,6 @@
         if(!woudData.verwijderd) woudData.verwijderd = [];
         woudData.verwijderd.push(huidigeSelectieId);
         
-        // Verwijder uit de cloud
         docRef.set({ verwijderd: woudData.verwijderd }, { merge: true }).then(() => {
             terugNaarLijst();
         });
