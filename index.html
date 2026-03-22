@@ -66,7 +66,9 @@
         .back-btn:active { transform: scale(0.9); }
         .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);}
         
-        /* Categorie Slider op Homepage */
+        .delete-item-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 0; margin-left: 10px; transition: transform 0.2s; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5)); }
+        .delete-item-btn:active { transform: scale(0.8); }
+
         .category-slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
         .slider-card { flex: 0 0 110px; scroll-snap-align: start; background: var(--perkament); border-radius: 18px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 0px var(--bast-dark), 0 6px 12px rgba(0,0,0,0.2); cursor: pointer; border: 2px solid var(--bast-dark); transition: transform 0.1s, top 0.1s; position: relative; top: 0; }
         .slider-card:active { top: 4px; box-shadow: 0 0px 0px var(--bast-dark), 0 2px 4px rgba(0,0,0,0.2); }
@@ -112,23 +114,26 @@
         .beoordeling-btn.active.lekker { background-color: #E8F5E9; box-shadow: 0 1px 0 var(--groen); top: 3px; }
         .beoordeling-btn.active.lekker svg { transform: scale(1.1); }
 
-        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: top 0.1s, box-shadow 0.1s; }
-        .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
+        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: transform 0.1s, box-shadow 0.1s; display: block; }
+        .btn-save:active { transform: translateY(4px); box-shadow: 0 1px 0 #1A237E; }
         .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--bast-dark); box-shadow: 0 4px 0 var(--bast-dark); margin-bottom: 10px; }
         
-        /* Nieuwe Rood Vakje met Wit Kruisje styling */
-        .btn-verwijder-vakje { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 10px 15px; font-size: 1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #b71c1c; transition: transform 0.1s, top 0.1s, box-shadow 0.1s; position: relative; top: 0; font-family: inherit; display: inline-block; }
-        .btn-verwijder-vakje:active { top: 4px; box-shadow: 0 0px 0 #b71c1c; }
+        /* Grote verwijder knop (hele hapje) */
+        .btn-verwijder-vakje { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 10px 15px; font-size: 1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #b71c1c; transition: transform 0.1s, box-shadow 0.1s; font-family: inherit; display: inline-block; }
+        .btn-verwijder-vakje:active { transform: translateY(4px); box-shadow: 0 0px 0 #b71c1c; }
+
+        /* Kleine verwijder knop (enkele review) */
+        .btn-verwijder-klein { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 6px 12px; font-size: 0.9em; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #b71c1c; transition: transform 0.1s, box-shadow 0.1s; font-family: inherit; display: inline-block; }
+        .btn-verwijder-klein:active { transform: translateY(3px); box-shadow: 0 0px 0 #b71c1c; }
         
         .hidden { display: none !important; }
 
-        .history-item { background: var(--wit); padding: 12px; border-radius: 12px; margin-top: 8px; font-size: 0.9em; border: 1px solid var(--hout-rand); border-left-width: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); position: relative;}
+        .history-item { background: var(--wit); padding: 15px; border-radius: 12px; margin-top: 8px; font-size: 0.95em; border: 1px solid var(--hout-rand); border-left-width: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); }
         .history-item.lekker { border-left-color: var(--groen); }
         .history-item.twijfel { border-left-color: var(--oranje); }
         .history-item.vies { border-left-color: var(--rood); }
         
-        .btn-trash { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #999; transition: transform 0.2s;}
-        .btn-trash:active { transform: scale(0.8); }
+        .history-date { font-weight: 800; color: #8D6E63; font-size: 0.85em; margin-top: 2px;}
 
         .dash-card { background: var(--wit); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid var(--hout-rand); text-align: center; }
         .dash-getal { font-family: 'Chewy', cursive; font-size: 2.5em; color: var(--oranje); margin: 5px 0; text-shadow: 1px 1px 0 rgba(0,0,0,0.1); }
@@ -505,14 +510,18 @@
             let test = geschiedenis[i];
             let labelText = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Bah' : 'Mwah');
             let paw = getPaw(test.beoordeling);
+            
+            // De verwijder knop is verplaatst, de datum staat nu links
             html += `
                 <div class="history-item ${test.beoordeling}">
-                    <button class="btn-trash" onclick="verwijderTest(${i})" title="Verwijder notitie">🗑️</button>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 25px;">
-                        <strong style="font-size: 1.1em; color:var(--bast-dark); display: flex; align-items: center; gap: 5px;">${paw} ${labelText}</strong>
-                        <div class="history-date">${test.datum}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex-grow: 1; padding-right: 10px;">
+                            <strong style="font-size: 1.1em; color:var(--bast-dark); display: flex; align-items: center; gap: 5px;">${paw} ${labelText}</strong>
+                            <div class="history-date" style="margin-top: 5px;">📅 ${test.datum}</div>
+                            ${test.notitie ? `<p style="margin: 6px 0 0 0; color:var(--tekst);">"${test.notitie}"</p>` : ''}
+                        </div>
+                        <button class="btn-verwijder-klein" onclick="verwijderTest(${i})" title="Verwijder deze ervaring">✖</button>
                     </div>
-                    ${test.notitie ? `<p style="margin: 6px 0 0 0; color:var(--tekst);">"${test.notitie}"</p>` : ''}
                 </div>
             `;
         }
