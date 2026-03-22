@@ -66,10 +66,6 @@
         .back-btn:active { transform: scale(0.9); }
         .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);}
         
-        /* Subtiele verwijder knop in de header */
-        .delete-item-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 0; margin-left: 10px; transition: transform 0.2s; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5)); }
-        .delete-item-btn:active { transform: scale(0.8); }
-
         /* Categorie Slider op Homepage */
         .category-slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
         .slider-card { flex: 0 0 110px; scroll-snap-align: start; background: var(--perkament); border-radius: 18px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 0px var(--bast-dark), 0 6px 12px rgba(0,0,0,0.2); cursor: pointer; border: 2px solid var(--bast-dark); transition: transform 0.1s, top 0.1s; position: relative; top: 0; }
@@ -119,6 +115,10 @@
         .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: top 0.1s, box-shadow 0.1s; }
         .btn-save:active { top: 4px; box-shadow: 0 1px 0 #1A237E; }
         .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--bast-dark); box-shadow: 0 4px 0 var(--bast-dark); margin-bottom: 10px; }
+        
+        /* Nieuwe Rood Vakje met Wit Kruisje styling */
+        .btn-verwijder-vakje { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 10px 15px; font-size: 1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #b71c1c; transition: transform 0.1s, top 0.1s, box-shadow 0.1s; position: relative; top: 0; font-family: inherit; display: inline-block; }
+        .btn-verwijder-vakje:active { top: 4px; box-shadow: 0 0px 0 #b71c1c; }
         
         .hidden { display: none !important; }
 
@@ -209,7 +209,6 @@
                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
             <h2 id="detail-titel">Product Naam</h2>
-            <button class="delete-item-btn" onclick="verwijderHuidigHapje()" title="Verwijder dit hapje">🗑️</button>
         </div>
         
         <div class="list-box">
@@ -227,6 +226,10 @@
         <div class="list-box">
             <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.4em;">Eerdere avonturen</h3>
             <div id="geschiedenisLijst"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 25px; margin-bottom: 15px;">
+            <button class="btn-verwijder-vakje" onclick="verwijderHuidigHapje()">✖ Verwijder hapje</button>
         </div>
     </div>
 
@@ -504,7 +507,7 @@
             let paw = getPaw(test.beoordeling);
             html += `
                 <div class="history-item ${test.beoordeling}">
-                    <button class="btn-trash" onclick="verwijderTest(${i})">🗑️</button>
+                    <button class="btn-trash" onclick="verwijderTest(${i})" title="Verwijder notitie">🗑️</button>
                     <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 25px;">
                         <strong style="font-size: 1.1em; color:var(--bast-dark); display: flex; align-items: center; gap: 5px;">${paw} ${labelText}</strong>
                         <div class="history-date">${test.datum}</div>
