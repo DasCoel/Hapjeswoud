@@ -74,11 +74,10 @@
 
         <div id="home-screen" class="space-y-10">
             <section>
-                <div class="relative overflow-hidden bg-primary-container/30 rounded-xl p-8 mb-4 border border-primary-container/50">
+                <div class="relative overflow-hidden bg-primary-container/30 rounded-xl p-8 mb-2 border border-primary-container/50">
                     <div class="relative z-10">
-                        <span class="text-secondary font-bold tracking-widest text-xs uppercase mb-2 block">Jouw Avonturen</span>
-                        <h2 class="font-headline text-3xl text-on-primary-container leading-tight mb-2">Wat gaan we ontdekken?</h2>
-                        <p class="text-on-surface-variant text-sm max-w-md">Kies een pad en proef de geheimen van het woud.</p>
+                        <h2 class="font-headline text-3xl text-on-primary-container leading-tight mb-2">Hoi avonturier!</h2>
+                        <p class="text-on-surface-variant text-sm max-w-md">Welke smaken gaan we vandaag beleven?</p>
                     </div>
                     <div class="absolute -right-10 -top-10 opacity-10">
                         <span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
@@ -86,15 +85,36 @@
                 </div>
             </section>
 
-            <section class="grid grid-cols-1 md:grid-cols-12 gap-4" id="home-bento-grid">
-                </section>
-
             <section>
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="font-headline font-bold text-xl text-on-surface">Laatste ontdekking</h3>
                 </div>
                 <div id="home-latest-adventure"></div>
             </section>
+
+            <section>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-headline font-bold text-xl text-on-surface">Ontdek het woud</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4" id="home-bento-grid-short">
+                    </div>
+                
+                <button onclick="navigeer('categorieen')" class="w-full mt-4 bg-surface-container-high text-on-surface-variant font-bold py-4 rounded-xl flex justify-center items-center gap-2 hover:bg-surface-dim transition-colors shadow-sm active:scale-95">
+                    Bekijk alle categorieën <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+            </section>
+        </div>
+
+        <div id="categories-screen" class="hidden-screen space-y-6 mt-2">
+            <div class="header-bar mb-6">
+                <button class="back-btn" onclick="navigeer('home')">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <h2 class="font-headline font-extrabold text-2xl text-on-surface">Alle Categorieën</h2>
+            </div>
+
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-4" id="all-categories-grid">
+                </section>
         </div>
 
         <div id="list-screen" class="hidden-screen space-y-6">
@@ -248,7 +268,7 @@
     let huidigeCategorieIcon = '';
     let huidigeSelectieId = null;
     let gekozenBeoordeling = null;
-    let toonAlleIngredienten = false; // Toggle voor de centrale zoekknop
+    let toonAlleIngredienten = false;
 
     docRef.onSnapshot((doc) => {
         if (doc.exists) {
@@ -294,10 +314,11 @@
     // --- 3. NAVIGATIE & UI LOGICA ---
     function navigeer(scherm) {
         huidigeScherm = scherm;
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => {
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen', 'categories-screen'].forEach(id => {
             document.getElementById(id).classList.add('hidden-screen');
         });
         
+        // Reset Nav Icons & App Bar
         ['nav-home', 'nav-dashboard', 'nav-cat'].forEach(id => {
             document.getElementById(id).classList.remove('text-primary');
             document.getElementById(id).classList.add('text-on-surface-variant');
@@ -319,7 +340,10 @@
             document.getElementById('icon-dashboard').classList.add('paw-filled');
         }
         else if(scherm === 'categorieen') {
-            openCategorie('Groenten', '🥦'); // Default tab
+            document.getElementById('categories-screen').classList.remove('hidden-screen');
+            document.getElementById('top-title').innerText = "Ontdekken";
+            document.getElementById('nav-cat').classList.add('text-primary');
+            document.getElementById('icon-cat').classList.add('paw-filled');
         }
         
         verversUI();
@@ -327,6 +351,7 @@
 
     function gaTerug() {
         if(huidigeScherm === 'detail') openCategorie(huidigeCategorie, huidigeCategorieIcon);
+        else if(huidigeScherm === 'list') navigeer('categorieen');
         else navigeer('home');
     }
 
@@ -335,10 +360,10 @@
         huidigeCategorie = "Alle Hapjes";
         huidigeCategorieIcon = "✨";
         
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen', 'categories-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
         document.getElementById('list-screen').classList.remove('hidden-screen');
         
-        document.getElementById('top-title').innerText = `Zoek Ingredient`;
+        document.getElementById('top-title').innerText = `Zoeken`;
         document.getElementById('back-btn').classList.remove('hidden');
         document.getElementById('top-avatar').classList.add('hidden');
         
@@ -355,21 +380,12 @@
         huidigeCategorie = catNaam;
         huidigeCategorieIcon = catIcon || '✨';
         
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen', 'categories-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
         document.getElementById('list-screen').classList.remove('hidden-screen');
         
         document.getElementById('top-title').innerText = `${huidigeCategorieIcon} ${huidigeCategorie}`;
         document.getElementById('back-btn').classList.remove('hidden');
         document.getElementById('top-avatar').classList.add('hidden');
-        
-        // Update nav balk
-        ['nav-home', 'nav-dashboard', 'nav-cat'].forEach(id => {
-            document.getElementById(id).classList.remove('text-primary');
-            document.getElementById(id).classList.add('text-on-surface-variant');
-            document.getElementById(id.replace('nav-', 'icon-')).classList.remove('paw-filled');
-        });
-        document.getElementById('nav-cat').classList.add('text-primary');
-        document.getElementById('icon-cat').classList.add('paw-filled');
         
         document.getElementById('searchInput').value = ''; 
         document.getElementById('sorteerSelect').value = 'az';
@@ -379,8 +395,10 @@
 
     function verversUI() {
         if(huidigeScherm === 'home') {
-            tekenHomeCategories();
+            tekenCategorieSchermen();
             tekenHomeLatest();
+        } else if(huidigeScherm === 'categorieen') {
+            tekenCategorieSchermen();
         } else if(huidigeScherm === 'list') {
             tekenLijstScherm();
         } else if(huidigeScherm === 'detail') {
@@ -392,7 +410,7 @@
 
     // --- 4. TEKEN FUNCTIES (BENTO GRID!) ---
     
-    function tekenHomeCategories() {
+    function tekenCategorieSchermen() {
         let alleCat = basisCategorieen.map(c => c); 
         if(woudData.custom_categories) {
             woudData.custom_categories.forEach(cc => {
@@ -400,31 +418,37 @@
             });
         }
         
-        let html = '';
-        alleCat.forEach((c, index) => {
-            let colSpan = c.size === 'large' ? 'col-span-1 md:col-span-12 h-64' : (c.size === 'medium' ? 'col-span-1 md:col-span-6 h-48' : 'col-span-1 h-32');
-            let hasImage = c.image ? true : false;
-            
-            // Image tag met Fallback (onerror verbergt de image en toont het fallback-divje)
-            let imgHtml = hasImage ? `<img src="images/${c.image}" alt="${c.naam}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">` : '';
-            
-            // Fallback (zacht kleurvlak met emoji) als image faalt of ontbreekt
-            let fallbackHtml = `<div class="absolute inset-0 w-full h-full ${c.color} opacity-80 z-0 flex items-center justify-center" ${hasImage ? 'style="display:none;"' : ''}><span class="text-6xl opacity-30">${c.icon}</span></div>`;
-            
-            html += `
-            <div onclick="openCategorie('${c.naam}', '${c.icon}')" class="group relative overflow-hidden rounded-2xl ${colSpan} flex flex-col justify-end transition-transform active:scale-[0.98] shadow-sm cursor-pointer border border-outline-variant/20 storybook-shadow bg-surface-container-low">
-                ${imgHtml}
-                ${fallbackHtml}
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                <div class="relative z-20 p-5">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="text-2xl">${c.icon}</span>
-                        <h4 class="text-xl font-headline font-extrabold text-white">${c.naam}</h4>
+        // Helper functie om de html te genereren
+        let generateGridHtml = (catArray) => {
+            let html = '';
+            catArray.forEach((c) => {
+                let colSpan = c.size === 'large' ? 'col-span-1 md:col-span-12 h-64' : (c.size === 'medium' ? 'col-span-1 md:col-span-6 h-48' : 'col-span-1 h-32');
+                let hasImage = c.image ? true : false;
+                
+                let imgHtml = hasImage ? `<img src="images/${c.image}" alt="${c.naam}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : '';
+                let fallbackHtml = `<div class="absolute inset-0 w-full h-full ${c.color} opacity-80 z-0 flex items-center justify-center" ${hasImage ? 'style="display:none;"' : ''}><span class="text-6xl opacity-30">${c.icon}</span></div>`;
+                
+                html += `
+                <div onclick="openCategorie('${c.naam}', '${c.icon}')" class="group relative overflow-hidden rounded-2xl ${colSpan} flex flex-col justify-end transition-transform active:scale-[0.98] shadow-sm cursor-pointer border border-outline-variant/20 storybook-shadow bg-surface-container-low">
+                    ${imgHtml}
+                    ${fallbackHtml}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
+                    <div class="relative z-20 p-5">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-2xl">${c.icon}</span>
+                            <h4 class="text-xl font-headline font-extrabold ${hasImage ? 'text-white' : c.textColor}">${c.naam}</h4>
+                        </div>
                     </div>
-                </div>
-            </div>`;
-        });
-        document.getElementById('home-bento-grid').innerHTML = html;
+                </div>`;
+            });
+            return html;
+        }
+
+        // Vul het volledige grid scherm
+        document.getElementById('all-categories-grid').innerHTML = generateGridHtml(alleCat);
+        
+        // Vul de korte preview op de homepage (eerste 4 items)
+        document.getElementById('home-bento-grid-short').innerHTML = generateGridHtml(alleCat.slice(0, 4));
     }
 
     function tekenHomeLatest() {
@@ -523,7 +547,7 @@
         huidigeScherm = 'detail';
         huidigeSelectieId = id;
         
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen', 'categories-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
         document.getElementById('detail-screen').classList.remove('hidden-screen');
         
         document.getElementById('top-title').innerText = naam;
@@ -733,7 +757,21 @@
         document.body.removeChild(link);
     }
 
-    // Start App
+    function startVeiligeBlaadjesRegen() {
+        const bladeren = ['🍃', '🍂', '🍁', '✨'];
+        for(let i=0; i<25; i++) {
+            const blaadje = document.createElement('div');
+            blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
+            blaadje.className = 'veilig-blaadje';
+            blaadje.style.left = (Math.random() * 90) + 'vw';
+            const duur = (Math.random() * 2 + 2); 
+            blaadje.style.animation = `val-animatie ${duur}s linear forwards`;
+            document.body.appendChild(blaadje);
+            setTimeout(() => { document.body.removeChild(blaadje); }, duur * 1000);
+        }
+    }
+
+    // Initiele start
     navigeer('home');
 </script>
 
