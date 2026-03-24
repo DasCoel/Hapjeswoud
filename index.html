@@ -10,163 +10,163 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
     <style>
+        /* STAP 1: NIEUWE 'ENCHANTED FOREST' CSS VARIABELEN */
         :root {
-            --bast-dark: #3E2723;
-            --tekst: #211512;
-            --groen: #2E7D32;
+            --bast-dark: #256924; /* Oude bruin vervangen door primair groen voor randen */
+            --tekst: #312e29;
+            --groen: #256924;
             --oranje: #F57C00; 
             --rood: #D32F2F;   
             --wit: #ffffff;
-            --perkament: rgba(253, 244, 227, 0.95); 
-            --hout-rand: #8D6E63;
+            --perkament: #fcf5ed; /* Licht perkament als hoofdachtergrond */
+            --hout-rand: #d5d0c8; /* Subtielere randkleur passend bij perkament */
             --leeg: #D7CCC8;
+            --nav-bg: #ffffff;
         }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(253, 244, 227, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--hout-rand); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--bast-dark); }
 
         body { 
-            font-family: 'Nunito', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif; /* Nieuwe font toegepast */
             margin: 0; padding: 0; color: var(--tekst); 
             overflow-x: hidden; position: relative;
-            background-image: url('background.png'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed; 
-            background-repeat: no-repeat;
-            background-color: #5D4037; 
+            background-color: var(--perkament); 
+            /* De oude background image even verborgen om het cleane design te laten spreken, 
+               je kunt deze regel terughalen als je de foto weer wilt zien: */
+            /* background-image: url('background.png'); background-size: cover; background-attachment: fixed; */
         }
 
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; padding-top: 50px; padding-bottom: 40px;}
+        /* Container padding onderaan groter gemaakt voor de nieuwe navigatiebalk */
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; z-index: 10; position: relative; padding-top: 20px; padding-bottom: 90px;}
         
-        .hamburger-btn { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--bast-dark); color: var(--perkament); border: 2px solid var(--hout-rand); border-radius: 12px; width: 45px; height: 45px; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.2s; }
-        .hamburger-btn:active { transform: scale(0.9); }
-
-        #menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; display: none; backdrop-filter: blur(2px); }
-        #side-menu { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: var(--perkament); border-left: 5px solid var(--bast-dark); z-index: 999; transition: right 0.3s ease; overflow-y: auto; padding: 20px; box-sizing: border-box; box-shadow: -5px 0 20px rgba(0,0,0,0.6); }
-        #side-menu.open { right: 0; }
-        .menu-item { display: block; padding: 12px; margin-bottom: 8px; background: var(--wit); border: 2px solid var(--hout-rand); border-radius: 10px; font-weight: bold; color: var(--tekst); text-decoration: none; cursor: pointer; transition: background 0.2s; }
-        .menu-item:active { background: #EFEBE9; }
-        .menu-titel { font-family: 'Chewy', cursive; font-size: 1.5em; color: var(--groen); margin-top: 0; border-bottom: 2px dashed var(--hout-rand); padding-bottom: 10px; }
-
         .logo-header { text-align: center; margin-top: 0px; margin-bottom: 20px; }
-        .logo-header img { max-width: 80%; height: auto; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4)); transition: transform 0.3s; cursor: pointer;}
+        .logo-header img { max-width: 70%; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; cursor: pointer;}
         .logo-header img:active { transform: scale(0.97); }
 
         .header-bar { display: flex; align-items: center; margin-bottom: 15px; }
-        .back-btn { background: none; border: none; cursor: pointer; color: #FFFDE7; padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: rgba(62, 39, 35, 0.8); box-shadow: 0 3px 5px rgba(0,0,0,0.3); margin-right: 15px; transition: transform 0.2s; }
+        .back-btn { background: none; border: none; cursor: pointer; color: var(--wit); padding: 0; display: flex; align-items: center; border-radius: 50%; width: 40px; height: 40px; justify-content: center; background-color: var(--groen); box-shadow: 0 3px 5px rgba(0,0,0,0.2); margin-right: 15px; transition: transform 0.2s; }
         .back-btn:active { transform: scale(0.9); }
-        .header-bar h2 { margin: 0; color: #FDF4E3; flex-grow: 1; text-align: left; font-family: 'Chewy', cursive; font-size: 1.8em; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);}
-        
-        .delete-item-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 0; margin-left: 10px; transition: transform 0.2s; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5)); }
-        .delete-item-btn:active { transform: scale(0.8); }
+        .header-bar h2 { margin: 0; color: var(--tekst); flex-grow: 1; text-align: left; font-weight: 800; font-size: 1.6em; }
 
         .category-slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
-        .slider-card { flex: 0 0 110px; scroll-snap-align: start; background: var(--perkament); border-radius: 18px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 0px var(--bast-dark), 0 6px 12px rgba(0,0,0,0.2); cursor: pointer; border: 2px solid var(--bast-dark); transition: transform 0.1s, top 0.1s; position: relative; top: 0; }
-        .slider-card:active { top: 4px; box-shadow: 0 0px 0px var(--bast-dark), 0 2px 4px rgba(0,0,0,0.2); }
-        .slider-card .cat-icon { font-size: 2.5em; margin-bottom: 5px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2)); }
-        .slider-card .cat-title { font-weight: 900; color: var(--tekst); font-size: 0.95em; }
+        .slider-card { flex: 0 0 110px; scroll-snap-align: start; background: var(--wit); border-radius: 16px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid var(--hout-rand); transition: transform 0.1s; position: relative; }
+        .slider-card:active { transform: scale(0.95); }
+        .slider-card .cat-icon { font-size: 2.5em; margin-bottom: 5px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.1)); }
+        .slider-card .cat-title { font-weight: 800; color: var(--tekst); font-size: 0.9em; }
 
         .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; }
-        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; background: var(--perkament); color: var(--tekst); font-family: inherit; font-weight: 700; transition: border-color 0.3s; }
+        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 2px solid var(--hout-rand); border-radius: 12px; box-sizing: border-box; font-size: 15px; outline: none; background: var(--wit); color: var(--tekst); font-family: inherit; font-weight: 600; transition: border-color 0.3s; }
         input[type="text"] { flex: 2; margin-bottom: 0; }
         select { flex: 1; margin-bottom: 0; cursor: pointer; }
         textarea { margin-bottom: 12px; }
-        input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--groen); box-shadow: 0 0 5px rgba(46, 125, 50, 0.4); }
+        input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--groen); box-shadow: 0 0 5px rgba(37, 105, 36, 0.2); }
 
-        .list-box { background: var(--perkament); border-radius: 18px; padding: 18px; box-shadow: 0 6px 15px rgba(0,0,0,0.3); margin-bottom: 20px; border: 2px solid var(--hout-rand); }
+        .list-box { background: var(--wit); border-radius: 16px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--hout-rand); }
         
-        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(141, 110, 99, 0.4); cursor: pointer; font-size: 1.05em; font-weight: 700; color: var(--tekst); transition: background 0.2s; border-radius: 8px; }
-        .food-item:hover { background: rgba(255,255,255,0.4); padding-left: 5px; padding-right: 5px; margin: 0 -5px; }
+        .food-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; font-size: 1em; font-weight: 700; color: var(--tekst); transition: background 0.2s; border-radius: 8px; }
+        .food-item:hover { background: rgba(0,0,0,0.02); padding-left: 5px; padding-right: 5px; margin: 0 -5px; }
         .food-item:last-child { border-bottom: none; }
         
         .paws-container { display: flex; gap: 4px; }
         .paw-icon { width: 22px; height: 22px; transition: transform 0.2s; }
-        .paw-lekker { fill: var(--groen); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
-        .paw-twijfel { fill: var(--oranje); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
-        .paw-vies { fill: var(--rood); filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.2)); }
+        .paw-lekker { fill: var(--groen); }
+        .paw-twijfel { fill: var(--oranje); }
+        .paw-vies { fill: var(--rood); }
         .paw-leeg { fill: var(--leeg); opacity: 0.5; }
 
-        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--bast-dark); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: all 0.1s; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 4px 0 var(--bast-dark); position: relative; top: 0; }
+        .beoordeling-btn { flex: 1; padding: 12px 5px; background: var(--wit); border: 2px solid var(--hout-rand); border-radius: 12px; font-size: 0.9em; cursor: pointer; transition: all 0.1s; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 2px 0 var(--hout-rand); position: relative; top: 0; }
         .beoordeling-btn svg { width: 32px; height: 32px; transition: transform 0.2s; }
-        .beoordeling-btn:active { top: 3px; box-shadow: 0 1px 0 var(--bast-dark); }
+        .beoordeling-btn:active { top: 2px; box-shadow: 0 0px 0 var(--hout-rand); }
         
-        .beoordeling-btn.vies { color: var(--rood); border-color: var(--rood); }
+        .beoordeling-btn.vies { color: var(--rood); border-color: var(--hout-rand); }
         .beoordeling-btn.vies svg { fill: var(--rood); }
-        .beoordeling-btn.active.vies { background-color: #FFEBEE; box-shadow: 0 1px 0 var(--rood); top: 3px; }
+        .beoordeling-btn.active.vies { border-color: var(--rood); background-color: #FFEBEE; box-shadow: 0 2px 0 var(--rood); }
         .beoordeling-btn.active.vies svg { transform: scale(1.1); }
 
-        .beoordeling-btn.twijfel { color: var(--oranje); border-color: var(--oranje); }
+        .beoordeling-btn.twijfel { color: var(--oranje); border-color: var(--hout-rand); }
         .beoordeling-btn.twijfel svg { fill: var(--oranje); }
-        .beoordeling-btn.active.twijfel { background-color: #FFF3E0; box-shadow: 0 1px 0 var(--oranje); top: 3px; }
+        .beoordeling-btn.active.twijfel { border-color: var(--oranje); background-color: #FFF3E0; box-shadow: 0 2px 0 var(--oranje); }
         .beoordeling-btn.active.twijfel svg { transform: scale(1.1); }
 
-        .beoordeling-btn.lekker { color: var(--groen); border-color: var(--groen); }
+        .beoordeling-btn.lekker { color: var(--groen); border-color: var(--hout-rand); }
         .beoordeling-btn.lekker svg { fill: var(--groen); }
-        .beoordeling-btn.active.lekker { background-color: #E8F5E9; box-shadow: 0 1px 0 var(--groen); top: 3px; }
+        .beoordeling-btn.active.lekker { border-color: var(--groen); background-color: #E8F5E9; box-shadow: 0 2px 0 var(--groen); }
         .beoordeling-btn.active.lekker svg { transform: scale(1.1); }
 
-        .btn-save { background: linear-gradient(to bottom, var(--groen), #1B5E20); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 5px 0 #1A237E; position: relative; top: 0; font-family: inherit; transition: transform 0.1s, box-shadow 0.1s; display: block; }
-        .btn-save:active { transform: translateY(4px); box-shadow: 0 1px 0 #1A237E; }
-        .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--bast-dark); box-shadow: 0 4px 0 var(--bast-dark); margin-bottom: 10px; }
+        .btn-save { background: var(--groen); color: var(--wit); width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1.05em; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 0 #1b4b1a; transition: transform 0.1s, box-shadow 0.1s; display: block; font-family: inherit; }
+        .btn-save:active { transform: translateY(4px); box-shadow: 0 0px 0 #1b4b1a; }
+        .btn-secondary { background: var(--wit); color: var(--tekst); border: 2px solid var(--hout-rand); box-shadow: 0 4px 0 var(--hout-rand); margin-bottom: 10px; }
         
-        /* Grote verwijder knop (hele hapje) */
-        .btn-verwijder-vakje { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 10px 15px; font-size: 1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #b71c1c; transition: transform 0.1s, box-shadow 0.1s; font-family: inherit; display: inline-block; }
-        .btn-verwijder-vakje:active { transform: translateY(4px); box-shadow: 0 0px 0 #b71c1c; }
+        .btn-verwijder-vakje { background-color: var(--wit); color: var(--rood); border: 2px solid var(--rood); border-radius: 8px; padding: 10px 15px; font-size: 0.9em; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 var(--rood); transition: transform 0.1s, box-shadow 0.1s; display: inline-block; font-family: inherit;}
+        .btn-verwijder-vakje:active { transform: translateY(3px); box-shadow: 0 0px 0 var(--rood); }
 
-        /* Kleine verwijder knop (enkele review) */
-        .btn-verwijder-klein { background-color: var(--rood); color: var(--wit); border: 2px solid #b71c1c; border-radius: 8px; padding: 6px 12px; font-size: 0.9em; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #b71c1c; transition: transform 0.1s, box-shadow 0.1s; font-family: inherit; display: inline-block; }
-        .btn-verwijder-klein:active { transform: translateY(3px); box-shadow: 0 0px 0 #b71c1c; }
+        .btn-verwijder-klein { background-color: transparent; color: #999; border: none; border-radius: 8px; padding: 6px; font-size: 1em; cursor: pointer; transition: transform 0.1s; }
+        .btn-verwijder-klein:active { transform: scale(0.8); }
         
         .hidden { display: none !important; }
 
-        .history-item { background: var(--wit); padding: 15px; border-radius: 12px; margin-top: 8px; font-size: 0.95em; border: 1px solid var(--hout-rand); border-left-width: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: var(--tekst); }
+        .history-item { background: var(--wit); padding: 15px; border-radius: 12px; margin-top: 8px; font-size: 0.95em; border: 1px solid var(--hout-rand); border-left-width: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: var(--tekst); position: relative;}
         .history-item.lekker { border-left-color: var(--groen); }
         .history-item.twijfel { border-left-color: var(--oranje); }
         .history-item.vies { border-left-color: var(--rood); }
-        
-        .history-date { font-weight: 800; color: #8D6E63; font-size: 0.85em; margin-top: 2px;}
+        .history-date { font-weight: 700; color: #888; font-size: 0.85em; margin-top: 4px;}
 
-        .dash-card { background: var(--wit); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 2px solid var(--hout-rand); text-align: center; }
-        .dash-getal { font-family: 'Chewy', cursive; font-size: 2.5em; color: var(--oranje); margin: 5px 0; text-shadow: 1px 1px 0 rgba(0,0,0,0.1); }
+        .dash-card { background: var(--wit); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--hout-rand); text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05);}
+        .dash-getal { font-weight: 900; font-size: 2.5em; color: var(--oranje); margin: 5px 0; }
         .top-lijst { text-align: left; padding: 0; margin: 0; list-style: none; }
-        .top-lijst li { padding: 8px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; font-weight: bold; }
+        .top-lijst li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-weight: 700; }
         .top-lijst li:last-child { border-bottom: none; }
 
-        .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
-        @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
+        #sync-status { text-align: center; color: var(--tekst); font-size: 0.8em; margin-bottom: 15px; font-weight: bold; opacity: 0.6; }
 
-        #sync-status { text-align: center; color: var(--perkament); font-size: 0.8em; margin-top: -15px; margin-bottom: 15px; font-weight: bold; opacity: 0.8; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        /* STAP 2: BOTTOM NAVIGATION BAR COMPONENT */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--nav-bg); border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex; justify-content: space-around; padding: 12px 0 25px 0; /* Extra padding voor iPhones */
+            z-index: 1000; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: #888; text-decoration: none; font-size: 0.75em; font-weight: 700;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .nav-item.active { color: var(--groen); }
+        .nav-icon { font-size: 1.6em; margin-bottom: 4px; transition: transform 0.2s;}
+        .nav-item:active .nav-icon { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
-<button class="hamburger-btn" onclick="toggleMenu()">☰</button>
-<div id="menu-overlay" onclick="toggleMenu()"></div>
-<div id="side-menu">
-    <h2 class="menu-titel">Wegwijzer 🦊</h2>
-    <a class="menu-item" onclick="toonHomeScherm(); toggleMenu();">🌲 Home</a>
-    <a class="menu-item" onclick="toonDashboard(); toggleMenu();">📊 Bos Dashboard</a>
-    
-    <h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Categorieën</h2>
-    <div id="menu-categorieen"></div>
-    
-    <h2 class="menu-titel" style="margin-top: 20px; font-size: 1.2em;">Beheer</h2>
-    <a class="menu-item" onclick="voegCategorieToe(); toggleMenu();" style="border-color: var(--groen); color: var(--groen);">➕ Nieuwe Categorie</a>
-    <a class="menu-item" onclick="exporteerNaarCSV(); toggleMenu();" style="border-color: var(--oranje); color: var(--oranje);">💾 Back-up downloaden</a>
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="toonHomeScherm()" id="nav-home">
+        <span class="nav-icon">🌲</span><span>Home</span>
+    </div>
+    <div class="nav-item" onclick="toonDashboard()" id="nav-dagboek">
+        <span class="nav-icon">📊</span><span>Dagboek</span>
+    </div>
+    <div class="nav-item" onclick="voegHapjeToe()" id="nav-hapje">
+        <span class="nav-icon" style="background: var(--groen); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: -10px; box-shadow: 0 4px 8px rgba(37,105,36,0.3);">➕</span>
+        <span style="margin-top: 4px;">Hapje</span>
+    </div>
+    <div class="nav-item" onclick="openCategorie('Groenten', '🥦')" id="nav-ingrediënten">
+        <span class="nav-icon">🥕</span><span>Ingrediënten</span>
+    </div>
+    <div class="nav-item" onclick="exporteerNaarCSV()" id="nav-recepten">
+        <span class="nav-icon">💾</span><span>Back-up</span>
+    </div>
 </div>
 
 <div class="container">
-    
-    <div id="sync-status">☁️ Verbinden met het bos...</div>
+    <div id="sync-status">☁️ Verbinden met de cloud...</div>
 
     <div id="home-screen">
         <div class="logo-header">
@@ -174,14 +174,14 @@
         </div>
         
         <div class="list-box" style="margin-bottom: 25px; padding: 15px;">
-            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.6em; text-align: center;">Laatste Avonturen 🐾</h3>
-            <div id="home-tijdlijn">
-                </div>
+            <h3 style="margin-top:0; color: var(--tekst); font-weight: 800; font-size: 1.2em; border-bottom: 2px solid var(--perkament); padding-bottom: 10px;">Laatste Avonturen 🐾</h3>
+            <div id="home-tijdlijn"></div>
         </div>
 
-        <h3 style="color: #FDF4E3; font-family: 'Chewy', cursive; font-size: 1.4em; text-shadow: 2px 2px 0 var(--bast-dark); margin-bottom: 10px; margin-left: 5px;">Wat gaan we vandaag ontdekken?</h3>
-        
+        <h3 style="color: var(--tekst); font-weight: 800; font-size: 1.2em; margin-bottom: 15px; margin-left: 5px;">Wat gaan we vandaag ontdekken?</h3>
         <div class="category-slider" id="categorie-slider"></div>
+        
+        <button class="btn-save btn-secondary" style="margin-top: 10px; font-size: 0.9em; padding: 10px;" onclick="voegCategorieToe()">➕ Nieuwe Categorie toevoegen</button>
     </div>
 
     <div id="list-screen" class="hidden">
@@ -217,8 +217,8 @@
         </div>
         
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.4em;">Nieuwe smaakervaring</h3>
-            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 18px;">
+            <h3 style="margin-top:0; color: var(--tekst); font-weight: 800; font-size: 1.2em; border-bottom: 2px solid var(--perkament); padding-bottom: 10px;">Nieuwe smaakervaring</h3>
+            <div style="display: flex; justify-content: space-between; gap: 8px; margin-bottom: 18px; margin-top: 15px;">
                 <button onclick="selecteerBeoordeling('vies')" id="btn-vies" class="beoordeling-btn vies"><div id="svg-btn-vies"></div> Bah</button>
                 <button onclick="selecteerBeoordeling('twijfel')" id="btn-twijfel" class="beoordeling-btn twijfel"><div id="svg-btn-twijfel"></div> Mwah</button>
                 <button onclick="selecteerBeoordeling('lekker')" id="btn-lekker" class="beoordeling-btn lekker"><div id="svg-btn-lekker"></div> Lekker</button>
@@ -229,434 +229,9 @@
         </div>
 
         <div class="list-box">
-            <h3 style="margin-top:0; color: var(--oranje); font-family: 'Chewy', cursive; font-size: 1.4em;">Eerdere avonturen</h3>
-            <div id="geschiedenisLijst"></div>
+            <h3 style="margin-top:0; color: var(--tekst); font-weight: 800; font-size: 1.2em; border-bottom: 2px solid var(--perkament); padding-bottom: 10px;">Eerdere avonturen</h3>
+            <div id="geschiedenisLijst" style="margin-top: 15px;"></div>
         </div>
 
         <div style="text-align: center; margin-top: 25px; margin-bottom: 15px;">
-            <button class="btn-verwijder-vakje" onclick="verwijderHuidigHapje()">✖ Verwijder hapje</button>
-        </div>
-    </div>
-
-    <div id="dashboard-screen" class="hidden">
-        <div class="header-bar">
-            <button class="back-btn" onclick="toonHomeScherm()">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            </button>
-            <h2>Bos Dashboard 📊</h2>
-        </div>
-        <div class="list-box" style="text-align: center;">
-            <h3 style="margin-top:0; color: var(--tekst);">Unieke hapjes geproefd</h3>
-            <div class="dash-getal" id="dash-totaal">0</div>
-        </div>
-        
-        <div class="dash-card" style="border-color: var(--groen);">
-            <h3 style="margin-top:0; color: var(--groen); font-family: 'Chewy', cursive; font-size: 1.5em;">Top Favorieten 💚</h3>
-            <ul class="top-lijst" id="dash-top-lekker"></ul>
-        </div>
-
-        <div class="dash-card" style="border-color: var(--rood);">
-            <h3 style="margin-top:0; color: var(--rood); font-family: 'Chewy', cursive; font-size: 1.5em;">Minst Favoriet 💔</h3>
-            <ul class="top-lijst" id="dash-top-vies"></ul>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    // --- FIREBASE SETUP ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyBguVbf0RjZIBe2lObqyT4lz5k0chRXQo0",
-      authDomain: "hapjeswoud.firebaseapp.com",
-      projectId: "hapjeswoud",
-      storageBucket: "hapjeswoud.firebasestorage.app",
-      messagingSenderId: "319370050475",
-      appId: "1:319370050475:web:4417d21fae5717ffda30ee"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const docRef = db.collection("appData").doc("gezinData");
-
-    let woudData = { geschiedenis: {}, custom_db: [], verwijderd: [], custom_categories: [] };
-
-    docRef.onSnapshot((doc) => {
-        if (doc.exists) {
-            woudData = doc.data();
-            document.getElementById('sync-status').innerText = "☁️ Gesynchroniseerd met het bos!";
-            setTimeout(() => { document.getElementById('sync-status').style.display = 'none'; }, 3000);
-            
-            tekenCategorieen();
-            verversHuidigScherm();
-        } else {
-            docRef.set(woudData);
-        }
-    });
-
-    // --- SVG & DATA ---
-    const catIcons = { 'Groenten': '🥦', 'Fruit': '🍎', 'Proteïne': '🍗', 'Granen': '🌾', 'Zuivel': '🥛', 'Kruiden': '🌿', 'Allergenen': '⚠️' };
-    const pawSvgPath = "M226.5 92.9c14.3 73-39.9 130-77.2 130-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0zM266.6 222.9c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM57.8 280.4c-35.6 0-71.5-56-55.2-130 14.3-64.8 118-64.8 132.4 0 14.3 73-39.9 130-77.2 130zM454.2 280.4c-37.3 0-91.5-57-77.2-130 16.3-74 118-74 132.4 0 14.3 73-19.9 130-55.2 130zM256 272c-68.4 0-141.6 34.2-177.3 93.3-33.6 55.7-8.4 121 54.4 141.4 46.2 15 106.3-15.8 122.9-15.8 16.7 0 76.7 30.8 122.9 15.8 62.8-20.4 88-85.7 54.4-141.4C397.6 306.2 324.4 272 256 272z";
-    function getPaw(kleurClass) { return `<svg viewBox="0 0 512 512" class="paw-icon paw-${kleurClass}"><path d="${pawSvgPath}"/></svg>`; }
-
-    document.getElementById('svg-btn-vies').innerHTML = getPaw('vies');
-    document.getElementById('svg-btn-twijfel').innerHTML = getPaw('twijfel');
-    document.getElementById('svg-btn-lekker').innerHTML = getPaw('lekker');
-
-    const basisCategorieen = [
-        { naam: 'Groenten', icon: '🥦' }, { naam: 'Fruit', icon: '🍎' }, { naam: 'Proteïne', icon: '🍗' },
-        { naam: 'Granen', icon: '🌾' }, { naam: 'Zuivel', icon: '🥛' }, { naam: 'Kruiden', icon: '🌿' }, { naam: 'Allergenen', icon: '⚠️' }
-    ];
-
-    const basisDatabase = [
-        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Maïs', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Squash', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' }, { id: 'v22', naam: 'Courgette', categorie: 'Groenten' },
-        { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' }, { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' }, { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' }, { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' }, { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' }, { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' }, { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' }, { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' }, { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' }, { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' }, { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
-        { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' }, { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' }, { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' }, { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' }, { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Melk', categorie: 'Proteïne' }, { id: 'p11', naam: 'Varkensvlees', categorie: 'Proteïne' }, { id: 'p12', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p13', naam: 'Tofu', categorie: 'Proteïne' }, { id: 'p14', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p15', naam: 'Kalkoen', categorie: 'Proteïne' }, { id: 'p16', naam: 'Witte bonen', categorie: 'Proteïne' },
-        { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' }, { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' }, { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' }, { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
-        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' }, { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
-        { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' }, { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' }, { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' }, { id: 'k7', naam: 'Paprika', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' }, { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
-        { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' }, { id: 'a3', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' }, { id: 'a5', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a6', naam: 'Sesam', categorie: 'Allergenen' }, { id: 'a7', naam: 'Schaaldieren', categorie: 'Allergenen' }, { id: 'a8', naam: 'Tarwe', categorie: 'Allergenen' }
-    ];
-
-    let huidigeCategorie = '';
-    let huidigeSelectieId = null;
-    let gekozenBeoordeling = null;
-
-    function getVolledigeDatabase() {
-        let customDb = woudData.custom_db || [];
-        let verwijderd = woudData.verwijderd || [];
-        return basisDatabase.concat(customDb).filter(p => !verwijderd.includes(p.id));
-    }
-
-    function haalOp(id) {
-        if (!woudData.geschiedenis) return [];
-        return woudData.geschiedenis[id] || [];
-    }
-
-    // --- DYNAMISCHE CATEGORIEËN & TIJDLIJN ---
-    function tekenCategorieen() {
-        let alleCat = basisCategorieen.concat(woudData.custom_categories || []);
-        
-        let sliderHtml = '';
-        let menuHtml = '';
-        alleCat.forEach(c => {
-            sliderHtml += `<div class="slider-card" onclick="openCategorie('${c.naam}', '${c.icon}')"><div class="cat-icon">${c.icon}</div><div class="cat-title">${c.naam}</div></div>`;
-            menuHtml += `<a class="menu-item" onclick="openCategorie('${c.naam}', '${c.icon}'); toggleMenu();">${c.icon} ${c.naam}</a>`;
-        });
-        document.getElementById('categorie-slider').innerHTML = sliderHtml;
-        document.getElementById('menu-categorieen').innerHTML = menuHtml;
-
-        tekenHomeTijdlijn();
-    }
-
-    function tekenHomeTijdlijn() {
-        let alleTests = [];
-        let db = getVolledigeDatabase();
-        
-        db.forEach(p => {
-            let geschiedenis = haalOp(p.id);
-            geschiedenis.forEach(g => {
-                alleTests.push({ naam: p.naam, id: p.id, ...g });
-            });
-        });
-
-        alleTests.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-        
-        let recent = alleTests.slice(0, 5);
-        let div = document.getElementById('home-tijdlijn');
-        
-        if(recent.length === 0) {
-            div.innerHTML = "<p style='color:#8D6E63; text-align:center; font-style:italic;'>Het logboek is nog leeg. Ga snel iets proeven! 🐾</p>";
-            return;
-        }
-
-        let html = '';
-        recent.forEach(test => {
-            let labelText = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Bah' : 'Mwah');
-            html += `
-                <div class="history-item ${test.beoordeling}" onclick="openDetail('${test.id}', '${test.naam}')" style="cursor:pointer; margin-bottom: 5px; padding: 8px 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <strong style="font-size: 1.05em; color:var(--bast-dark); display: flex; align-items: center; gap: 5px;">${getPaw(test.beoordeling)} ${test.naam}</strong>
-                        <div class="history-date">${test.datum}</div>
-                    </div>
-                </div>
-            `;
-        });
-        div.innerHTML = html;
-    }
-
-    function voegCategorieToe() {
-        const naam = prompt("Hoe heet de nieuwe categorie? (bijv. Snacks)");
-        if (!naam || naam.trim() === "") return;
-        let icon = prompt("Typ één emoji voor deze categorie (bijv. 🥨):", "✨");
-        if (!icon) icon = "✨";
-        
-        if (!woudData.custom_categories) woudData.custom_categories = [];
-        woudData.custom_categories.push({ naam: naam.trim(), icon: icon });
-        
-        docRef.set({ custom_categories: woudData.custom_categories }, { merge: true });
-    }
-
-    function verversHuidigScherm() {
-        if (!document.getElementById('list-screen').classList.contains('hidden')) tekenLijstScherm();
-        else if (!document.getElementById('detail-screen').classList.contains('hidden')) tekenGeschiedenis(huidigeSelectieId);
-        else if (!document.getElementById('dashboard-screen').classList.contains('hidden')) berekenDashboard();
-        else tekenHomeTijdlijn(); 
-    }
-
-    // --- UI EN NAVIGATIE ---
-    function toggleMenu() {
-        const menu = document.getElementById('side-menu');
-        const overlay = document.getElementById('menu-overlay');
-        menu.classList.toggle('open');
-        overlay.style.display = menu.classList.contains('open') ? 'block' : 'none';
-    }
-
-    function verbergAlleSchermen() {
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => {
-            document.getElementById(id).classList.add('hidden');
-        });
-    }
-
-    function toonHomeScherm() { verbergAlleSchermen(); document.getElementById('home-screen').classList.remove('hidden'); tekenHomeTijdlijn(); }
-    function toonDashboard() { verbergAlleSchermen(); berekenDashboard(); document.getElementById('dashboard-screen').classList.remove('hidden'); }
-    
-    function openCategorie(catNaam, catIcon) {
-        huidigeCategorie = catNaam;
-        document.getElementById('list-titel').innerText = catIcon + " " + catNaam;
-        document.getElementById('searchInput').value = ''; 
-        document.getElementById('sorteerSelect').value = 'az';
-        tekenLijstScherm();
-        verbergAlleSchermen(); document.getElementById('list-screen').classList.remove('hidden');
-    }
-
-    function terugNaarLijst() { tekenLijstScherm(); verbergAlleSchermen(); document.getElementById('list-screen').classList.remove('hidden'); }
-
-    function tekenLijstScherm() {
-        const zoekTerm = document.getElementById('searchInput').value.toLowerCase();
-        const sorteerWaarde = document.getElementById('sorteerSelect').value;
-        const lijstDiv = document.getElementById('voedselLijst');
-        lijstDiv.innerHTML = ''; 
-
-        let database = getVolledigeDatabase();
-        let productenMetData = database
-            .filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm))
-            .map(p => {
-                const geschiedenis = haalOp(p.id);
-                const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
-                const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
-                return { ...p, geschiedenis, aantalLekker, aantalVies };
-            });
-
-        if (sorteerWaarde === 'lekker') productenMetData.sort((a, b) => b.aantalLekker - a.aantalLekker);
-        else if (sorteerWaarde === 'vies') productenMetData.sort((a, b) => b.aantalVies - a.aantalVies);
-        else if (sorteerWaarde === 'nieuw') productenMetData = productenMetData.filter(p => p.geschiedenis.length === 0);
-        else productenMetData.sort((a, b) => a.naam.localeCompare(b.naam));
-
-        if (productenMetData.length === 0) {
-            lijstDiv.innerHTML = '<p style="color:#8D6E63; text-align:center; font-weight:bold; margin-top: 20px;">Niks gevonden in dit deel van het bos...</p>';
-            return;
-        }
-
-        let html = '';
-        productenMetData.forEach(prod => {
-            const laatste4 = prod.geschiedenis.slice(-4);
-            let voetjesHtml = '';
-            for(let i = 0; i < 4; i++) {
-                if (laatste4[i]) voetjesHtml += getPaw(laatste4[i].beoordeling);
-                else voetjesHtml += getPaw('leeg'); 
-            }
-            html += `
-                <div class="food-item" onclick="openDetail('${prod.id}', '${prod.naam}')">
-                    <span>${prod.naam}</span>
-                    <div class="paws-container">${voetjesHtml}</div>
-                </div>
-            `;
-        });
-        lijstDiv.innerHTML = html;
-    }
-
-    function filterLijst() { tekenLijstScherm(); }
-
-    function openDetail(id, naam) {
-        huidigeSelectieId = id;
-        document.getElementById('detail-titel').innerText = naam;
-        gekozenBeoordeling = null;
-        document.getElementById('notitieInput').value = '';
-        resetKnoppen();
-        tekenGeschiedenis(id);
-        verbergAlleSchermen();
-        document.getElementById('detail-screen').classList.remove('hidden');
-    }
-
-    function selecteerBeoordeling(status) {
-        gekozenBeoordeling = status;
-        resetKnoppen();
-        document.getElementById('btn-' + status).classList.add('active');
-    }
-
-    function resetKnoppen() { ['vies', 'twijfel', 'lekker'].forEach(k => document.getElementById('btn-' + k).classList.remove('active')); }
-
-    function tekenGeschiedenis(id) {
-        const div = document.getElementById('geschiedenisLijst');
-        const geschiedenis = haalOp(id);
-        
-        if (geschiedenis.length === 0) {
-            div.innerHTML = "<p style='color:#a1887f; font-style:italic; font-weight: bold;'>Nog niet geproefd. Tijd voor een avontuur! 🐾</p>";
-            return;
-        }
-
-        let html = '';
-        for (let i = geschiedenis.length - 1; i >= 0; i--) {
-            let test = geschiedenis[i];
-            let labelText = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Bah' : 'Mwah');
-            let paw = getPaw(test.beoordeling);
-            
-            // De verwijder knop is verplaatst, de datum staat nu links
-            html += `
-                <div class="history-item ${test.beoordeling}">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div style="flex-grow: 1; padding-right: 10px;">
-                            <strong style="font-size: 1.1em; color:var(--bast-dark); display: flex; align-items: center; gap: 5px;">${paw} ${labelText}</strong>
-                            <div class="history-date" style="margin-top: 5px;">📅 ${test.datum}</div>
-                            ${test.notitie ? `<p style="margin: 6px 0 0 0; color:var(--tekst);">"${test.notitie}"</p>` : ''}
-                        </div>
-                        <button class="btn-verwijder-klein" onclick="verwijderTest(${i})" title="Verwijder deze ervaring">✖</button>
-                    </div>
-                </div>
-            `;
-        }
-        div.innerHTML = html;
-    }
-
-    function berekenDashboard() {
-        let geproefdCount = 0;
-        let alleItems = [];
-        let db = getVolledigeDatabase();
-
-        db.forEach(p => {
-            const geschiedenis = haalOp(p.id);
-            if (geschiedenis.length > 0) { geproefdCount++; }
-            
-            const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
-            const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
-            
-            if(aantalLekker > 0 || aantalVies > 0) {
-                alleItems.push({ naam: p.naam, lekker: aantalLekker, vies: aantalVies });
-            }
-        });
-
-        document.getElementById('dash-totaal').innerText = geproefdCount;
-
-        let topLekker = alleItems.filter(i => i.lekker > 0).sort((a,b) => b.lekker - a.lekker).slice(0, 3);
-        let htmlLekker = '';
-        if(topLekker.length === 0) htmlLekker = '<li>Nog geen favorieten...</li>';
-        topLekker.forEach(i => htmlLekker += `<li><span>${i.naam}</span> <span style="color:var(--groen); display:flex; align-items:center;">${getPaw('lekker')} x${i.lekker}</span></li>`);
-        document.getElementById('dash-top-lekker').innerHTML = htmlLekker;
-
-        let topVies = alleItems.filter(i => i.vies > 0).sort((a,b) => b.vies - a.vies).slice(0, 3);
-        let htmlVies = '';
-        if(topVies.length === 0) htmlVies = '<li>Niks vies gevonden! 🎉</li>';
-        topVies.forEach(i => htmlVies += `<li><span>${i.naam}</span> <span style="color:var(--rood); display:flex; align-items:center;">${getPaw('vies')} x${i.vies}</span></li>`);
-        document.getElementById('dash-top-vies').innerHTML = htmlVies;
-    }
-
-    // --- DATA BEHEER ---
-    function telUniekeHapjes() {
-        let count = 0;
-        getVolledigeDatabase().forEach(p => {
-            if (haalOp(p.id).length > 0) count++;
-        });
-        return count;
-    }
-
-    function slaTestOp() {
-        if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring!"); return; }
-        
-        let countVoor = telUniekeHapjes();
-
-        const notitie = document.getElementById('notitieInput').value;
-        const vandaag = new Date().toLocaleDateString('nl-NL'); 
-        
-        const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie, ts: Date.now() };
-
-        if (!woudData.geschiedenis) woudData.geschiedenis = {};
-        if (!woudData.geschiedenis[huidigeSelectieId]) woudData.geschiedenis[huidigeSelectieId] = [];
-        woudData.geschiedenis[huidigeSelectieId].push(nieuweTest);
-
-        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true }).then(() => {
-            let countNa = telUniekeHapjes();
-            if (countVoor < 10 && countNa === 10) { alert("🦊 Mijlpaal bereikt! 10 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
-            else if (countVoor < 25 && countNa === 25) { alert("🦊 Mijlpaal bereikt! 25 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
-            else if (countVoor < 50 && countNa === 50) { alert("🦊 Mijlpaal bereikt! 50 unieke hapjes geproefd! 🎉"); startVeiligeBlaadjesRegen(); }
-            else if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); } 
-        });
-
-        tekenGeschiedenis(huidigeSelectieId);
-        document.getElementById('notitieInput').value = '';
-        gekozenBeoordeling = null;
-        resetKnoppen();
-    }
-
-    function verwijderTest(index) {
-        if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
-        woudData.geschiedenis[huidigeSelectieId].splice(index, 1);
-        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
-    }
-
-    function voegHapjeToe() {
-        const naam = prompt("Wat is de naam van het nieuwe hapje?");
-        if (!naam || naam.trim() === "") return;
-        
-        if(!woudData.custom_db) woudData.custom_db = [];
-        const nieuwId = 'c' + Date.now();
-        woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie });
-        
-        docRef.set({ custom_db: woudData.custom_db }, { merge: true });
-    }
-
-    function verwijderHuidigHapje() {
-        const naam = document.getElementById('detail-titel').innerText;
-        if(!confirm(`Weet je zeker dat je ${naam} voorgoed uit de lijst wilt verwijderen?`)) return;
-        if(!woudData.verwijderd) woudData.verwijderd = [];
-        woudData.verwijderd.push(huidigeSelectieId);
-        docRef.set({ verwijderd: woudData.verwijderd }, { merge: true }).then(() => { terugNaarLijst(); });
-    }
-
-    function exporteerNaarCSV() {
-        let csv = "Naam,Categorie,Datum,Beoordeling,Notitie\n";
-        let db = getVolledigeDatabase();
-        db.forEach(p => {
-            let geschiedenis = haalOp(p.id);
-            geschiedenis.forEach(g => {
-                let schoneNotitie = g.notitie ? g.notitie.replace(/"/g, '""').replace(/\n/g, ' ') : '';
-                csv += `"${p.naam}","${p.categorie}","${g.datum}","${g.beoordeling}","${schoneNotitie}"\n`;
-            });
-        });
-        
-        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "HapjesWoud_Backup.csv";
-        link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function startVeiligeBlaadjesRegen() {
-        const bladeren = ['🍃', '🍂', '🍁', '✨'];
-        for(let i=0; i<25; i++) {
-            const blaadje = document.createElement('div');
-            blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
-            blaadje.className = 'veilig-blaadje';
-            blaadje.style.left = (Math.random() * 90) + 'vw';
-            const duur = (Math.random() * 2 + 2); 
-            blaadje.style.animation = `val-animatie ${duur}s linear forwards`;
-            document.body.appendChild(blaadje);
-            setTimeout(() => { document.body.removeChild(blaadje); }, duur * 1000);
-        }
-    }
-</script>
-
-</body>
-</html>
+            <button class="btn-verwijder-vakje" onclick="ver
