@@ -44,21 +44,24 @@
       .paw-filled { font-variation-settings: 'FILL' 1; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      body { min-height: 100dvh; }
+      body { min-height: 100dvh; background-color: #fcf5ed; }
       .hidden-screen { display: none !important; }
       
-      /* Confetti/Leaves animation */
+      /* Bento Grid Shadows */
+      .storybook-shadow { box-shadow: 0 10px 30px -5px rgba(49, 46, 41, 0.1); }
+      
+      /* Animatie */
       .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
       @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container antialiased">
+<body class="text-on-background font-body selection:bg-primary-container selection:text-on-primary-container antialiased pb-32">
 
     <header class="fixed top-0 w-full z-50 flex items-center px-6 h-16 bg-[#fcf5ed]/90 backdrop-blur-md border-b border-surface-variant/50">
         <div class="flex items-center gap-4 w-full max-w-2xl mx-auto">
             <button id="back-btn" onclick="gaTerug()" class="hidden material-symbols-outlined hover:bg-surface-variant transition-colors p-2 rounded-full scale-95 active:scale-90 duration-200 text-primary">arrow_back</button>
             <div id="top-avatar" class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-primary">
-                <img alt="HapjesWoud Vosje" src="HapjesWoud.png" class="w-full h-full object-cover">
+                <img alt="HapjesWoud Vosje" src="Logo%20HapjesWoud.png" class="w-full h-full object-cover">
             </div>
             <h1 id="top-title" class="font-headline font-bold tracking-tight text-2xl text-primary">HapjesWoud</h1>
             <div class="ml-auto flex items-center gap-2" id="top-sync-status">
@@ -67,20 +70,30 @@
         </div>
     </header>
 
-    <main class="pt-20 pb-32 max-w-2xl mx-auto px-4 sm:px-6">
+    <main class="pt-24 max-w-2xl mx-auto px-4 sm:px-6 space-y-10">
 
         <div id="home-screen" class="space-y-10">
-            <section class="space-y-1 mt-4">
-                <h1 class="text-3xl font-headline font-extrabold tracking-tight text-primary">Hoi avonturier!</h1>
-                <p class="text-on-surface-variant font-medium">Klaar voor een nieuwe smaakreis?</p>
+            <section>
+                <div class="relative overflow-hidden bg-primary-container/30 rounded-xl p-8 mb-4 border border-primary-container/50">
+                    <div class="relative z-10">
+                        <span class="text-secondary font-bold tracking-widest text-xs uppercase mb-2 block">Jouw Avonturen</span>
+                        <h2 class="font-headline text-3xl text-on-primary-container leading-tight mb-2">Wat gaan we ontdekken?</h2>
+                        <p class="text-on-surface-variant text-sm max-w-md">Kies een pad en proef de geheimen van het woud.</p>
+                    </div>
+                    <div class="absolute -right-10 -top-10 opacity-10">
+                        <span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+                    </div>
+                </div>
             </section>
 
-            <section id="home-latest-adventure"></section>
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-4" id="home-bento-grid">
+                </section>
 
-            <section class="space-y-6">
-                <h2 class="text-2xl font-headline font-extrabold tracking-tight text-on-background">Wat gaan we ontdekken?</h2>
-                <div class="grid grid-cols-2 gap-4" id="home-categories-grid">
-                    </div>
+            <section>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-headline font-bold text-xl text-on-surface">Laatste ontdekking</h3>
+                </div>
+                <div id="home-latest-adventure"></div>
             </section>
         </div>
 
@@ -90,127 +103,127 @@
                     <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                         <span class="material-symbols-outlined text-outline">search</span>
                     </div>
-                    <input id="searchInput" onkeyup="filterLijst()" class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-14 pr-6 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/40 transition-all outline-none font-headline font-bold" placeholder="Zoek een hapje..." type="text"/>
+                    <input id="searchInput" onkeyup="filterLijst()" class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-14 pr-6 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/40 transition-all outline-none font-headline font-bold" placeholder="Zoek in het woud..." type="text"/>
                 </div>
-                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                    <select id="sorteerSelect" onchange="filterLijst()" class="bg-primary text-on-primary border-none focus:ring-0 px-6 py-2.5 rounded-full font-bold appearance-none cursor-pointer shadow-sm">
-                        <option value="az">A-Z Sortering</option>
-                        <option value="lekker">Beste Score 💚</option>
-                        <option value="vies">Laagste Score 💔</option>
+                
+                <div class="flex gap-2">
+                    <select id="sorteerSelect" onchange="filterLijst()" class="flex-1 bg-surface-container-highest border-none focus:ring-0 px-4 py-3 rounded-xl font-bold cursor-pointer text-sm text-on-surface">
+                        <option value="az">A-Z</option>
+                        <option value="lekker">Beste 💚</option>
+                        <option value="vies">Slechtste 💔</option>
                         <option value="nieuw">Nog proeven</option>
                     </select>
-                    <button onclick="voegHapjeToe()" class="bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-bold whitespace-nowrap hover:bg-surface-dim transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">add</span> Nieuw Hapje
+                    <button onclick="voegHapjeToe()" class="bg-primary text-white px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-1 active:scale-95 transition-transform shadow-md text-sm whitespace-nowrap">
+                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">add_circle</span> Toevoegen
                     </button>
                 </div>
             </section>
 
-            <section class="grid grid-cols-1 gap-4" id="voedselLijst">
+            <section class="grid grid-cols-1 gap-3" id="voedselLijst">
                 </section>
         </div>
 
-        <div id="detail-screen" class="hidden-screen space-y-8 mt-2">
-            <div class="bg-surface-container-low rounded-xl p-6 flex justify-between items-center shadow-sm">
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full bg-primary-container text-primary flex items-center justify-center text-3xl" id="detail-icon">🥦</div>
-                    <div>
-                        <h2 class="font-headline font-extrabold text-2xl text-on-surface" id="detail-naam">Product Naam</h2>
-                        <p class="text-on-surface-variant text-sm font-bold uppercase tracking-widest" id="detail-cat-naam">Categorie</p>
-                    </div>
+        <div id="detail-screen" class="hidden-screen space-y-6 mt-2">
+            
+            <div class="relative w-full h-48 rounded-xl overflow-hidden shadow-md bg-surface-container-highest flex items-center justify-center">
+                <span id="detail-icon" class="text-7xl opacity-50">🥦</span>
+                <img id="detail-image" alt="Ingredient" class="absolute inset-0 w-full h-full object-cover hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 z-10">
+                    <span id="detail-cat-naam" class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Categorie</span>
                 </div>
-                <button onclick="verwijderHuidigHapje()" class="text-error bg-error-container/20 p-3 rounded-full hover:bg-error-container/40 transition-colors active:scale-90" title="Hapje verwijderen">
-                    <span class="material-symbols-outlined">delete</span>
-                </button>
             </div>
 
-            <section class="bg-surface-container-low parchment-texture rounded-xl p-8 shadow-sm">
-                <h2 class="font-headline text-xl font-bold mb-6 text-on-surface">Hoe smaakte het?</h2>
-                <div class="grid grid-cols-3 gap-4 mb-6">
-                    <button id="btn-vies" onclick="selecteerBeoordeling('vies')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-vies">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-vies">Bah</span>
+            <section class="bg-surface-container-low rounded-xl p-6 shadow-sm border border-outline-variant/10">
+                <h2 class="font-headline text-lg font-bold mb-4 text-on-surface">Wat vond Lucas ervan?</h2>
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <button id="btn-vies" onclick="selecteerBeoordeling('vies')" class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-highest transition-all active:scale-95 border border-transparent">
+                        <span class="material-symbols-outlined text-3xl text-outline transition-colors" id="icon-vies">pets</span>
+                        <span class="font-bold text-xs text-on-surface-variant" id="text-vies">Bah</span>
                     </button>
-                    <button id="btn-twijfel" onclick="selecteerBeoordeling('twijfel')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-twijfel">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-twijfel">Mwah</span>
+                    <button id="btn-twijfel" onclick="selecteerBeoordeling('twijfel')" class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-highest transition-all active:scale-95 border border-transparent">
+                        <span class="material-symbols-outlined text-3xl text-outline transition-colors" id="icon-twijfel">pets</span>
+                        <span class="font-bold text-xs text-on-surface-variant" id="text-twijfel">Mwah</span>
                     </button>
-                    <button id="btn-lekker" onclick="selecteerBeoordeling('lekker')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-lekker">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-lekker">Lekker</span>
+                    <button id="btn-lekker" onclick="selecteerBeoordeling('lekker')" class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-highest transition-all active:scale-95 border border-transparent">
+                        <span class="material-symbols-outlined text-3xl text-outline transition-colors" id="icon-lekker">pets</span>
+                        <span class="font-bold text-xs text-on-surface-variant" id="text-lekker">Lekker</span>
                     </button>
                 </div>
                 
-                <div class="bg-surface-container-highest rounded-lg p-4 shadow-inner mb-6">
-                    <textarea id="notitieInput" class="w-full bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline font-body resize-none" placeholder="Schrijf hier Lucas zijn reactie..." rows="3"></textarea>
+                <div class="bg-surface-container-highest rounded-lg p-3 shadow-inner mb-4">
+                    <textarea id="notitieInput" class="w-full bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline-variant font-body resize-none text-sm" placeholder="Schrijf een korte notitie..." rows="2"></textarea>
                 </div>
 
-                <button onclick="slaTestOp()" class="w-full relative group">
-                    <div class="absolute inset-0 bg-primary-dim rounded-xl transform translate-y-1"></div>
-                    <div class="relative bg-primary py-4 rounded-xl flex items-center justify-center gap-3 transform active:translate-y-1 transition-transform">
-                        <span class="material-symbols-outlined text-on-primary">auto_stories</span>
-                        <span class="font-headline font-extrabold text-lg text-on-primary tracking-wide">Bewaar in het Woud</span>
-                    </div>
+                <button onclick="slaTestOp()" class="w-full bg-primary py-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-md">
+                    <span class="material-symbols-outlined text-on-primary text-sm">auto_stories</span>
+                    <span class="font-headline font-bold text-on-primary">Opslaan in het Woud</span>
                 </button>
             </section>
 
             <section>
-                <div class="flex items-center justify-between mb-6 px-2">
-                    <h3 class="font-headline font-extrabold text-xl text-on-surface">Eerdere Avonturen</h3>
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <h3 class="font-headline font-bold text-lg text-on-surface">Eerdere Avonturen</h3>
                 </div>
-                <div class="space-y-4" id="geschiedenisLijst">
+                <div class="space-y-3" id="geschiedenisLijst">
                     </div>
             </section>
+
+            <div class="text-center pt-8 pb-4">
+                <button onclick="verwijderHuidigHapje()" class="text-error bg-error-container/20 px-4 py-2 rounded-full font-bold text-sm hover:bg-error-container/40 transition-colors active:scale-95">
+                    ✖ Verwijder dit ingrediënt
+                </button>
+            </div>
         </div>
 
-        <div id="dashboard-screen" class="hidden-screen space-y-8 mt-4">
-            <div class="bg-primary-container/30 rounded-xl p-8 text-center relative overflow-hidden border border-primary-container">
-                <span class="material-symbols-outlined absolute -bottom-4 -right-4 text-8xl text-primary/10 rotate-12 select-none">emoji_events</span>
-                <p class="font-headline font-bold text-primary uppercase tracking-widest text-xs mb-2">Jouw Ontdekkingsreis</p>
-                <div class="inline-flex items-center justify-center bg-primary w-24 h-24 rounded-full border-4 border-surface shadow-xl mb-4">
-                    <span id="dash-totaal" class="text-on-primary font-headline font-extrabold text-4xl">0</span>
+        <div id="dashboard-screen" class="hidden-screen space-y-6 mt-2">
+            <div class="bg-surface-container rounded-xl p-8 text-center relative overflow-hidden border border-outline-variant/20 shadow-sm">
+                <p class="font-headline font-bold text-on-surface-variant uppercase tracking-widest text-xs mb-2">Ontdekkingsreis</p>
+                <div class="inline-flex items-center justify-center bg-primary w-20 h-20 rounded-full border-4 border-surface shadow-md mb-2">
+                    <span id="dash-totaal" class="text-on-primary font-headline font-extrabold text-3xl">0</span>
                 </div>
-                <h2 class="font-headline font-bold text-2xl text-on-surface">Unieke hapjes geproefd</h2>
+                <h2 class="font-headline font-bold text-xl text-primary">Unieke hapjes</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-surface-container-low rounded-xl p-6 shadow-sm border-t-4 border-primary">
-                    <h3 class="font-headline font-bold text-xl text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span> Top Favorieten</h3>
-                    <ul class="space-y-3" id="dash-top-lekker"></ul>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="bg-surface-container-low rounded-xl p-5 shadow-sm border border-outline-variant/10">
+                    <h3 class="font-headline font-bold text-lg text-on-surface mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span> Top Favorieten</h3>
+                    <ul class="space-y-2" id="dash-top-lekker"></ul>
                 </div>
-                <div class="bg-surface-container-low rounded-xl p-6 shadow-sm border-t-4 border-error">
-                    <h3 class="font-headline font-bold text-xl text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">heart_broken</span> Minst Favoriet</h3>
-                    <ul class="space-y-3" id="dash-top-vies"></ul>
+                <div class="bg-surface-container-low rounded-xl p-5 shadow-sm border border-outline-variant/10">
+                    <h3 class="font-headline font-bold text-lg text-on-surface mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">heart_broken</span> Minst Favoriet</h3>
+                    <ul class="space-y-2" id="dash-top-vies"></ul>
                 </div>
             </div>
             
-            <button onclick="exporteerNaarCSV()" class="w-full bg-surface-container-high text-on-surface-variant font-bold py-4 rounded-xl flex justify-center items-center gap-2 hover:bg-surface-dim transition-colors">
-                <span class="material-symbols-outlined">download</span> Exporteer data als Excel/CSV
+            <button onclick="exporteerNaarCSV()" class="w-full bg-surface-container-highest text-on-surface-variant font-bold py-4 rounded-xl flex justify-center items-center gap-2 active:scale-95 transition-transform mt-4">
+                <span class="material-symbols-outlined">download</span> Exporteer Back-up
             </button>
         </div>
 
     </main>
 
-    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface/90 backdrop-blur-xl shadow-[0_-4px_30px_rgba(0,0,0,0.08)] rounded-t-[2rem]">
-        <button onclick="navigeer('home')" id="nav-home" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
-            <span class="material-symbols-outlined mb-1" id="icon-home">home</span>
+    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 sm:px-4 pb-6 pt-2 bg-[#fcf5ed]/95 backdrop-blur-md rounded-t-[2rem] border-t border-surface-variant/30 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+        <button onclick="navigeer('home')" id="nav-home" class="flex flex-col items-center justify-center w-16 px-1 py-2 text-primary transition-colors">
+            <span class="material-symbols-outlined mb-1 paw-filled" id="icon-home">home</span>
             <span class="font-label text-[10px] font-bold">Home</span>
         </button>
-        <button onclick="navigeer('dashboard')" id="nav-dashboard" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
+        <button onclick="navigeer('dashboard')" id="nav-dashboard" class="flex flex-col items-center justify-center w-16 px-1 py-2 text-on-surface-variant transition-colors">
             <span class="material-symbols-outlined mb-1" id="icon-dashboard">leaderboard</span>
             <span class="font-label text-[10px] font-bold">Dagboek</span>
         </button>
         
-        <button onclick="voegHapjeToe()" class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-14 h-14 -mt-8 shadow-lg active:scale-90 transition-transform border-4 border-surface">
-            <span class="material-symbols-outlined text-3xl">add</span>
+        <button onclick="openZoekScherm()" class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-[1.5rem] w-16 h-12 mb-2 shadow-lg active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">search</span>
         </button>
         
-        <button onclick="navigeer('categorieen')" id="nav-cat" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
+        <button onclick="navigeer('categorieen')" id="nav-cat" class="flex flex-col items-center justify-center w-16 px-1 py-2 text-on-surface-variant transition-colors">
             <span class="material-symbols-outlined mb-1" id="icon-cat">grid_view</span>
             <span class="font-label text-[10px] font-bold">Lijsten</span>
         </button>
-        <button onclick="voegCategorieToe()" id="nav-settings" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
+        <button onclick="voegCategorieToe()" id="nav-settings" class="flex flex-col items-center justify-center w-16 px-1 py-2 text-on-surface-variant transition-colors">
             <span class="material-symbols-outlined mb-1">new_window</span>
-            <span class="font-label text-[10px] font-bold">Nieuwe Cat.</span>
+            <span class="font-label text-[10px] font-bold">Nieuwe</span>
         </button>
     </nav>
 
@@ -235,11 +248,12 @@
     let huidigeCategorieIcon = '';
     let huidigeSelectieId = null;
     let gekozenBeoordeling = null;
+    let toonAlleIngredienten = false; // Toggle voor de centrale zoekknop
 
     docRef.onSnapshot((doc) => {
         if (doc.exists) {
             woudData = doc.data();
-            document.getElementById('top-sync-status').innerHTML = '<span class="material-symbols-outlined text-primary" title="Cloud is up to date">cloud_done</span>';
+            document.getElementById('top-sync-status').innerHTML = '<span class="material-symbols-outlined text-primary text-sm" title="Cloud is up to date">cloud_done</span>';
             verversUI();
         } else {
             docRef.set(woudData);
@@ -248,13 +262,13 @@
 
     // --- 2. DATA & CONFIG ---
     const basisCategorieen = [
-        { naam: 'Groenten', icon: '🥦', color: 'bg-primary-container', textColor: 'text-on-primary-container', image: 'groenten_bento.jpg' }, 
-        { naam: 'Fruit', icon: '🍎', color: 'bg-secondary-container', textColor: 'text-on-secondary-container', image: 'fruit_bento.jpg' }, 
-        { naam: 'Proteïne', icon: '🍗', color: 'bg-tertiary-container/50', textColor: 'text-tertiary', image: 'proteine_bento.jpg' },
-        { naam: 'Granen', icon: '🌾', color: 'bg-surface-variant', textColor: 'text-secondary', image: 'granen_bento.jpg' }, 
-        { naam: 'Zuivel', icon: '🥛', color: 'bg-white', textColor: 'text-primary', image: 'zuivel_bento.jpg' }, 
-        { naam: 'Kruiden', icon: '🌿', color: 'bg-primary/20', textColor: 'text-primary', image: 'kruiden_bento.jpg' }, 
-        { naam: 'Allergenen', icon: '⚠️', color: 'bg-error-container/30', textColor: 'text-error', image: 'allergenen_bento.jpg' }
+        { naam: 'Groenten', icon: '🥦', color: 'bg-[#1b4b1a]', textColor: 'text-white', image: 'groenten.jpg', size: 'large' }, 
+        { naam: 'Fruit', icon: '🍎', color: 'bg-secondary-container', textColor: 'text-on-secondary-container', image: 'fruit.jpg', size: 'medium' }, 
+        { naam: 'Proteïne', icon: '🍗', color: 'bg-surface-container-high', textColor: 'text-on-surface', image: 'proteine.jpg', size: 'small' },
+        { naam: 'Granen', icon: '🌾', color: 'bg-surface-container-high', textColor: 'text-on-surface', image: 'granen.jpg', size: 'small' }, 
+        { naam: 'Zuivel', icon: '🥛', color: 'bg-surface-container-high', textColor: 'text-on-surface', image: 'zuivel.jpg', size: 'small' }, 
+        { naam: 'Kruiden', icon: '🌿', color: 'bg-surface-container-high', textColor: 'text-on-surface', image: 'kruiden.jpg', size: 'small' }, 
+        { naam: 'Allergenen', icon: '⚠️', color: 'bg-error-container', textColor: 'text-on-error-container', image: null, size: 'small' }
     ];
 
     const basisDatabase = [
@@ -284,11 +298,10 @@
             document.getElementById(id).classList.add('hidden-screen');
         });
         
-        // Reset Nav Icons & App Bar
         ['nav-home', 'nav-dashboard', 'nav-cat'].forEach(id => {
             document.getElementById(id).classList.remove('text-primary');
             document.getElementById(id).classList.add('text-on-surface-variant');
-            document.getElementById(id.replace('nav-', 'icon-')).style.fontVariationSettings = "'FILL' 0";
+            document.getElementById(id.replace('nav-', 'icon-')).classList.remove('paw-filled');
         });
         document.getElementById('back-btn').classList.add('hidden');
         document.getElementById('top-avatar').classList.remove('hidden');
@@ -297,17 +310,16 @@
             document.getElementById('home-screen').classList.remove('hidden-screen');
             document.getElementById('top-title').innerText = "HapjesWoud";
             document.getElementById('nav-home').classList.add('text-primary');
-            document.getElementById('icon-home').style.fontVariationSettings = "'FILL' 1";
+            document.getElementById('icon-home').classList.add('paw-filled');
         } 
         else if(scherm === 'dashboard') {
             document.getElementById('dashboard-screen').classList.remove('hidden-screen');
             document.getElementById('top-title').innerText = "Dagboek";
             document.getElementById('nav-dashboard').classList.add('text-primary');
-            document.getElementById('icon-dashboard').style.fontVariationSettings = "'FILL' 1";
+            document.getElementById('icon-dashboard').classList.add('paw-filled');
         }
         else if(scherm === 'categorieen') {
-            // Als fallback navigeren we naar Home waar de slider staat
-            navigeer('home'); 
+            openCategorie('Groenten', '🥦'); // Default tab
         }
         
         verversUI();
@@ -318,7 +330,27 @@
         else navigeer('home');
     }
 
+    function openZoekScherm() {
+        toonAlleIngredienten = true;
+        huidigeCategorie = "Alle Hapjes";
+        huidigeCategorieIcon = "✨";
+        
+        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
+        document.getElementById('list-screen').classList.remove('hidden-screen');
+        
+        document.getElementById('top-title').innerText = `Zoek Ingredient`;
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('top-avatar').classList.add('hidden');
+        
+        document.getElementById('searchInput').value = ''; 
+        document.getElementById('sorteerSelect').value = 'az';
+        
+        huidigeScherm = 'list';
+        tekenLijstScherm();
+    }
+
     function openCategorie(catNaam, catIcon) {
+        toonAlleIngredienten = false;
         huidigeScherm = 'list';
         huidigeCategorie = catNaam;
         huidigeCategorieIcon = catIcon || '✨';
@@ -330,27 +362,17 @@
         document.getElementById('back-btn').classList.remove('hidden');
         document.getElementById('top-avatar').classList.add('hidden');
         
+        // Update nav balk
+        ['nav-home', 'nav-dashboard', 'nav-cat'].forEach(id => {
+            document.getElementById(id).classList.remove('text-primary');
+            document.getElementById(id).classList.add('text-on-surface-variant');
+            document.getElementById(id.replace('nav-', 'icon-')).classList.remove('paw-filled');
+        });
+        document.getElementById('nav-cat').classList.add('text-primary');
+        document.getElementById('icon-cat').classList.add('paw-filled');
+        
         document.getElementById('searchInput').value = ''; 
         document.getElementById('sorteerSelect').value = 'az';
-        
-        verversUI();
-    }
-
-    function openDetail(id, naam) {
-        huidigeScherm = 'detail';
-        huidigeSelectieId = id;
-        
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
-        document.getElementById('detail-screen').classList.remove('hidden-screen');
-        
-        document.getElementById('top-title').innerText = naam;
-        document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie;
-        document.getElementById('detail-icon').innerText = huidigeCategorieIcon;
-        
-        document.getElementById('notitieInput').value = '';
-        gekozenBeoordeling = null;
-        resetKnoppen();
         
         verversUI();
     }
@@ -368,29 +390,41 @@
         }
     }
 
-    // --- 4. TEKEN FUNCTIES (Tailwind Components) ---
+    // --- 4. TEKEN FUNCTIES (BENTO GRID!) ---
     
     function tekenHomeCategories() {
-        let alleCat = basisCategorieen.map(c => c); // copy
+        let alleCat = basisCategorieen.map(c => c); 
         if(woudData.custom_categories) {
             woudData.custom_categories.forEach(cc => {
-                alleCat.push({ naam: cc.naam, icon: cc.icon, color: 'bg-surface-container-high', textColor: 'text-on-surface', image: null });
+                alleCat.push({ naam: cc.naam, icon: cc.icon, color: 'bg-surface-container-high', textColor: 'text-on-surface', size: 'small' });
             });
         }
         
         let html = '';
-        alleCat.forEach(c => {
-            let imgHtml = c.image ? `<img src="images/${c.image}" alt="${c.naam}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 z-0">` : '';
+        alleCat.forEach((c, index) => {
+            let colSpan = c.size === 'large' ? 'col-span-1 md:col-span-12 h-64' : (c.size === 'medium' ? 'col-span-1 md:col-span-6 h-48' : 'col-span-1 h-32');
+            let hasImage = c.image ? true : false;
+            
+            // Image tag met Fallback (onerror verbergt de image en toont het fallback-divje)
+            let imgHtml = hasImage ? `<img src="images/${c.image}" alt="${c.naam}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">` : '';
+            
+            // Fallback (zacht kleurvlak met emoji) als image faalt of ontbreekt
+            let fallbackHtml = `<div class="absolute inset-0 w-full h-full ${c.color} opacity-80 z-0 flex items-center justify-center" ${hasImage ? 'style="display:none;"' : ''}><span class="text-6xl opacity-30">${c.icon}</span></div>`;
+            
             html += `
-            <div onclick="openCategorie('${c.naam}', '${c.icon}')" class="group relative overflow-hidden rounded-xl ${c.color} ${c.image ? 'p-0' : 'p-5'} h-32 flex flex-col justify-end transition-transform active:scale-95 shadow-sm cursor-pointer border border-outline-variant/10">
+            <div onclick="openCategorie('${c.naam}', '${c.icon}')" class="group relative overflow-hidden rounded-2xl ${colSpan} flex flex-col justify-end transition-transform active:scale-[0.98] shadow-sm cursor-pointer border border-outline-variant/20 storybook-shadow bg-surface-container-low">
                 ${imgHtml}
-                ${c.image ? `<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>` : ''}
-                <div class="relative z-20 ${c.image ? 'p-5' : ''}">
-                    <h4 class="text-xl font-headline font-extrabold ${c.image ? 'text-white' : c.textColor}">${c.naam}</h4>
+                ${fallbackHtml}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
+                <div class="relative z-20 p-5">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-2xl">${c.icon}</span>
+                        <h4 class="text-xl font-headline font-extrabold text-white">${c.naam}</h4>
+                    </div>
                 </div>
             </div>`;
         });
-        document.getElementById('home-categories-grid').innerHTML = html;
+        document.getElementById('home-bento-grid').innerHTML = html;
     }
 
     function tekenHomeLatest() {
@@ -401,40 +435,35 @@
             geschiedenis.forEach(g => { alleTests.push({ naam: p.naam, id: p.id, cat: p.categorie, ...g }); });
         });
         alleTests.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-        let recent = alleTests.slice(0, 1)[0]; // Pak alleen de allerlaatste
+        let recent = alleTests.slice(0, 1)[0]; 
         
         let div = document.getElementById('home-latest-adventure');
         if(!recent) {
-            div.innerHTML = `<div class="bg-surface-container-low rounded-xl p-6 text-center italic text-on-surface-variant border border-outline-variant/30 shadow-inner">Nog geen avonturen beleefd!</div>`;
+            div.innerHTML = `<div class="bg-surface-container-low rounded-xl p-6 text-center text-sm font-bold text-on-surface-variant border border-outline-variant/30 shadow-sm">Klaar voor de eerste hap? Ga naar "Zoek" of klik op een categorie! 🥕</div>`;
             return;
         }
 
-        // Bepaal styling op basis van beoordeling
-        let colors = recent.beoordeling === 'lekker' ? 'text-primary bg-primary-container/20' : (recent.beoordeling === 'vies' ? 'text-error bg-error-container/20' : 'text-secondary bg-secondary-container/30');
+        let colors = recent.beoordeling === 'lekker' ? 'text-primary bg-primary-container/30' : (recent.beoordeling === 'vies' ? 'text-error bg-error-container/30' : 'text-secondary bg-secondary-container/40');
+        let badgeColor = recent.beoordeling === 'lekker' ? 'bg-primary' : (recent.beoordeling === 'vies' ? 'bg-error' : 'bg-secondary');
+        let label = recent.beoordeling === 'lekker' ? 'Lekker' : (recent.beoordeling === 'vies' ? 'Bah' : 'Mwah');
         
         div.innerHTML = `
-        <div onclick="openDetail('${recent.id}', '${recent.naam}')" class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-6 flex flex-col gap-4 shadow-sm border border-outline-variant/30 cursor-pointer active:scale-95 transition-transform">
-            <div class="absolute -right-8 -top-8 w-32 h-32 ${colors.split(' ')[1]} rounded-full blur-2xl"></div>
+        <div onclick="openDetail('${recent.id}', '${recent.naam}')" class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-5 flex flex-col gap-3 shadow-sm border border-outline-variant/20 cursor-pointer active:scale-95 transition-transform group">
+            <div class="absolute -right-8 -top-8 w-24 h-24 ${colors.split(' ')[1]} rounded-full blur-xl group-hover:scale-150 transition-transform duration-500"></div>
             <div class="flex justify-between items-start relative z-10">
                 <div class="flex items-center gap-3">
                     <div class="${colors} p-2 rounded-lg flex items-center justify-center">
-                        <span class="material-symbols-outlined text-3xl paw-filled">pets</span>
+                        <span class="material-symbols-outlined text-2xl paw-filled">pets</span>
                     </div>
                     <div>
-                        <h3 class="font-headline font-extrabold text-xl text-on-surface">${recent.naam}</h3>
-                        <p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mt-1">${recent.datum}</p>
+                        <h3 class="font-headline font-bold text-lg text-on-surface capitalize">${recent.naam}</h3>
+                        <p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mt-0.5">${recent.datum}</p>
                     </div>
                 </div>
+                <span class="${badgeColor} text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${label}</span>
             </div>
-            ${recent.notitie ? `<p class="text-sm text-on-surface italic line-clamp-2">"${recent.notitie}"</p>` : ''}
+            ${recent.notitie ? `<p class="text-sm text-on-surface italic line-clamp-1 border-l-2 border-outline-variant/30 pl-2 ml-1">"${recent.notitie}"</p>` : ''}
         </div>`;
-    }
-
-    function verversHuidigScherm() {
-        if (!document.getElementById('list-screen').classList.contains('hidden-screen')) tekenLijstScherm();
-        else if (!document.getElementById('detail-screen').classList.contains('hidden-screen')) tekenGeschiedenis(huidigeSelectieId);
-        else if (!document.getElementById('dashboard-screen').classList.contains('hidden-screen')) berekenDashboard();
-        else { tekenHomeCategories(); tekenHomeLatest(); } 
     }
 
     function tekenLijstScherm() {
@@ -445,7 +474,7 @@
 
         let database = getVolledigeDatabase();
         let productenMetData = database
-            .filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm))
+            .filter(p => (toonAlleIngredienten || p.categorie === huidigeCategorie) && p.naam.toLowerCase().includes(zoekTerm))
             .map(p => {
                 const geschiedenis = haalOp(p.id);
                 const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
@@ -470,15 +499,18 @@
             for(let i = 0; i < 4; i++) {
                 if (laatste4[i]) {
                     let col = laatste4[i].beoordeling === 'lekker' ? 'text-primary' : (laatste4[i].beoordeling === 'vies' ? 'text-error' : 'text-secondary');
-                    voetjesHtml += `<span class="material-symbols-outlined text-lg paw-filled ${col}">pets</span>`;
+                    voetjesHtml += `<span class="material-symbols-outlined text-sm paw-filled ${col}">pets</span>`;
                 } else {
-                    voetjesHtml += `<span class="material-symbols-outlined text-lg text-outline-variant/40">pets</span>`;
+                    voetjesHtml += `<span class="material-symbols-outlined text-sm text-outline-variant/30">pets</span>`;
                 }
             }
             html += `
                 <div onclick="openDetail('${prod.id}', '${prod.naam}')" class="bg-surface-container-lowest rounded-xl p-4 flex justify-between items-center group cursor-pointer shadow-sm border border-outline-variant/20 active:scale-95 transition-transform">
-                    <span class="font-headline font-extrabold text-on-surface text-lg capitalize">${prod.naam}</span>
-                    <div class="flex gap-1">${voetjesHtml}</div>
+                    <div class="flex flex-col">
+                        <span class="font-headline font-bold text-on-surface text-lg capitalize">${prod.naam}</span>
+                        ${toonAlleIngredienten ? `<span class="text-[10px] text-on-surface-variant uppercase font-bold">${prod.categorie}</span>` : ''}
+                    </div>
+                    <div class="flex gap-0.5 bg-surface-container-low p-1.5 rounded-lg border border-outline-variant/10">${voetjesHtml}</div>
                 </div>
             `;
         });
@@ -496,23 +528,18 @@
         
         document.getElementById('top-title').innerText = naam;
         document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie;
-        document.getElementById('detail-icon').innerText = huidigeCategorieIcon;
+        document.getElementById('detail-cat-naam').innerText = huidigeCategorie !== "Alle Hapjes" ? huidigeCategorie : "Ingrediënt";
         
-        // --- NIEUW: Dynamische afbeelding ---
-        // We proberen een foto te laden: images/wortel.jpg of images/wortel.png
         let schoneNaam = naam.toLowerCase().trim().replace(/ /g, '_');
         document.getElementById('detail-image').onerror = function() { 
-            // Als .jpg faalt, probeer .png
-            if(this.src.endsWith('.jpg')) {
-                this.src = `images/${schoneNaam}.png`;
-            } else {
-                // Als beide falen, verberg de image tag of toon een placeholder
-                this.classList.add('hidden');
-                document.getElementById('detail-icon').classList.remove('hidden');
+            if(this.src.endsWith('.jpg')) { this.src = `images/${schoneNaam}.png`; } 
+            else { 
+                this.classList.add('hidden'); 
+                document.getElementById('detail-icon').classList.remove('hidden'); 
+                document.getElementById('detail-icon').innerText = huidigeCategorieIcon;
             }
         };
-        // Reset en probeer eerst .jpg
+        
         document.getElementById('detail-icon').classList.add('hidden');
         document.getElementById('detail-image').classList.remove('hidden');
         document.getElementById('detail-image').src = `images/${schoneNaam}.jpg`;
@@ -526,37 +553,31 @@
 
     function selecteerBeoordeling(status) {
         gekozenBeoordeling = status;
-        // Reset alle
         ['vies', 'twijfel', 'lekker'].forEach(k => {
-            let btn = document.getElementById(`btn-${k}`);
+            document.getElementById(`btn-${k}`).className = 'flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-highest transition-all active:scale-95 border border-transparent opacity-60 grayscale';
             let icon = document.getElementById(`icon-${k}`);
-            let text = document.getElementById(`text-${k}`);
-            
-            btn.className = 'flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent';
-            icon.className = 'material-symbols-outlined text-4xl text-outline transition-colors';
+            icon.className = 'material-symbols-outlined text-3xl text-outline transition-colors';
             icon.classList.remove('paw-filled');
-            text.className = 'font-bold text-sm text-on-surface-variant';
+            document.getElementById(`text-${k}`).className = 'font-bold text-xs text-on-surface-variant';
         });
 
-        // Zet active
         let btn = document.getElementById(`btn-${status}`);
         let icon = document.getElementById(`icon-${status}`);
         let text = document.getElementById(`text-${status}`);
-        
         let colorClass = status === 'lekker' ? 'primary' : (status === 'vies' ? 'error' : 'secondary');
         
-        btn.className = `flex flex-col items-center gap-3 p-4 rounded-xl bg-${colorClass}-container/30 transition-all active:scale-95 border-2 border-${colorClass}`;
-        icon.className = `material-symbols-outlined text-4xl text-${colorClass} paw-filled transition-transform scale-110`;
-        text.className = `font-bold text-sm text-${colorClass}`;
+        btn.className = `flex flex-col items-center gap-2 p-3 rounded-xl bg-${colorClass}-container/30 transition-all active:scale-95 border border-${colorClass} opacity-100 grayscale-0`;
+        icon.className = `material-symbols-outlined text-3xl text-${colorClass} paw-filled transition-transform scale-110`;
+        text.className = `font-bold text-xs text-${colorClass}`;
     }
 
     function resetKnoppen() {
         ['vies', 'twijfel', 'lekker'].forEach(k => {
-            document.getElementById(`btn-${k}`).className = 'flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent';
+            document.getElementById(`btn-${k}`).className = 'flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-highest transition-all active:scale-95 border border-transparent';
             let icon = document.getElementById(`icon-${k}`);
-            icon.className = 'material-symbols-outlined text-4xl text-outline transition-colors';
+            icon.className = 'material-symbols-outlined text-3xl text-outline transition-colors';
             icon.classList.remove('paw-filled');
-            document.getElementById(`text-${k}`).className = 'font-bold text-sm text-on-surface-variant';
+            document.getElementById(`text-${k}`).className = 'font-bold text-xs text-on-surface-variant';
         });
     }
 
@@ -565,32 +586,30 @@
         const geschiedenis = haalOp(id);
         
         if (geschiedenis.length === 0) {
-            div.innerHTML = "<p class='text-on-surface-variant italic font-medium px-2'>Nog geen avonturen. Proef snel iets!</p>";
+            div.innerHTML = "<div class='bg-surface-container-low rounded-xl p-4 text-center text-on-surface-variant italic font-medium text-sm'>Nog niet geproefd. Schrijf je eerste ervaring hierboven! 🐾</div>";
             return;
         }
 
         let html = '';
         for (let i = geschiedenis.length - 1; i >= 0; i--) {
             let test = geschiedenis[i];
-            let col = test.beoordeling === 'lekker' ? 'bg-primary' : (test.beoordeling === 'vies' ? 'bg-error' : 'bg-secondary');
+            let bgCol = test.beoordeling === 'lekker' ? 'bg-primary-container/40 border-primary' : (test.beoordeling === 'vies' ? 'bg-error-container/40 border-error' : 'bg-secondary-container/40 border-secondary');
             let iconCol = test.beoordeling === 'lekker' ? 'text-primary' : (test.beoordeling === 'vies' ? 'text-error' : 'text-secondary');
             let text = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Bah' : 'Mwah');
             
             html += `
-                <div class="relative pl-8 border-l-2 border-dashed border-outline-variant pb-6 last:pb-0">
-                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full ${col} border-4 border-background"></div>
-                    <div class="bg-surface-container-low rounded-xl p-4 flex gap-4 items-start shadow-sm relative group border border-outline-variant/20">
-                        <button onclick="verwijderTest(${i})" class="absolute top-2 right-2 text-outline/30 hover:text-error transition-colors" title="Verwijder notitie"><span class="material-symbols-outlined text-sm">close</span></button>
-                        <div class="flex-shrink-0 w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined ${iconCol} paw-filled text-lg">pets</span>
+                <div class="relative pl-6 border-l-2 border-outline-variant/30 pb-4 last:pb-0">
+                    <div class="absolute -left-[5px] top-4 w-2 h-2 rounded-full ${iconCol.replace('text-', 'bg-')}"></div>
+                    <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border-l-4 ${bgCol} relative flex flex-col gap-1">
+                        <button onclick="verwijderTest(${i})" class="absolute top-1 right-2 text-outline-variant/50 hover:text-error transition-colors" title="Verwijder notitie"><span class="material-symbols-outlined text-sm">close</span></button>
+                        <div class="flex items-center justify-between pr-4">
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">${test.datum}</span>
                         </div>
-                        <div class="flex-1 pr-6">
-                            <div class="flex flex-col mb-1">
-                                <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">${test.datum}</span>
-                                <h3 class="font-headline font-extrabold text-on-surface capitalize">${text}</h3>
-                            </div>
-                            ${test.notitie ? `<p class="text-sm text-on-surface leading-relaxed italic">"${test.notitie}"</p>` : ''}
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined ${iconCol} paw-filled text-sm">pets</span>
+                            <span class="font-headline font-bold text-sm text-on-surface uppercase">${text}</span>
                         </div>
+                        ${test.notitie ? `<p class="text-sm text-on-surface italic mt-1 bg-surface-container-low p-2 rounded-lg">"${test.notitie}"</p>` : ''}
                     </div>
                 </div>
             `;
@@ -616,21 +635,28 @@
 
         let topLekker = alleItems.filter(i => i.lekker > 0).sort((a,b) => b.lekker - a.lekker).slice(0, 3);
         let htmlLekker = '';
-        if(topLekker.length === 0) htmlLekker = '<li class="text-on-surface-variant font-medium">Nog geen favorieten...</li>';
-        topLekker.forEach(i => htmlLekker += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface"><span>${i.naam}</span> <span class="text-primary flex items-center gap-1"><span class="material-symbols-outlined text-sm paw-filled">pets</span> x${i.lekker}</span></li>`);
+        if(topLekker.length === 0) htmlLekker = '<li class="text-on-surface-variant font-medium text-sm">Nog geen favorieten...</li>';
+        topLekker.forEach(i => htmlLekker += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface text-sm"><span class="capitalize">${i.naam}</span> <span class="text-primary flex items-center gap-1"><span class="material-symbols-outlined text-xs paw-filled">pets</span> x${i.lekker}</span></li>`);
         document.getElementById('dash-top-lekker').innerHTML = htmlLekker;
 
         let topVies = alleItems.filter(i => i.vies > 0).sort((a,b) => b.vies - a.vies).slice(0, 3);
         let htmlVies = '';
-        if(topVies.length === 0) htmlVies = '<li class="text-on-surface-variant font-medium">Niks vies gevonden! 🎉</li>';
-        topVies.forEach(i => htmlVies += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface"><span>${i.naam}</span> <span class="text-error flex items-center gap-1"><span class="material-symbols-outlined text-sm paw-filled">pets</span> x${i.vies}</span></li>`);
+        if(topVies.length === 0) htmlVies = '<li class="text-on-surface-variant font-medium text-sm">Niks vies gevonden! 🎉</li>';
+        topVies.forEach(i => htmlVies += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface text-sm"><span class="capitalize">${i.naam}</span> <span class="text-error flex items-center gap-1"><span class="material-symbols-outlined text-xs paw-filled">pets</span> x${i.vies}</span></li>`);
         document.getElementById('dash-top-vies').innerHTML = htmlVies;
     }
 
-    // --- 5. INTERACTIE & DATA BEHEER ---
+    // --- 5. DATA OPSLAAN & VERWIJDEREN ---
+    function telUniekeHapjes() {
+        let count = 0;
+        getVolledigeDatabase().forEach(p => { if (haalOp(p.id).length > 0) count++; });
+        return count;
+    }
+
     function slaTestOp() {
-        if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring (Bah, Mwah of Lekker)!"); return; }
+        if (!gekozenBeoordeling) { alert("Hoe smaakte het? Kies Bah, Mwah of Lekker!"); return; }
         
+        let countVoor = telUniekeHapjes();
         const notitie = document.getElementById('notitieInput').value;
         const vandaag = new Date().toLocaleDateString('nl-NL'); 
         const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie, ts: Date.now() };
@@ -649,9 +675,9 @@
     }
 
     function verwijderTest(index) {
-        if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
+        if(!confirm("Verwijderen?")) return;
         woudData.geschiedenis[huidigeSelectieId].splice(index, 1);
-        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true }).then(() => tekenGeschiedenis(huidigeSelectieId));
+        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true });
     }
 
     function voegHapjeToe() {
@@ -659,7 +685,9 @@
         if (!naam || naam.trim() === "") return;
         if(!woudData.custom_db) woudData.custom_db = [];
         const nieuwId = 'c' + Date.now();
-        woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie || 'Groenten' });
+        // Als we in 'Alle Hapjes' zitten, zet m in een standaard categorie
+        let cat = (huidigeCategorie === 'Alle Hapjes' || !huidigeCategorie) ? 'Groenten' : huidigeCategorie;
+        woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: cat });
         docRef.set({ custom_db: woudData.custom_db }, { merge: true }).then(() => {
             if(huidigeScherm === 'list') tekenLijstScherm();
         });
@@ -673,7 +701,7 @@
         if (!woudData.custom_categories) woudData.custom_categories = [];
         woudData.custom_categories.push({ naam: naam.trim(), icon: icon });
         docRef.set({ custom_categories: woudData.custom_categories }, { merge: true }).then(() => {
-            if(huidigeScherm === 'home') tekenHomeCategories();
+            navigeer('home');
         });
     }
 
@@ -705,747 +733,7 @@
         document.body.removeChild(link);
     }
 
-    function startVeiligeBlaadjesRegen() {
-        const bladeren = ['🍃', '🍂', '🍁', '✨'];
-        for(let i=0; i<25; i++) {
-            const blaadje = document.createElement('div');
-            blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
-            blaadje.className = 'veilig-blaadje';
-            blaadje.style.left = (Math.random() * 90) + 'vw';
-            const duur = (Math.random() * 2 + 2); 
-            blaadje.style.animation = `val-animatie ${duur}s linear forwards`;
-            document.body.appendChild(blaadje);
-            setTimeout(() => { document.body.removeChild(blaadje); }, duur * 1000);
-        }
-    }
-
-    // Initiele start
-    navigeer('home');
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="nl" class="light">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>HapjesWoud</title>
-    
-    <link rel="apple-touch-icon" href="Logo%20HapjesWoud.png">
-    <link rel="icon" type="image/png" href="Logo%20HapjesWoud.png">
-
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#256924", "on-primary": "#d2ffc6", "primary-container": "#b3fea7", "on-primary-container": "#206420",
-              "secondary": "#904800", "on-secondary": "#fff0e8", "secondary-container": "#ffc69f", "on-secondary-container": "#723800",
-              "tertiary": "#ac2a1f", "on-tertiary": "#ffefed", "tertiary-container": "#ff9383", "on-tertiary-container": "#690001",
-              "error": "#b02500", "on-error": "#ffefec", "error-container": "#f95630", "on-error-container": "#520c00",
-              "background": "#fcf5ed", "on-background": "#312e29", "surface": "#fcf5ed", "on-surface": "#312e29",
-              "surface-variant": "#e3dcd2", "on-surface-variant": "#5f5b55", "outline": "#7b7670", "outline-variant": "#b2aca5",
-              "surface-container-highest": "#e3dcd2", "surface-container-high": "#e9e1d8", "surface-container": "#eee7de", "surface-container-low": "#f7f0e7", "surface-container-lowest": "#ffffff",
-            },
-            fontFamily: {
-              "headline": ["Plus Jakarta Sans"], "body": ["Be Vietnam Pro"], "label": ["Be Vietnam Pro"]
-            },
-            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-    <style>
-      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-      .paw-filled { font-variation-settings: 'FILL' 1; }
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      body { min-height: 100dvh; }
-      .hidden-screen { display: none !important; }
-      
-      /* Confetti/Leaves animation */
-      .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
-      @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
-    </style>
-</head>
-<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container antialiased">
-
-    <header class="fixed top-0 w-full z-50 flex items-center px-6 h-16 bg-[#fcf5ed]/90 backdrop-blur-md border-b border-surface-variant/50">
-        <div class="flex items-center gap-4 w-full max-w-2xl mx-auto">
-            <button id="back-btn" onclick="gaTerug()" class="hidden material-symbols-outlined hover:bg-surface-variant transition-colors p-2 rounded-full scale-95 active:scale-90 duration-200 text-primary">arrow_back</button>
-            <div id="top-avatar" class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-primary">
-                <img alt="HapjesWoud Vosje" src="HapjesWoud.png" class="w-full h-full object-cover">
-            </div>
-            <h1 id="top-title" class="font-headline font-bold tracking-tight text-2xl text-primary">HapjesWoud</h1>
-            <div class="ml-auto flex items-center gap-2" id="top-sync-status">
-                <span class="material-symbols-outlined text-outline-variant animate-pulse">cloud_sync</span>
-            </div>
-        </div>
-    </header>
-
-    <main class="pt-20 pb-32 max-w-2xl mx-auto px-4 sm:px-6">
-
-        <div id="home-screen" class="space-y-10">
-            <section class="space-y-1 mt-4">
-                <h1 class="text-3xl font-headline font-extrabold tracking-tight text-primary">Hoi avonturier!</h1>
-                <p class="text-on-surface-variant font-medium">Klaar voor een nieuwe smaakreis?</p>
-            </section>
-
-            <section id="home-latest-adventure"></section>
-
-            <section class="space-y-6">
-                <h2 class="text-2xl font-headline font-extrabold tracking-tight text-on-background">Wat gaan we ontdekken?</h2>
-                <div class="grid grid-cols-2 gap-4" id="home-categories-grid">
-                    </div>
-            </section>
-        </div>
-
-        <div id="list-screen" class="hidden-screen space-y-6">
-            <section class="flex flex-col gap-4 mt-2">
-                <div class="relative group">
-                    <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                        <span class="material-symbols-outlined text-outline">search</span>
-                    </div>
-                    <input id="searchInput" onkeyup="filterLijst()" class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-14 pr-6 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/40 transition-all outline-none font-headline font-bold" placeholder="Zoek een hapje..." type="text"/>
-                </div>
-                <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                    <select id="sorteerSelect" onchange="filterLijst()" class="bg-primary text-on-primary border-none focus:ring-0 px-6 py-2.5 rounded-full font-bold appearance-none cursor-pointer shadow-sm">
-                        <option value="az">A-Z Sortering</option>
-                        <option value="lekker">Beste Score 💚</option>
-                        <option value="vies">Laagste Score 💔</option>
-                        <option value="nieuw">Nog proeven</option>
-                    </select>
-                    <button onclick="voegHapjeToe()" class="bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-bold whitespace-nowrap hover:bg-surface-dim transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">add</span> Nieuw Hapje
-                    </button>
-                </div>
-            </section>
-
-            <section class="grid grid-cols-1 gap-4" id="voedselLijst">
-                </section>
-        </div>
-
-        <div id="detail-screen" class="hidden-screen space-y-8 mt-2">
-            <div class="bg-surface-container-low rounded-xl p-6 flex justify-between items-center shadow-sm">
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full bg-primary-container text-primary flex items-center justify-center text-3xl" id="detail-icon">🥦</div>
-                    <div>
-                        <h2 class="font-headline font-extrabold text-2xl text-on-surface" id="detail-naam">Product Naam</h2>
-                        <p class="text-on-surface-variant text-sm font-bold uppercase tracking-widest" id="detail-cat-naam">Categorie</p>
-                    </div>
-                </div>
-                <button onclick="verwijderHuidigHapje()" class="text-error bg-error-container/20 p-3 rounded-full hover:bg-error-container/40 transition-colors active:scale-90" title="Hapje verwijderen">
-                    <span class="material-symbols-outlined">delete</span>
-                </button>
-            </div>
-
-            <section class="bg-surface-container-low parchment-texture rounded-xl p-8 shadow-sm">
-                <h2 class="font-headline text-xl font-bold mb-6 text-on-surface">Hoe smaakte het?</h2>
-                <div class="grid grid-cols-3 gap-4 mb-6">
-                    <button id="btn-vies" onclick="selecteerBeoordeling('vies')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-vies">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-vies">Bah</span>
-                    </button>
-                    <button id="btn-twijfel" onclick="selecteerBeoordeling('twijfel')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-twijfel">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-twijfel">Mwah</span>
-                    </button>
-                    <button id="btn-lekker" onclick="selecteerBeoordeling('lekker')" class="flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent">
-                        <span class="material-symbols-outlined text-4xl text-outline transition-colors" id="icon-lekker">pets</span>
-                        <span class="font-bold text-sm text-on-surface-variant" id="text-lekker">Lekker</span>
-                    </button>
-                </div>
-                
-                <div class="bg-surface-container-highest rounded-lg p-4 shadow-inner mb-6">
-                    <textarea id="notitieInput" class="w-full bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline font-body resize-none" placeholder="Schrijf hier Lucas zijn reactie..." rows="3"></textarea>
-                </div>
-
-                <button onclick="slaTestOp()" class="w-full relative group">
-                    <div class="absolute inset-0 bg-primary-dim rounded-xl transform translate-y-1"></div>
-                    <div class="relative bg-primary py-4 rounded-xl flex items-center justify-center gap-3 transform active:translate-y-1 transition-transform">
-                        <span class="material-symbols-outlined text-on-primary">auto_stories</span>
-                        <span class="font-headline font-extrabold text-lg text-on-primary tracking-wide">Bewaar in het Woud</span>
-                    </div>
-                </button>
-            </section>
-
-            <section>
-                <div class="flex items-center justify-between mb-6 px-2">
-                    <h3 class="font-headline font-extrabold text-xl text-on-surface">Eerdere Avonturen</h3>
-                </div>
-                <div class="space-y-4" id="geschiedenisLijst">
-                    </div>
-            </section>
-        </div>
-
-        <div id="dashboard-screen" class="hidden-screen space-y-8 mt-4">
-            <div class="bg-primary-container/30 rounded-xl p-8 text-center relative overflow-hidden border border-primary-container">
-                <span class="material-symbols-outlined absolute -bottom-4 -right-4 text-8xl text-primary/10 rotate-12 select-none">emoji_events</span>
-                <p class="font-headline font-bold text-primary uppercase tracking-widest text-xs mb-2">Jouw Ontdekkingsreis</p>
-                <div class="inline-flex items-center justify-center bg-primary w-24 h-24 rounded-full border-4 border-surface shadow-xl mb-4">
-                    <span id="dash-totaal" class="text-on-primary font-headline font-extrabold text-4xl">0</span>
-                </div>
-                <h2 class="font-headline font-bold text-2xl text-on-surface">Unieke hapjes geproefd</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-surface-container-low rounded-xl p-6 shadow-sm border-t-4 border-primary">
-                    <h3 class="font-headline font-bold text-xl text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span> Top Favorieten</h3>
-                    <ul class="space-y-3" id="dash-top-lekker"></ul>
-                </div>
-                <div class="bg-surface-container-low rounded-xl p-6 shadow-sm border-t-4 border-error">
-                    <h3 class="font-headline font-bold text-xl text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">heart_broken</span> Minst Favoriet</h3>
-                    <ul class="space-y-3" id="dash-top-vies"></ul>
-                </div>
-            </div>
-            
-            <button onclick="exporteerNaarCSV()" class="w-full bg-surface-container-high text-on-surface-variant font-bold py-4 rounded-xl flex justify-center items-center gap-2 hover:bg-surface-dim transition-colors">
-                <span class="material-symbols-outlined">download</span> Exporteer data als Excel/CSV
-            </button>
-        </div>
-
-    </main>
-
-    <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface/90 backdrop-blur-xl shadow-[0_-4px_30px_rgba(0,0,0,0.08)] rounded-t-[2rem]">
-        <button onclick="navigeer('home')" id="nav-home" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
-            <span class="material-symbols-outlined mb-1" id="icon-home">home</span>
-            <span class="font-label text-[10px] font-bold">Home</span>
-        </button>
-        <button onclick="navigeer('dashboard')" id="nav-dashboard" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
-            <span class="material-symbols-outlined mb-1" id="icon-dashboard">leaderboard</span>
-            <span class="font-label text-[10px] font-bold">Dagboek</span>
-        </button>
-        
-        <button onclick="voegHapjeToe()" class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-14 h-14 -mt-8 shadow-lg active:scale-90 transition-transform border-4 border-surface">
-            <span class="material-symbols-outlined text-3xl">add</span>
-        </button>
-        
-        <button onclick="navigeer('categorieen')" id="nav-cat" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
-            <span class="material-symbols-outlined mb-1" id="icon-cat">grid_view</span>
-            <span class="font-label text-[10px] font-bold">Lijsten</span>
-        </button>
-        <button onclick="voegCategorieToe()" id="nav-settings" class="flex flex-col items-center justify-center w-16 text-on-surface-variant hover:text-primary transition-colors">
-            <span class="material-symbols-outlined mb-1">new_window</span>
-            <span class="font-label text-[10px] font-bold">Nieuwe Cat.</span>
-        </button>
-    </nav>
-
-<script>
-    // --- 1. FIREBASE SETUP ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyBguVbf0RjZIBe2lObqyT4lz5k0chRXQo0",
-      authDomain: "hapjeswoud.firebaseapp.com",
-      projectId: "hapjeswoud",
-      storageBucket: "hapjeswoud.firebasestorage.app",
-      messagingSenderId: "319370050475",
-      appId: "1:319370050475:web:4417d21fae5717ffda30ee"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const docRef = db.collection("appData").doc("gezinData");
-
-    let woudData = { geschiedenis: {}, custom_db: [], verwijderd: [], custom_categories: [] };
-    let huidigeScherm = 'home';
-    let huidigeCategorie = '';
-    let huidigeCategorieIcon = '';
-    let huidigeSelectieId = null;
-    let gekozenBeoordeling = null;
-
-    docRef.onSnapshot((doc) => {
-        if (doc.exists) {
-            woudData = doc.data();
-            document.getElementById('top-sync-status').innerHTML = '<span class="material-symbols-outlined text-primary" title="Cloud is up to date">cloud_done</span>';
-            verversUI();
-        } else {
-            docRef.set(woudData);
-        }
-    });
-
-    // --- 2. DATA & CONFIG ---
-    const basisCategorieen = [
-        { naam: 'Groenten', icon: '🥦', color: 'bg-primary-container', textColor: 'text-on-primary-container', image: 'groenten_bento.jpg' }, 
-        { naam: 'Fruit', icon: '🍎', color: 'bg-secondary-container', textColor: 'text-on-secondary-container', image: 'fruit_bento.jpg' }, 
-        { naam: 'Proteïne', icon: '🍗', color: 'bg-tertiary-container/50', textColor: 'text-tertiary', image: 'proteine_bento.jpg' },
-        { naam: 'Granen', icon: '🌾', color: 'bg-surface-variant', textColor: 'text-secondary', image: 'granen_bento.jpg' }, 
-        { naam: 'Zuivel', icon: '🥛', color: 'bg-white', textColor: 'text-primary', image: 'zuivel_bento.jpg' }, 
-        { naam: 'Kruiden', icon: '🌿', color: 'bg-primary/20', textColor: 'text-primary', image: 'kruiden_bento.jpg' }, 
-        { naam: 'Allergenen', icon: '⚠️', color: 'bg-error-container/30', textColor: 'text-error', image: 'allergenen_bento.jpg' }
-    ];
-
-    const basisDatabase = [
-        { id: 'v1', naam: 'Asperges', categorie: 'Groenten' }, { id: 'v2', naam: 'Bieten', categorie: 'Groenten' }, { id: 'v3', naam: 'Paprika', categorie: 'Groenten' }, { id: 'v4', naam: 'Broccoli', categorie: 'Groenten' }, { id: 'v5', naam: 'Wortels', categorie: 'Groenten' }, { id: 'v6', naam: 'Bloemkool', categorie: 'Groenten' }, { id: 'v7', naam: 'Maïs', categorie: 'Groenten' }, { id: 'v8', naam: 'Komkommer', categorie: 'Groenten' }, { id: 'v9', naam: 'Aubergine', categorie: 'Groenten' }, { id: 'v10', naam: 'Sperziebonen', categorie: 'Groenten' }, { id: 'v11', naam: 'Boerenkool', categorie: 'Groenten' }, { id: 'v12', naam: 'Prei', categorie: 'Groenten' }, { id: 'v13', naam: 'Champignon', categorie: 'Groenten' }, { id: 'v14', naam: 'Pastinaak', categorie: 'Groenten' }, { id: 'v15', naam: 'Doperwten', categorie: 'Groenten' }, { id: 'v16', naam: 'Aardappel', categorie: 'Groenten' }, { id: 'v17', naam: 'Pompoen', categorie: 'Groenten' }, { id: 'v18', naam: 'Spinazie', categorie: 'Groenten' }, { id: 'v19', naam: 'Squash', categorie: 'Groenten' }, { id: 'v20', naam: 'Zoete Aardappel', categorie: 'Groenten' }, { id: 'v21', naam: 'Tomaat', categorie: 'Groenten' }, { id: 'v22', naam: 'Courgette', categorie: 'Groenten' },
-        { id: 'f1', naam: 'Appel', categorie: 'Fruit' }, { id: 'f2', naam: 'Abrikoos', categorie: 'Fruit' }, { id: 'f3', naam: 'Avocado', categorie: 'Fruit' }, { id: 'f4', naam: 'Banaan', categorie: 'Fruit' }, { id: 'f5', naam: 'Braam', categorie: 'Fruit' }, { id: 'f6', naam: 'Bosbes', categorie: 'Fruit' }, { id: 'f7', naam: 'Meloen', categorie: 'Fruit' }, { id: 'f8', naam: 'Kers', categorie: 'Fruit' }, { id: 'f9', naam: 'Vijg', categorie: 'Fruit' }, { id: 'f10', naam: 'Druiven', categorie: 'Fruit' }, { id: 'f11', naam: 'Kiwi', categorie: 'Fruit' }, { id: 'f12', naam: 'Citroen', categorie: 'Fruit' }, { id: 'f13', naam: 'Mango', categorie: 'Fruit' }, { id: 'f14', naam: 'Nectarine', categorie: 'Fruit' }, { id: 'f15', naam: 'Sinaasappel', categorie: 'Fruit' }, { id: 'f16', naam: 'Perzik', categorie: 'Fruit' }, { id: 'f17', naam: 'Peer', categorie: 'Fruit' }, { id: 'f18', naam: 'Ananas', categorie: 'Fruit' }, { id: 'f19', naam: 'Pruim', categorie: 'Fruit' }, { id: 'f20', naam: 'Framboos', categorie: 'Fruit' }, { id: 'f21', naam: 'Aardbei', categorie: 'Fruit' }, { id: 'f22', naam: 'Watermeloen', categorie: 'Fruit' },
-        { id: 'p1', naam: 'Rundvlees', categorie: 'Proteïne' }, { id: 'p2', naam: 'Zwarte bonen', categorie: 'Proteïne' }, { id: 'p3', naam: 'Chiazaad', categorie: 'Proteïne' }, { id: 'p4', naam: 'Kip', categorie: 'Proteïne' }, { id: 'p5', naam: 'Kikkererwten', categorie: 'Proteïne' }, { id: 'p6', naam: 'Eieren', categorie: 'Proteïne' }, { id: 'p7', naam: 'Lijnzaad', categorie: 'Proteïne' }, { id: 'p8', naam: 'Kidneybonen', categorie: 'Proteïne' }, { id: 'p9', naam: 'Lamsvlees', categorie: 'Proteïne' }, { id: 'p10', naam: 'Melk', categorie: 'Proteïne' }, { id: 'p11', naam: 'Varkensvlees', categorie: 'Proteïne' }, { id: 'p12', naam: 'Zalm', categorie: 'Proteïne' }, { id: 'p13', naam: 'Tofu', categorie: 'Proteïne' }, { id: 'p14', naam: 'Tonijn', categorie: 'Proteïne' }, { id: 'p15', naam: 'Kalkoen', categorie: 'Proteïne' }, { id: 'p16', naam: 'Witte bonen', categorie: 'Proteïne' },
-        { id: 'g1', naam: 'Gerst', categorie: 'Granen' }, { id: 'g2', naam: 'Brood', categorie: 'Granen' }, { id: 'g3', naam: 'Couscous', categorie: 'Granen' }, { id: 'g4', naam: 'Havermout', categorie: 'Granen' }, { id: 'g5', naam: 'Pasta', categorie: 'Granen' }, { id: 'g6', naam: 'Quinoa', categorie: 'Granen' }, { id: 'g7', naam: 'Rijst', categorie: 'Granen' }, { id: 'g8', naam: 'Tortilla', categorie: 'Granen' },
-        { id: 'z1', naam: 'Boter', categorie: 'Zuivel' }, { id: 'z2', naam: 'Kaas', categorie: 'Zuivel' }, { id: 'z3', naam: 'Yoghurt', categorie: 'Zuivel' },
-        { id: 'k1', naam: 'Basilicum', categorie: 'Kruiden' }, { id: 'k2', naam: 'Kaneel', categorie: 'Kruiden' }, { id: 'k3', naam: 'Knoflook', categorie: 'Kruiden' }, { id: 'k4', naam: 'Gember', categorie: 'Kruiden' }, { id: 'k5', naam: 'Munt', categorie: 'Kruiden' }, { id: 'k6', naam: 'Nootmuskaat', categorie: 'Kruiden' }, { id: 'k7', naam: 'Paprika', categorie: 'Kruiden' }, { id: 'k8', naam: 'Peper', categorie: 'Kruiden' }, { id: 'k9', naam: 'Rozemarijn', categorie: 'Kruiden' }, { id: 'k10', naam: 'Kurkuma', categorie: 'Kruiden' },
-        { id: 'a1', naam: 'Koemelk', categorie: 'Allergenen' }, { id: 'a2', naam: 'Soja', categorie: 'Allergenen' }, { id: 'a3', naam: 'Vis', categorie: 'Allergenen' }, { id: 'a4', naam: 'Noten', categorie: 'Allergenen' }, { id: 'a5', naam: 'Pinda\'s', categorie: 'Allergenen' }, { id: 'a6', naam: 'Sesam', categorie: 'Allergenen' }, { id: 'a7', naam: 'Schaaldieren', categorie: 'Allergenen' }, { id: 'a8', naam: 'Tarwe', categorie: 'Allergenen' }
-    ];
-
-    function getVolledigeDatabase() {
-        let customDb = woudData.custom_db || [];
-        let verwijderd = woudData.verwijderd || [];
-        return basisDatabase.concat(customDb).filter(p => !verwijderd.includes(p.id));
-    }
-
-    function haalOp(id) {
-        return (woudData.geschiedenis && woudData.geschiedenis[id]) ? woudData.geschiedenis[id] : [];
-    }
-
-    // --- 3. NAVIGATIE & UI LOGICA ---
-    function navigeer(scherm) {
-        huidigeScherm = scherm;
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => {
-            document.getElementById(id).classList.add('hidden-screen');
-        });
-        
-        // Reset Nav Icons & App Bar
-        ['nav-home', 'nav-dashboard', 'nav-cat'].forEach(id => {
-            document.getElementById(id).classList.remove('text-primary');
-            document.getElementById(id).classList.add('text-on-surface-variant');
-            document.getElementById(id.replace('nav-', 'icon-')).style.fontVariationSettings = "'FILL' 0";
-        });
-        document.getElementById('back-btn').classList.add('hidden');
-        document.getElementById('top-avatar').classList.remove('hidden');
-
-        if(scherm === 'home') {
-            document.getElementById('home-screen').classList.remove('hidden-screen');
-            document.getElementById('top-title').innerText = "HapjesWoud";
-            document.getElementById('nav-home').classList.add('text-primary');
-            document.getElementById('icon-home').style.fontVariationSettings = "'FILL' 1";
-        } 
-        else if(scherm === 'dashboard') {
-            document.getElementById('dashboard-screen').classList.remove('hidden-screen');
-            document.getElementById('top-title').innerText = "Dagboek";
-            document.getElementById('nav-dashboard').classList.add('text-primary');
-            document.getElementById('icon-dashboard').style.fontVariationSettings = "'FILL' 1";
-        }
-        else if(scherm === 'categorieen') {
-            // Als fallback navigeren we naar Home waar de slider staat
-            navigeer('home'); 
-        }
-        
-        verversUI();
-    }
-
-    function gaTerug() {
-        if(huidigeScherm === 'detail') openCategorie(huidigeCategorie, huidigeCategorieIcon);
-        else navigeer('home');
-    }
-
-    function openCategorie(catNaam, catIcon) {
-        huidigeScherm = 'list';
-        huidigeCategorie = catNaam;
-        huidigeCategorieIcon = catIcon || '✨';
-        
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
-        document.getElementById('list-screen').classList.remove('hidden-screen');
-        
-        document.getElementById('top-title').innerText = `${huidigeCategorieIcon} ${huidigeCategorie}`;
-        document.getElementById('back-btn').classList.remove('hidden');
-        document.getElementById('top-avatar').classList.add('hidden');
-        
-        document.getElementById('searchInput').value = ''; 
-        document.getElementById('sorteerSelect').value = 'az';
-        
-        verversUI();
-    }
-
-    function openDetail(id, naam) {
-        huidigeScherm = 'detail';
-        huidigeSelectieId = id;
-        
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
-        document.getElementById('detail-screen').classList.remove('hidden-screen');
-        
-        document.getElementById('top-title').innerText = naam;
-        document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie;
-        document.getElementById('detail-icon').innerText = huidigeCategorieIcon;
-        
-        document.getElementById('notitieInput').value = '';
-        gekozenBeoordeling = null;
-        resetKnoppen();
-        
-        verversUI();
-    }
-
-    function verversUI() {
-        if(huidigeScherm === 'home') {
-            tekenHomeCategories();
-            tekenHomeLatest();
-        } else if(huidigeScherm === 'list') {
-            tekenLijstScherm();
-        } else if(huidigeScherm === 'detail') {
-            tekenGeschiedenis(huidigeSelectieId);
-        } else if(huidigeScherm === 'dashboard') {
-            berekenDashboard();
-        }
-    }
-
-    // --- 4. TEKEN FUNCTIES (Tailwind Components) ---
-    
-    function tekenHomeCategories() {
-        let alleCat = basisCategorieen.map(c => c); // copy
-        if(woudData.custom_categories) {
-            woudData.custom_categories.forEach(cc => {
-                alleCat.push({ naam: cc.naam, icon: cc.icon, color: 'bg-surface-container-high', textColor: 'text-on-surface', image: null });
-            });
-        }
-        
-        let html = '';
-        alleCat.forEach(c => {
-            let imgHtml = c.image ? `<img src="images/${c.image}" alt="${c.naam}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 z-0">` : '';
-            html += `
-            <div onclick="openCategorie('${c.naam}', '${c.icon}')" class="group relative overflow-hidden rounded-xl ${c.color} ${c.image ? 'p-0' : 'p-5'} h-32 flex flex-col justify-end transition-transform active:scale-95 shadow-sm cursor-pointer border border-outline-variant/10">
-                ${imgHtml}
-                ${c.image ? `<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>` : ''}
-                <div class="relative z-20 ${c.image ? 'p-5' : ''}">
-                    <h4 class="text-xl font-headline font-extrabold ${c.image ? 'text-white' : c.textColor}">${c.naam}</h4>
-                </div>
-            </div>`;
-        });
-        document.getElementById('home-categories-grid').innerHTML = html;
-    }
-
-    function tekenHomeLatest() {
-        let alleTests = [];
-        let db = getVolledigeDatabase();
-        db.forEach(p => {
-            let geschiedenis = haalOp(p.id);
-            geschiedenis.forEach(g => { alleTests.push({ naam: p.naam, id: p.id, cat: p.categorie, ...g }); });
-        });
-        alleTests.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-        let recent = alleTests.slice(0, 1)[0]; // Pak alleen de allerlaatste
-        
-        let div = document.getElementById('home-latest-adventure');
-        if(!recent) {
-            div.innerHTML = `<div class="bg-surface-container-low rounded-xl p-6 text-center italic text-on-surface-variant border border-outline-variant/30 shadow-inner">Nog geen avonturen beleefd!</div>`;
-            return;
-        }
-
-        // Bepaal styling op basis van beoordeling
-        let colors = recent.beoordeling === 'lekker' ? 'text-primary bg-primary-container/20' : (recent.beoordeling === 'vies' ? 'text-error bg-error-container/20' : 'text-secondary bg-secondary-container/30');
-        
-        div.innerHTML = `
-        <div onclick="openDetail('${recent.id}', '${recent.naam}')" class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-6 flex flex-col gap-4 shadow-sm border border-outline-variant/30 cursor-pointer active:scale-95 transition-transform">
-            <div class="absolute -right-8 -top-8 w-32 h-32 ${colors.split(' ')[1]} rounded-full blur-2xl"></div>
-            <div class="flex justify-between items-start relative z-10">
-                <div class="flex items-center gap-3">
-                    <div class="${colors} p-2 rounded-lg flex items-center justify-center">
-                        <span class="material-symbols-outlined text-3xl paw-filled">pets</span>
-                    </div>
-                    <div>
-                        <h3 class="font-headline font-extrabold text-xl text-on-surface">${recent.naam}</h3>
-                        <p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mt-1">${recent.datum}</p>
-                    </div>
-                </div>
-            </div>
-            ${recent.notitie ? `<p class="text-sm text-on-surface italic line-clamp-2">"${recent.notitie}"</p>` : ''}
-        </div>`;
-    }
-
-    function verversHuidigScherm() {
-        if (!document.getElementById('list-screen').classList.contains('hidden-screen')) tekenLijstScherm();
-        else if (!document.getElementById('detail-screen').classList.contains('hidden-screen')) tekenGeschiedenis(huidigeSelectieId);
-        else if (!document.getElementById('dashboard-screen').classList.contains('hidden-screen')) berekenDashboard();
-        else { tekenHomeCategories(); tekenHomeLatest(); } 
-    }
-
-    function tekenLijstScherm() {
-        const zoekTerm = document.getElementById('searchInput').value.toLowerCase();
-        const sorteerWaarde = document.getElementById('sorteerSelect').value;
-        const lijstDiv = document.getElementById('voedselLijst');
-        lijstDiv.innerHTML = ''; 
-
-        let database = getVolledigeDatabase();
-        let productenMetData = database
-            .filter(p => p.categorie === huidigeCategorie && p.naam.toLowerCase().includes(zoekTerm))
-            .map(p => {
-                const geschiedenis = haalOp(p.id);
-                const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
-                const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
-                return { ...p, geschiedenis, aantalLekker, aantalVies };
-            });
-
-        if (sorteerWaarde === 'lekker') productenMetData.sort((a, b) => b.aantalLekker - a.aantalLekker);
-        else if (sorteerWaarde === 'vies') productenMetData.sort((a, b) => b.aantalVies - a.aantalVies);
-        else if (sorteerWaarde === 'nieuw') productenMetData = productenMetData.filter(p => p.geschiedenis.length === 0);
-        else productenMetData.sort((a, b) => a.naam.localeCompare(b.naam));
-
-        if (productenMetData.length === 0) {
-            lijstDiv.innerHTML = '<p class="text-center text-on-surface-variant font-bold mt-8">Niks gevonden in dit deel van het bos...</p>';
-            return;
-        }
-
-        let html = '';
-        productenMetData.forEach(prod => {
-            const laatste4 = prod.geschiedenis.slice(-4);
-            let voetjesHtml = '';
-            for(let i = 0; i < 4; i++) {
-                if (laatste4[i]) {
-                    let col = laatste4[i].beoordeling === 'lekker' ? 'text-primary' : (laatste4[i].beoordeling === 'vies' ? 'text-error' : 'text-secondary');
-                    voetjesHtml += `<span class="material-symbols-outlined text-lg paw-filled ${col}">pets</span>`;
-                } else {
-                    voetjesHtml += `<span class="material-symbols-outlined text-lg text-outline-variant/40">pets</span>`;
-                }
-            }
-            html += `
-                <div onclick="openDetail('${prod.id}', '${prod.naam}')" class="bg-surface-container-lowest rounded-xl p-4 flex justify-between items-center group cursor-pointer shadow-sm border border-outline-variant/20 active:scale-95 transition-transform">
-                    <span class="font-headline font-extrabold text-on-surface text-lg capitalize">${prod.naam}</span>
-                    <div class="flex gap-1">${voetjesHtml}</div>
-                </div>
-            `;
-        });
-        lijstDiv.innerHTML = html;
-    }
-
-    function filterLijst() { tekenLijstScherm(); }
-
-    function openDetail(id, naam) {
-        huidigeScherm = 'detail';
-        huidigeSelectieId = id;
-        
-        ['home-screen', 'list-screen', 'detail-screen', 'dashboard-screen'].forEach(id => document.getElementById(id).classList.add('hidden-screen'));
-        document.getElementById('detail-screen').classList.remove('hidden-screen');
-        
-        document.getElementById('top-title').innerText = naam;
-        document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie;
-        document.getElementById('detail-icon').innerText = huidigeCategorieIcon;
-        
-        // --- NIEUW: Dynamische afbeelding ---
-        // We proberen een foto te laden: images/wortel.jpg of images/wortel.png
-        let schoneNaam = naam.toLowerCase().trim().replace(/ /g, '_');
-        document.getElementById('detail-image').onerror = function() { 
-            // Als .jpg faalt, probeer .png
-            if(this.src.endsWith('.jpg')) {
-                this.src = `images/${schoneNaam}.png`;
-            } else {
-                // Als beide falen, verberg de image tag of toon een placeholder
-                this.classList.add('hidden');
-                document.getElementById('detail-icon').classList.remove('hidden');
-            }
-        };
-        // Reset en probeer eerst .jpg
-        document.getElementById('detail-icon').classList.add('hidden');
-        document.getElementById('detail-image').classList.remove('hidden');
-        document.getElementById('detail-image').src = `images/${schoneNaam}.jpg`;
-
-        document.getElementById('notitieInput').value = '';
-        gekozenBeoordeling = null;
-        resetKnoppen();
-        
-        verversUI();
-    }
-
-    function selecteerBeoordeling(status) {
-        gekozenBeoordeling = status;
-        // Reset alle
-        ['vies', 'twijfel', 'lekker'].forEach(k => {
-            let btn = document.getElementById(`btn-${k}`);
-            let icon = document.getElementById(`icon-${k}`);
-            let text = document.getElementById(`text-${k}`);
-            
-            btn.className = 'flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent';
-            icon.className = 'material-symbols-outlined text-4xl text-outline transition-colors';
-            icon.classList.remove('paw-filled');
-            text.className = 'font-bold text-sm text-on-surface-variant';
-        });
-
-        // Zet active
-        let btn = document.getElementById(`btn-${status}`);
-        let icon = document.getElementById(`icon-${status}`);
-        let text = document.getElementById(`text-${status}`);
-        
-        let colorClass = status === 'lekker' ? 'primary' : (status === 'vies' ? 'error' : 'secondary');
-        
-        btn.className = `flex flex-col items-center gap-3 p-4 rounded-xl bg-${colorClass}-container/30 transition-all active:scale-95 border-2 border-${colorClass}`;
-        icon.className = `material-symbols-outlined text-4xl text-${colorClass} paw-filled transition-transform scale-110`;
-        text.className = `font-bold text-sm text-${colorClass}`;
-    }
-
-    function resetKnoppen() {
-        ['vies', 'twijfel', 'lekker'].forEach(k => {
-            document.getElementById(`btn-${k}`).className = 'flex flex-col items-center gap-3 p-4 rounded-xl bg-surface-container-highest transition-all active:scale-95 border-2 border-transparent';
-            let icon = document.getElementById(`icon-${k}`);
-            icon.className = 'material-symbols-outlined text-4xl text-outline transition-colors';
-            icon.classList.remove('paw-filled');
-            document.getElementById(`text-${k}`).className = 'font-bold text-sm text-on-surface-variant';
-        });
-    }
-
-    function tekenGeschiedenis(id) {
-        const div = document.getElementById('geschiedenisLijst');
-        const geschiedenis = haalOp(id);
-        
-        if (geschiedenis.length === 0) {
-            div.innerHTML = "<p class='text-on-surface-variant italic font-medium px-2'>Nog geen avonturen. Proef snel iets!</p>";
-            return;
-        }
-
-        let html = '';
-        for (let i = geschiedenis.length - 1; i >= 0; i--) {
-            let test = geschiedenis[i];
-            let col = test.beoordeling === 'lekker' ? 'bg-primary' : (test.beoordeling === 'vies' ? 'bg-error' : 'bg-secondary');
-            let iconCol = test.beoordeling === 'lekker' ? 'text-primary' : (test.beoordeling === 'vies' ? 'text-error' : 'text-secondary');
-            let text = test.beoordeling === 'lekker' ? 'Lekker' : (test.beoordeling === 'vies' ? 'Bah' : 'Mwah');
-            
-            html += `
-                <div class="relative pl-8 border-l-2 border-dashed border-outline-variant pb-6 last:pb-0">
-                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full ${col} border-4 border-background"></div>
-                    <div class="bg-surface-container-low rounded-xl p-4 flex gap-4 items-start shadow-sm relative group border border-outline-variant/20">
-                        <button onclick="verwijderTest(${i})" class="absolute top-2 right-2 text-outline/30 hover:text-error transition-colors" title="Verwijder notitie"><span class="material-symbols-outlined text-sm">close</span></button>
-                        <div class="flex-shrink-0 w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center">
-                            <span class="material-symbols-outlined ${iconCol} paw-filled text-lg">pets</span>
-                        </div>
-                        <div class="flex-1 pr-6">
-                            <div class="flex flex-col mb-1">
-                                <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">${test.datum}</span>
-                                <h3 class="font-headline font-extrabold text-on-surface capitalize">${text}</h3>
-                            </div>
-                            ${test.notitie ? `<p class="text-sm text-on-surface leading-relaxed italic">"${test.notitie}"</p>` : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        div.innerHTML = html;
-    }
-
-    function berekenDashboard() {
-        let geproefdCount = 0;
-        let alleItems = [];
-        let db = getVolledigeDatabase();
-
-        db.forEach(p => {
-            const geschiedenis = haalOp(p.id);
-            if (geschiedenis.length > 0) { geproefdCount++; }
-            
-            const aantalLekker = geschiedenis.filter(g => g.beoordeling === 'lekker').length;
-            const aantalVies = geschiedenis.filter(g => g.beoordeling === 'vies').length;
-            if(aantalLekker > 0 || aantalVies > 0) alleItems.push({ naam: p.naam, lekker: aantalLekker, vies: aantalVies });
-        });
-
-        document.getElementById('dash-totaal').innerText = geproefdCount;
-
-        let topLekker = alleItems.filter(i => i.lekker > 0).sort((a,b) => b.lekker - a.lekker).slice(0, 3);
-        let htmlLekker = '';
-        if(topLekker.length === 0) htmlLekker = '<li class="text-on-surface-variant font-medium">Nog geen favorieten...</li>';
-        topLekker.forEach(i => htmlLekker += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface"><span>${i.naam}</span> <span class="text-primary flex items-center gap-1"><span class="material-symbols-outlined text-sm paw-filled">pets</span> x${i.lekker}</span></li>`);
-        document.getElementById('dash-top-lekker').innerHTML = htmlLekker;
-
-        let topVies = alleItems.filter(i => i.vies > 0).sort((a,b) => b.vies - a.vies).slice(0, 3);
-        let htmlVies = '';
-        if(topVies.length === 0) htmlVies = '<li class="text-on-surface-variant font-medium">Niks vies gevonden! 🎉</li>';
-        topVies.forEach(i => htmlVies += `<li class="py-2 border-b border-outline-variant/10 last:border-0 flex justify-between font-bold text-on-surface"><span>${i.naam}</span> <span class="text-error flex items-center gap-1"><span class="material-symbols-outlined text-sm paw-filled">pets</span> x${i.vies}</span></li>`);
-        document.getElementById('dash-top-vies').innerHTML = htmlVies;
-    }
-
-    // --- 5. INTERACTIE & DATA BEHEER ---
-    function slaTestOp() {
-        if (!gekozenBeoordeling) { alert("Kies eerst een smaakervaring (Bah, Mwah of Lekker)!"); return; }
-        
-        const notitie = document.getElementById('notitieInput').value;
-        const vandaag = new Date().toLocaleDateString('nl-NL'); 
-        const nieuweTest = { datum: vandaag, beoordeling: gekozenBeoordeling, notitie: notitie, ts: Date.now() };
-
-        if (!woudData.geschiedenis) woudData.geschiedenis = {};
-        if (!woudData.geschiedenis[huidigeSelectieId]) woudData.geschiedenis[huidigeSelectieId] = [];
-        woudData.geschiedenis[huidigeSelectieId].push(nieuweTest);
-
-        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true }).then(() => {
-            if (gekozenBeoordeling === 'lekker') { startVeiligeBlaadjesRegen(); } 
-            tekenGeschiedenis(huidigeSelectieId);
-            document.getElementById('notitieInput').value = '';
-            gekozenBeoordeling = null;
-            resetKnoppen();
-        });
-    }
-
-    function verwijderTest(index) {
-        if(!confirm("Wil je deze notitie/ervaring verwijderen?")) return;
-        woudData.geschiedenis[huidigeSelectieId].splice(index, 1);
-        docRef.set({ geschiedenis: woudData.geschiedenis }, { merge: true }).then(() => tekenGeschiedenis(huidigeSelectieId));
-    }
-
-    function voegHapjeToe() {
-        const naam = prompt("Wat is de naam van het nieuwe hapje?");
-        if (!naam || naam.trim() === "") return;
-        if(!woudData.custom_db) woudData.custom_db = [];
-        const nieuwId = 'c' + Date.now();
-        woudData.custom_db.push({ id: nieuwId, naam: naam.trim(), categorie: huidigeCategorie || 'Groenten' });
-        docRef.set({ custom_db: woudData.custom_db }, { merge: true }).then(() => {
-            if(huidigeScherm === 'list') tekenLijstScherm();
-        });
-    }
-
-    function voegCategorieToe() {
-        const naam = prompt("Hoe heet de nieuwe categorie? (bijv. Snacks)");
-        if (!naam || naam.trim() === "") return;
-        let icon = prompt("Typ één emoji voor deze categorie (bijv. 🥨):", "✨");
-        if (!icon) icon = "✨";
-        if (!woudData.custom_categories) woudData.custom_categories = [];
-        woudData.custom_categories.push({ naam: naam.trim(), icon: icon });
-        docRef.set({ custom_categories: woudData.custom_categories }, { merge: true }).then(() => {
-            if(huidigeScherm === 'home') tekenHomeCategories();
-        });
-    }
-
-    function verwijderHuidigHapje() {
-        const naam = document.getElementById('detail-titel').innerText;
-        if(!confirm(`Weet je zeker dat je ${naam} voorgoed uit de lijst wilt verwijderen?`)) return;
-        if(!woudData.verwijderd) woudData.verwijderd = [];
-        woudData.verwijderd.push(huidigeSelectieId);
-        docRef.set({ verwijderd: woudData.verwijderd }, { merge: true }).then(() => { gaTerug(); });
-    }
-
-    function exporteerNaarCSV() {
-        let csv = "Naam,Categorie,Datum,Beoordeling,Notitie\n";
-        let db = getVolledigeDatabase();
-        db.forEach(p => {
-            let geschiedenis = haalOp(p.id);
-            geschiedenis.forEach(g => {
-                let schoneNotitie = g.notitie ? g.notitie.replace(/"/g, '""').replace(/\n/g, ' ') : '';
-                csv += `"${p.naam}","${p.categorie}","${g.datum}","${g.beoordeling}","${schoneNotitie}"\n`;
-            });
-        });
-        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "HapjesWoud_Backup.csv";
-        link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function startVeiligeBlaadjesRegen() {
-        const bladeren = ['🍃', '🍂', '🍁', '✨'];
-        for(let i=0; i<25; i++) {
-            const blaadje = document.createElement('div');
-            blaadje.innerText = bladeren[Math.floor(Math.random() * bladeren.length)];
-            blaadje.className = 'veilig-blaadje';
-            blaadje.style.left = (Math.random() * 90) + 'vw';
-            const duur = (Math.random() * 2 + 2); 
-            blaadje.style.animation = `val-animatie ${duur}s linear forwards`;
-            document.body.appendChild(blaadje);
-            setTimeout(() => { document.body.removeChild(blaadje); }, duur * 1000);
-        }
-    }
-
-    // Initiele start
+    // Start App
     navigeer('home');
 </script>
 
