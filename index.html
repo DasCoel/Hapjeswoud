@@ -47,10 +47,8 @@
       body { min-height: 100dvh; background-color: #fcf5ed; }
       .hidden-screen { display: none !important; }
       
-      /* Bento Grid Shadows */
       .storybook-shadow { box-shadow: 0 10px 30px -5px rgba(49, 46, 41, 0.1); }
       
-      /* Animatie */
       .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
       @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
     </style>
@@ -148,10 +146,11 @@
             <div class="relative w-full h-56 rounded-xl overflow-hidden shadow-md bg-surface-container-highest flex items-center justify-center">
                 <span id="detail-icon" class="text-7xl opacity-50">🥦</span>
                 <img id="detail-image" alt="Ingredient" class="absolute inset-0 w-full h-full object-cover hidden">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
                 
-                <div class="absolute bottom-4 left-4 z-10 pointer-events-none">
-                    <span id="detail-cat-naam" class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Categorie</span>
+                <div class="absolute bottom-4 left-4 z-10 pointer-events-none flex flex-col gap-1">
+                    <span id="detail-cat-naam" class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm w-fit">Categorie</span>
+                    <h2 id="detail-naam" class="text-white font-headline font-extrabold text-3xl drop-shadow-md">Product Naam</h2>
                 </div>
 
                 <input type="file" id="foto-upload" accept="image/*" class="hidden" onchange="uploadFoto(event)">
@@ -297,7 +296,7 @@
     let gekozenBeoordeling = null;
     let toonAlleIngredienten = false;
 
-    // Helper voor quotes in namen
+    // Helper functie om teksten met leestekens veilig te maken
     function veiligeNaam(str) { return str.replace(/'/g, "\\'"); }
 
     docRef.onSnapshot((doc) => {
@@ -600,8 +599,13 @@
         document.getElementById('detail-screen').classList.remove('hidden-screen');
         
         document.getElementById('top-title').innerText = naam;
-        document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie !== "Alle Hapjes" ? huidigeCategorie : "Ingrediënt";
+        
+        // VEILIGHEIDSCHECK: Zet de naam en categorie text
+        const naamEl = document.getElementById('detail-naam');
+        if(naamEl) naamEl.innerText = naam;
+        
+        const catEl = document.getElementById('detail-cat-naam');
+        if(catEl) catEl.innerText = huidigeCategorie !== "Alle Hapjes" ? huidigeCategorie : "Ingrediënt";
         
         if(woudData.afbeeldingen && woudData.afbeeldingen[id]) {
             document.getElementById('detail-icon').classList.add('hidden');
@@ -703,7 +707,7 @@
         const geschiedenis = haalOp(id);
         
         if (!geschiedenis || geschiedenis.length === 0) {
-            div.innerHTML = "<div class='bg-surface-container-low rounded-xl p-4 text-center text-on-surface-variant italic font-medium text-sm'>Nog niet geproefd. Schrijf je eerste ervaring hierboven! 🐾</div>";
+            div.innerHTML = "<div class='bg-surface-container-low rounded-xl p-4 text-center text-on-surface-variant italic font-medium text-sm border border-outline-variant/20 shadow-sm'>Nog niet geproefd. Schrijf je eerste ervaring hierboven! 🐾</div>";
             return;
         }
 
@@ -856,8 +860,12 @@
     }
 
     function verwijderHuidigHapje() {
-        const naam = document.getElementById('detail-naam').innerText;
+        // VEILIGHEIDSCHECK VOOR NAAM
+        const naamEl = document.getElementById('detail-naam');
+        const naam = naamEl ? naamEl.innerText : "dit ingrediënt";
+        
         if(!confirm(`Weet je zeker dat je "${naam}" voorgoed uit de lijst wilt verwijderen?`)) return;
+        
         if(!woudData.verwijderd) woudData.verwijderd = [];
         if(!woudData.verwijderd.includes(huidigeSelectieId)) {
             woudData.verwijderd.push(huidigeSelectieId);
@@ -959,10 +967,8 @@
       body { min-height: 100dvh; background-color: #fcf5ed; }
       .hidden-screen { display: none !important; }
       
-      /* Bento Grid Shadows */
       .storybook-shadow { box-shadow: 0 10px 30px -5px rgba(49, 46, 41, 0.1); }
       
-      /* Animatie */
       .veilig-blaadje { position: fixed; top: -50px; z-index: 9999; pointer-events: none; font-size: 28px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
       @keyframes val-animatie { 0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; } }
     </style>
@@ -1060,10 +1066,11 @@
             <div class="relative w-full h-56 rounded-xl overflow-hidden shadow-md bg-surface-container-highest flex items-center justify-center">
                 <span id="detail-icon" class="text-7xl opacity-50">🥦</span>
                 <img id="detail-image" alt="Ingredient" class="absolute inset-0 w-full h-full object-cover hidden">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
                 
-                <div class="absolute bottom-4 left-4 z-10 pointer-events-none">
-                    <span id="detail-cat-naam" class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">Categorie</span>
+                <div class="absolute bottom-4 left-4 z-10 pointer-events-none flex flex-col gap-1">
+                    <span id="detail-cat-naam" class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm w-fit">Categorie</span>
+                    <h2 id="detail-naam" class="text-white font-headline font-extrabold text-3xl drop-shadow-md">Product Naam</h2>
                 </div>
 
                 <input type="file" id="foto-upload" accept="image/*" class="hidden" onchange="uploadFoto(event)">
@@ -1209,7 +1216,7 @@
     let gekozenBeoordeling = null;
     let toonAlleIngredienten = false;
 
-    // Helper voor quotes in namen
+    // Helper functie om teksten met leestekens veilig te maken
     function veiligeNaam(str) { return str.replace(/'/g, "\\'"); }
 
     docRef.onSnapshot((doc) => {
@@ -1512,8 +1519,13 @@
         document.getElementById('detail-screen').classList.remove('hidden-screen');
         
         document.getElementById('top-title').innerText = naam;
-        document.getElementById('detail-naam').innerText = naam;
-        document.getElementById('detail-cat-naam').innerText = huidigeCategorie !== "Alle Hapjes" ? huidigeCategorie : "Ingrediënt";
+        
+        // VEILIGHEIDSCHECK: Zet de naam en categorie text
+        const naamEl = document.getElementById('detail-naam');
+        if(naamEl) naamEl.innerText = naam;
+        
+        const catEl = document.getElementById('detail-cat-naam');
+        if(catEl) catEl.innerText = huidigeCategorie !== "Alle Hapjes" ? huidigeCategorie : "Ingrediënt";
         
         if(woudData.afbeeldingen && woudData.afbeeldingen[id]) {
             document.getElementById('detail-icon').classList.add('hidden');
@@ -1615,7 +1627,7 @@
         const geschiedenis = haalOp(id);
         
         if (!geschiedenis || geschiedenis.length === 0) {
-            div.innerHTML = "<div class='bg-surface-container-low rounded-xl p-4 text-center text-on-surface-variant italic font-medium text-sm'>Nog niet geproefd. Schrijf je eerste ervaring hierboven! 🐾</div>";
+            div.innerHTML = "<div class='bg-surface-container-low rounded-xl p-4 text-center text-on-surface-variant italic font-medium text-sm border border-outline-variant/20 shadow-sm'>Nog niet geproefd. Schrijf je eerste ervaring hierboven! 🐾</div>";
             return;
         }
 
@@ -1768,8 +1780,12 @@
     }
 
     function verwijderHuidigHapje() {
-        const naam = document.getElementById('detail-naam').innerText;
+        // VEILIGHEIDSCHECK VOOR NAAM
+        const naamEl = document.getElementById('detail-naam');
+        const naam = naamEl ? naamEl.innerText : "dit ingrediënt";
+        
         if(!confirm(`Weet je zeker dat je "${naam}" voorgoed uit de lijst wilt verwijderen?`)) return;
+        
         if(!woudData.verwijderd) woudData.verwijderd = [];
         if(!woudData.verwijderd.includes(huidigeSelectieId)) {
             woudData.verwijderd.push(huidigeSelectieId);
